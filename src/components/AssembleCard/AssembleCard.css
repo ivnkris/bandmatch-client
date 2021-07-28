@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
+
+* {
+  font-family: "Roboto Mono", monospace;
+}
+
+.card-container {
+  max-width: 220px;
+  background-color: #000000;
+  text-align: center;
+  color: white;
+  size: 14px;
+  border-radius: 7px;
+  text-transform: uppercase;
+}
+
+.card-image {
+  height: 130px;
+  background-position: "center";
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  border-radius: 7px;
+}
+
+.card-image-overlay {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-image-overlay-item {
+  background-color: black;
+  padding: 4px;
+}
+
+.card-title {
+  size: 20px;
+  margin: 8px;
+  padding: 0px;
+  font-weight: 500;
+}
+
+.card-description {
+  size: 12px;
+  margin: 6px;
+  padding: 0px;
+}
+
+.lowercase-text {
+  text-transform: lowercase;
+}
+
+.icon-container {
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+  background: linear-gradient(#000000, #424141);
+}
