@@ -1,0 +1,11 @@
+.mobile-nav-top {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.mobile-nav-bottom {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-evenly;
+}
