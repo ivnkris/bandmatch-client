@@ -1,0 +1,30 @@
+.form-element {
+  padding: 1rem;
+}
+
+.form-input {
+  width: 90%;
+  padding: 0.2rem 1rem;
+  border-radius: 2px;
+  line-height: 1.5px;
+  height: 48px;
+  margin-left: auto;
+  margin-bottom: auto;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 26%,
+    rgba(64, 64, 64, 1) 50%,
+    rgba(0, 0, 0, 1) 77%
+  );
+  box-shadow: 1px 0px 10px -1px rgba(255, 255, 255, 0.49);
+}
+
+.form-input::placeholder {
+  color: #aaaaaa;
+}
+
+.form-input--error::placeholder {
+  color: #fb5858;
+  font-size: 1.1rem;
+}
