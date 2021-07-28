@@ -7,8 +7,20 @@ export default {
   component: Button,
 };
 
-export const Secondary = (args) => <Button {...args} />;
+export const Primary = (args) => <Button {...args} />
+Primary.args = {
+  label: "REQUEST",
+  onClick: () => {},
+  size: "medium",
+  mode: "primary",
+  disappearMobile: "disappearMobile",
+};
 
+export const Secondary = (args) => <Button {...args} />;
 Secondary.args = {
-  label: "Secondary Button",
+  label: "ASSEMBLE",
+  onClick: () => {},
+  size: "large",
+  mode: "secondary",
+  disappearMobile: "disappearMobile",
 };

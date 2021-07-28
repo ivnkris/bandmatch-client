@@ -1,8 +1,13 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import { StylesProvider } from "@material-ui/core/styles";
 import "./App.css";
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <StylesProvider injectFirst>
+      <div className="App"></div>;
+    </StylesProvider>
+  );
 }
 
 export default App;
