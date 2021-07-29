@@ -1,8 +1,22 @@
-import { FaComment, FaUser } from "react-icons/fa";
+import {
+  FaComment,
+  FaUser,
+  FaGuitar,
+  FaDrum,
+  FaMicrophone,
+} from "react-icons/fa";
+import getInstrumentIcons from "../../utils/getInstrumentIcons";
 
 import "./AssembleCard.css";
 
 const AssembleCard = (props) => {
+  const title =
+    props.type === "band" ? props.name : props.firstName + props.lastName;
+  const instruments =
+    props.type === "band"
+      ? getInstrumentIcons(props.instruments)
+      : props.instruments.join(" ");
+
   return (
     <div className="card-container">
       <div
@@ -17,13 +31,11 @@ const AssembleCard = (props) => {
         </div>
       </div>
       <div>
-        <h3 className="card-title">
-          {props.firstName} {props.lastName}
-        </h3>
-        <p className="card-description">{props.instruments.join(" ")}</p>
+        <h3 className="card-title">{title}</h3>
+        <p className="card-description">{[...instruments]}</p>
         <p className="card-description">
-          LOOKING FOR:{" , "}
-          <span className="lowercase-text"> {props.lookingFor.join(" ")} </span>
+          LOOKING FOR:{" "}
+          <span className="lowercase-text">{props.lookingFor.join(", ")} </span>
         </p>
         <div className="icon-container">
           <FaComment size={24} />
