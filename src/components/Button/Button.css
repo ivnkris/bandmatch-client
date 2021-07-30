@@ -1,21 +1,19 @@
-
-
 .button--medium {
   font-size: 14px;
-  padding: 8px
+  padding: 8px;
 }
 
 .button--large {
   font-size: 26px;
-  padding: 10px
+  padding: 10px;
 }
 
 .button--primary {
-  background-color: #FFD324;
+  background-color: #ffd324;
   font-weight: 500;
   border: none;
   border-radius: 3px;
-  letter-spacing: 1px
+  letter-spacing: 1px;
 }
 
 .button--secondary {
@@ -25,12 +23,12 @@
   border-radius: 8px;
   font-weight: 500;
   box-shadow: 3.5px 3.5px 3.5px #bdbdbd;
-  letter-spacing: 1.5px
+  letter-spacing: 1.5px;
 }
 
 @media screen and (min-width: 768px) {
   .button--large {
     font-size: 20px;
-    padding: 10px
+    padding: 10px;
   }
 }

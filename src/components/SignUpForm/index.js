@@ -1,12 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
-import Button from "react-bootstrap/Button";
-
 import FormInput from "../FormInput";
 import Title from "../Title";
 import FormContainer from "../FormContainer";
 import MultipleSelectInput from "../MultipleSelectInput";
+import Button from "../Button";
 
 import genreOptions from "../../data/genreOptions";
 
@@ -23,6 +22,38 @@ const SignUpForm = () => {
 
   const nextFormStep = () => {
     setFormStep(formStep + 1);
+  };
+
+  const renderButton = () => {
+    if (formStep > 2) {
+      return undefined;
+    } else if (formStep === 2) {
+      return (
+        <div className="button-block">
+          <Button
+            label="Create Account"
+            // disabled={!isValid}
+            mode="primary"
+            size="large"
+            type="button"
+            onClick={nextFormStep}
+          ></Button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="button-block">
+          <Button
+            label="Next Step"
+            // disabled={!isValid}
+            mode="primary"
+            size="large"
+            type="button"
+            onClick={nextFormStep}
+          ></Button>
+        </div>
+      );
+    }
   };
 
   return (
@@ -89,33 +120,8 @@ const SignUpForm = () => {
           </section>
         )}
 
-        {formStep < 2 && (
-          <div className="button-block">
-            <Button
-              disabled={!isValid}
-              variant="primary"
-              size="lg"
-              type="button"
-              onClick={nextFormStep}
-            >
-              Next Step
-            </Button>
-          </div>
-        )}
+        {renderButton()}
 
-        {formStep === 2 && (
-          <div className="button-block">
-            <Button
-              disabled={!isValid}
-              variant="primary"
-              size="lg"
-              type="button"
-              onClick={nextFormStep}
-            >
-              Complete Registration
-            </Button>
-          </div>
-        )}
         <pre>{JSON.stringify(watch(), null, 2)}</pre>
       </form>
     </FormContainer>

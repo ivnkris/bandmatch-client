@@ -6,17 +6,8 @@
   width: 90%;
   padding: 0.2rem 1rem;
   border-radius: 5%;
-  line-height: 1.5px;
   height: 48px;
-  margin-left: auto;
-  margin-bottom: auto;
   background: rgb(56, 55, 55);
-  /* background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 1) 26%,
-    rgba(64, 64, 64, 1) 50%,
-    rgba(0, 0, 0, 1) 77%
-  ); */
   box-shadow: 1px 0px 10px -1px rgba(255, 255, 255, 0.49);
 }
 
