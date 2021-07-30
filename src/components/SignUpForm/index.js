@@ -5,11 +5,12 @@ import Button from "react-bootstrap/Button";
 
 import FormInput from "../FormInput";
 import Title from "../Title";
-
-import "./SignUpForm.css";
-import FormContainer from "../../FormContainer";
+import FormContainer from "../FormContainer";
 import MultipleSelectInput from "../MultipleSelectInput";
 
+import genreOptions from "../../data/genreOptions";
+
+import "./SignUpForm.css";
 const SignUpForm = () => {
   const [formStep, setFormStep] = useState(0);
 
@@ -82,6 +83,7 @@ const SignUpForm = () => {
 
             <label for="fname">What genre(s) do you play?</label>
             <MultipleSelectInput
+              options={genreOptions}
               register={register("genre", { required: true })}
             />
           </section>
@@ -90,7 +92,7 @@ const SignUpForm = () => {
         {formStep < 2 && (
           <div className="button-block">
             <Button
-              // disabled={!isValid}
+              disabled={!isValid}
               variant="primary"
               size="lg"
               type="button"
@@ -104,7 +106,7 @@ const SignUpForm = () => {
         {formStep === 2 && (
           <div className="button-block">
             <Button
-              // disabled={!isValid}
+              disabled={!isValid}
               variant="primary"
               size="lg"
               type="button"
