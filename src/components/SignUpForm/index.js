@@ -8,6 +8,8 @@ import MultipleSelectInput from "../MultipleSelectInput";
 import Button from "../Button";
 
 import genreOptions from "../../data/genreOptions";
+import instrumentOptions from "../../data/instrumentOptions";
+import experienceOptions from "../../data/experienceOptions";
 
 import "./SignUpForm.css";
 const SignUpForm = () => {
@@ -25,9 +27,9 @@ const SignUpForm = () => {
   };
 
   const renderButton = () => {
-    if (formStep > 2) {
+    if (formStep > 3) {
       return undefined;
-    } else if (formStep === 2) {
+    } else if (formStep === 3) {
       return (
         <div className="button-block">
           <Button
@@ -112,10 +114,68 @@ const SignUpForm = () => {
           <section>
             <Title text="YOUR MUSIC" />
 
-            <label for="fname">What genre(s) do you play?</label>
             <MultipleSelectInput
-              options={genreOptions}
               register={register("genre", { required: true })}
+              options={genreOptions}
+              name="genre"
+              label="What genre(s) do you play?"
+            />
+
+            <MultipleSelectInput
+              register={register("instruments", { required: true })}
+              options={instrumentOptions}
+              name="instruments"
+              label="What instrument(s) do you play?"
+            />
+
+            <MultipleSelectInput
+              register={register("genre", { required: true })}
+              options={experienceOptions}
+              name="experienceLevel"
+              label="What level are you?"
+              isMulti="false"
+            />
+
+            <FormInput
+              placeholder="Website URL"
+              error={errors.websiteUrl}
+              register={register("websiteUrl", { required: true })}
+            />
+
+            <FormInput
+              placeholder="SoundCloud URL"
+              error={errors.soundCloudUrl}
+              register={register("soundCloudUrl", { required: true })}
+            />
+          </section>
+        )}
+
+        {formStep === 3 && (
+          <section>
+            <Title text="YOUR GOALS" />
+
+            <MultipleSelectInput
+              register={register("lookingFor", { required: true })}
+              options={instrumentOptions}
+              name="lookingFor"
+              label="Are you looking for someone in particular?"
+              isMulti="true"
+            />
+
+            <MultipleSelectInput
+              register={register("openToCollaboration", { required: true })}
+              name="openToCollaboration"
+              options={instrumentOptions}
+              label="Are you interested in collaborations?"
+              isMulti="false"
+            />
+
+            <MultipleSelectInput
+              register={register("openToJoiningBand", { required: true })}
+              name="openToJoiningBand"
+              options={instrumentOptions}
+              label="Are you interested in joining a band?"
+              isMulti="false"
             />
           </section>
         )}
