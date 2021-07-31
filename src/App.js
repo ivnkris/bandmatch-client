@@ -3,9 +3,9 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 import Routes from "./Routes";
 import NavigationBar from "./components/NavigationBar";
+import UserProvider from "./contexts/UserProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import "./App.css";
 
 const client = new ApolloClient({
@@ -16,10 +16,12 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <NavigationBar />
-        <Routes />
-      </Router>
+      <UserProvider>
+        <Router>
+          <NavigationBar />
+          <Routes />
+        </Router>
+      </UserProvider>
     </ApolloProvider>
   );
 }
