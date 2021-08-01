@@ -1,6 +1,7 @@
 import { FaComment, FaUser } from "react-icons/fa";
 import getInstrumentIcons from "../../utils/getInstrumentIcons";
 
+import "../../App.css";
 import "./AssembleCard.css";
 
 const AssembleCard = (props) => {
@@ -26,8 +27,8 @@ const AssembleCard = (props) => {
       </div>
       <div>
         <h3 className="card-title">{title}</h3>
-        <p className="card-description">{[...instruments]}</p>
-        <p className="card-description">
+        <p>{[...instruments]}</p>
+        <p>
           LOOKING FOR:{" "}
           <span className="lowercase-text">{props.lookingFor.join(", ")} </span>
         </p>
