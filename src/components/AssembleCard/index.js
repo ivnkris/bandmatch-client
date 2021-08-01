@@ -1,10 +1,4 @@
-import {
-  FaComment,
-  FaUser,
-  FaGuitar,
-  FaDrum,
-  FaMicrophone,
-} from "react-icons/fa";
+import { FaComment, FaUser } from "react-icons/fa";
 import getInstrumentIcons from "../../utils/getInstrumentIcons";
 
 import "./AssembleCard.css";
