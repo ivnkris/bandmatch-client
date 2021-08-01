@@ -4,3 +4,16 @@
   font-family: "Roboto Mono", monospace;
   color: white;
 }
+
+p {
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.p-yellow {
+  color: #ffd324;
+}
+
+.lowercase-text {
+  text-transform: lowercase;
+}

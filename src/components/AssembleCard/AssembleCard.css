@@ -10,7 +10,6 @@
   background-color: #131313;
   text-align: center;
   color: white;
-  size: 14px;
   text-transform: uppercase;
   border-radius: 10px;
   position: relative;
@@ -44,16 +43,6 @@
   margin: 10px;
   padding: 0px;
   font-weight: 500;
-}
-
-.card-description {
-  size: 11px;
-  margin: 8px;
-  padding: 0px;
-}
-
-.lowercase-text {
-  text-transform: lowercase;
 }
 
 .icon-container {
