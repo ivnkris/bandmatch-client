@@ -38,8 +38,8 @@ const AssembleCard = (props) => {
           <span className="lowercase-text">{props.lookingFor.join(", ")} </span>
         </p>
         <div className="icon-container">
-          <FaComment size={24} />
-          <FaUser size={24} />
+          <FaComment size={24} onClick={props.handleMessage} />
+          <FaUser size={24} onClick={props.handleProfilePreview} />
         </div>
       </div>
     </div>

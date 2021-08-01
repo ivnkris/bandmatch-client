@@ -2,6 +2,14 @@ import React from "react";
 
 import AssembleCard from ".";
 
+const handleMessage = () => {
+  console.log("message");
+};
+
+const handleProfilePreview = () => {
+  console.log("profile preview");
+};
+
 export default {
   title: "Components/AssembleCard",
   component: AssembleCard,
@@ -18,6 +26,8 @@ Musician.args = {
   experienceLevel: "newbie",
   instruments: ["singer", "guitarist"],
   lookingFor: ["drummer", "keyboardist"],
+  handleMessage,
+  handleProfilePreview,
 };
 
 export const Band = (args) => <AssembleCard {...args} />;
@@ -30,4 +40,6 @@ Band.args = {
   experienceLevel: "expert",
   instruments: ["drums", "keyboard", "vocalist", "guitar"],
   lookingFor: ["bassist, keyboardist"],
+  handleMessage,
+  handleProfilePreview,
 };
