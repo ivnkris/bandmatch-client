@@ -7,7 +7,7 @@
 .card-container {
   width: 230px;
   height: 300px;
-  background-color: #000000;
+  background-color: #131313;
   text-align: center;
   color: white;
   size: 14px;
@@ -35,7 +35,7 @@
 }
 
 .card-image-overlay-item {
-  background-color: black;
+  background-color: #131313;
   padding: 4px;
 }
 
@@ -61,7 +61,7 @@
   padding-bottom: 10px;
   display: flex;
   justify-content: space-around;
-  background: linear-gradient(#000000, #424141);
+  background: linear-gradient(#131313, #424141);
   border-radius: 10px;
   position: absolute;
   bottom: 0;
