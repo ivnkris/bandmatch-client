@@ -1,0 +1,18 @@
+.header-container {
+  width: 100vw;
+  background-color: #131313;
+  opacity: 90%;
+}
+
+.header {
+  font-size: 18px;
+  text-align: center;
+  padding: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    font-size: 16px;
+    padding: 5px;
+  }
+}

@@ -2,4 +2,20 @@
 
 * {
   font-family: "Roboto Mono", monospace;
+  color: white;
+  background-color: #131313;
+}
+
+p {
+  font-size: 14.5px;
+  text-transform: uppercase;
+  padding: 3px;
+}
+
+.p-yellow {
+  color: #ffd324;
+}
+
+.lowercase-text {
+  text-transform: lowercase;
 }
