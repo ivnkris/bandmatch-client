@@ -7,7 +7,6 @@ import UserProvider from "./contexts/UserProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import SignUpForm from "./components/SignUpForm";
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL || "http://localhost:4000/",
