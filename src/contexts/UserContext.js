@@ -1,5 +1,14 @@
 import { createContext } from "react";
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
-export default UserContext;
+const UserProvider = ({ currentUser, onLogin, onLogout, ...rest }) => {
+  return (
+    <UserContext.Provider
+      value={{ currentUser, onLogin, onLogout }}
+      {...rest}
+    />
+  );
+};
+
+export default UserProvider;
