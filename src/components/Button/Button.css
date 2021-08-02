@@ -18,6 +18,13 @@
   letter-spacing: 1px;
 }
 
+.button--primary:hover {
+  background-color: #ffd3248c;
+  transform: scale(1.02);
+  box-shadow: 0 10px 10px rgba(255, 255, 255, 0.12),
+    0 4px 4px rgba(255, 255, 255, 0.06);
+}
+
 .button--secondary {
   background: linear-gradient(#424141, #000000);
   color: white;
