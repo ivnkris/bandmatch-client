@@ -3,11 +3,13 @@
 * {
   font-family: "Roboto Mono", monospace;
   color: white;
+  background-color: #131313;
 }
 
 p {
-  font-size: 14px;
+  font-size: 14.5px;
   text-transform: uppercase;
+  padding: 3px;
 }
 
 .p-yellow {
