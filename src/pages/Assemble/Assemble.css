@@ -1,0 +1,7 @@
+.assemble-container {
+  background-image: url("https://images.unsplash.com/photo-1517230878791-4d28214057c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 98vh;
+}
