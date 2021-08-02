@@ -7,7 +7,7 @@ export default {
   component: Button,
 };
 
-export const Primary = (args) => <Button {...args} />
+export const Primary = (args) => <Button {...args} />;
 Primary.args = {
   label: "REQUEST",
   onClick: () => {},
