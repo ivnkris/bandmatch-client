@@ -9,7 +9,6 @@ import Button from "../Button";
 
 import genreOptions from "../../data/genreOptions";
 import instrumentOptions from "../../data/instrumentOptions";
-import experienceOptions from "../../data/experienceOptions";
 
 import "./SignUpForm.css";
 const SignUpForm = () => {
@@ -42,7 +41,7 @@ const SignUpForm = () => {
       return (
         <div className="button-block">
           <Button
-            label="Create Account"
+            label="CREATE ACCOUNT"
             disabled={!isValid}
             mode="primary"
             size="large"
@@ -54,7 +53,7 @@ const SignUpForm = () => {
       return (
         <div className="button-block">
           <Button
-            label="Next Step"
+            label="NEXT STEP"
             disabled={!isValid}
             mode="primary"
             size="large"
@@ -140,17 +139,19 @@ const SignUpForm = () => {
               label="What instrument(s) do you play?"
             />
 
-            <label for="cars">What level are you?</label>
-            <select
-              id="experienceLevel"
-              name="experienceLevel"
-              placeholder="Select your experience level"
-              {...register("experienceLevel", { required: true })}
-            >
-              <option value="newbie">Newbie</option>
-              <option value="amateur">Amateur</option>
-              <option value="expert">Expert</option>
-            </select>
+            <section className="dropdown-form">
+              <label for="cars">What level are you?</label>
+              <select
+                id="experienceLevel"
+                name="experienceLevel"
+                placeholder="Select your experience level"
+                {...register("experienceLevel", { required: true })}
+              >
+                <option value="newbie">Newbie</option>
+                <option value="amateur">Amateur</option>
+                <option value="expert">Expert</option>
+              </select>
+            </section>
 
             <FormInput
               placeholder="Website URL"
@@ -179,37 +180,39 @@ const SignUpForm = () => {
               label="Are you looking for someone in particular?"
             />
 
-            <label for="openToCollaboration">
-              Are you interested in collaborations?
-            </label>
-            <select
-              id="openToCollaboration"
-              name="openToCollaboration"
-              placeholder="Select..."
-              {...register("openToCollaboration", { required: true })}
-            >
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
+            <section className="dropdown-form">
+              <label for="openToCollaboration">
+                Are you interested in collaborations?
+              </label>
+              <select
+                id="openToCollaboration"
+                name="openToCollaboration"
+                placeholder="Select..."
+                {...register("openToCollaboration", { required: true })}
+              >
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </section>
 
-            <label for="openToJoiningBand">
-              Are you interested in joining a band?
-            </label>
-            <select
-              id="openToJoiningBand"
-              name="openToJoiningBand"
-              placeholder="Select..."
-              {...register("openToJoiningBand", { required: true })}
-            >
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
+            <section className="dropdown-form">
+              <label for="openToJoiningBand">
+                Are you interested in joining a band?
+              </label>
+              <select
+                id="openToJoiningBand"
+                name="openToJoiningBand"
+                placeholder="Select..."
+                {...register("openToJoiningBand", { required: true })}
+              >
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </section>
           </section>
         )}
 
         {renderButton()}
-
-        <pre>{JSON.stringify(watch(), null, 2)}</pre>
       </form>
     </FormContainer>
   );
