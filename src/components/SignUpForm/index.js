@@ -20,10 +20,18 @@ const SignUpForm = () => {
     watch,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({ mode: "all" });
+  } = useForm({
+    mode: "onBlur",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
+  });
 
   const nextFormStep = () => {
     setFormStep(formStep + 1);
+  };
+
+  const onSubmit = async (formData) => {
+    console.log(formData);
   };
 
   const renderButton = () => {
@@ -34,11 +42,10 @@ const SignUpForm = () => {
         <div className="button-block">
           <Button
             label="Create Account"
-            // disabled={!isValid}
+            disabled={!isValid}
             mode="primary"
             size="large"
             type="button"
-            onClick={nextFormStep}
           ></Button>
         </div>
       );
@@ -47,7 +54,7 @@ const SignUpForm = () => {
         <div className="button-block">
           <Button
             label="Next Step"
-            // disabled={!isValid}
+            disabled={!isValid}
             mode="primary"
             size="large"
             type="button"
@@ -60,7 +67,7 @@ const SignUpForm = () => {
 
   return (
     <FormContainer>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         {formStep === 0 && (
           <section>
             <Title text="REGISTER" />
@@ -156,7 +163,16 @@ const SignUpForm = () => {
 
             <MultipleSelectInput
               register={register("lookingFor", { required: true })}
-              options={instrumentOptions}
+              options={[
+                {
+                  value: "true",
+                  label: "Yes",
+                },
+                {
+                  value: "false",
+                  label: "No",
+                },
+              ]}
               name="lookingFor"
               label="Are you looking for someone in particular?"
               isMulti="true"
@@ -165,7 +181,16 @@ const SignUpForm = () => {
             <MultipleSelectInput
               register={register("openToCollaboration", { required: true })}
               name="openToCollaboration"
-              options={instrumentOptions}
+              options={[
+                {
+                  value: "true",
+                  label: "Yes",
+                },
+                {
+                  value: "false",
+                  label: "No",
+                },
+              ]}
               label="Are you interested in collaborations?"
               isMulti="false"
             />
@@ -173,7 +198,16 @@ const SignUpForm = () => {
             <MultipleSelectInput
               register={register("openToJoiningBand", { required: true })}
               name="openToJoiningBand"
-              options={instrumentOptions}
+              options={[
+                {
+                  value: "true",
+                  label: "Yes",
+                },
+                {
+                  value: "false",
+                  label: "No",
+                },
+              ]}
               label="Are you interested in joining a band?"
               isMulti="false"
             />

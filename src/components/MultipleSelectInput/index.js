@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import Select, { components } from "react-select";
+import { useForm } from "react-hook-form";
 
 import "./MultipleSelectInput.css";
 
@@ -7,18 +7,20 @@ const MultiValueContainer = (props) => {
   return <components.MultiValueContainer {...props} />;
 };
 
-const MultipleSelectInput = (
-  register,
+const MultipleSelectInput = ({
   options,
   name,
-  onChange,
+  placeholder,
   label,
-  placeholder
-) => {
+  register,
+}) => {
+  const { setValue } = useForm();
+
   return (
     <div className="multiSelect">
-      <h3 className="question">{label} What do you play?</h3>
+      <h3 className="question">{label}</h3>
       <Select
+        className="select-form"
         name={name}
         options={options}
         {...register}
@@ -26,7 +28,10 @@ const MultipleSelectInput = (
         closeMenuOnSelect={false}
         isMulti
         placeholder={placeholder}
-        onChange={onChange}
+        getOptionValue={(option) => option.value}
+        onChange={(option) => {
+          setValue(name, option.value);
+        }}
       />
     </div>
   );
