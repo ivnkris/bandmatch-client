@@ -1,14 +1,13 @@
 import "./Button.css";
 import "../../App.css";
 
-const Button = ({ label, onClick, size, mode, disappearMobile = "" }) => {
+const Button = ({ label, onClick, size, mode, buttonId }) => {
   return (
     <button
       type="button"
-      className={[`button--${mode}`, `button--${size}`, disappearMobile].join(
-        " "
-      )}
+      className={[`button--${mode}`, `button--${size}`].join(" ")}
       onClick={onClick}
+      id={buttonId}
     >
       {label}
     </button>
