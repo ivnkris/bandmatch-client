@@ -4,9 +4,10 @@
 }
 
 .button--large {
-  font-size: 30px;
-  padding: 15px;
+  font-size: 26px;
+  padding: 10px;
   margin: 40px;
+  width: 220px;
 }
 
 .button--primary {
@@ -32,6 +33,7 @@
     font-size: 25px;
     padding: 12px;
     margin: 20px;
+    width: 180px;
   }
 }
 
@@ -40,5 +42,6 @@
     font-size: 18px;
     padding: 10px;
     margin: 10px;
+    width: 120px;
   }
 }
