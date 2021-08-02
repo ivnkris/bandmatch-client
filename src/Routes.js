@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Assemble from "./pages/Assemble";
 import BandProfile from "./pages/BandProfile";
 import Collaborate from "./pages/Collaborate";
+import Gig from "./pages/Gig";
 import CreateBand from "./pages/CreateBand";
 import EditBand from "./pages/EditBand";
 import EditProfile from "./pages/EditProfile";
@@ -21,8 +22,11 @@ const Routes = () => {
       <Route path="/band">
         <BandProfile />
       </Route>
-      <Route path="/collaborate">
+      <Route path="/collab">
         <Collaborate />
+      </Route>
+      <Route path="/gig">
+        <Gig />
       </Route>
       <Route path="/create-band">
         <CreateBand />
