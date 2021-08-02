@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import Assemble from "./pages/Assemble";
 import BandProfile from "./pages/BandProfile";
@@ -14,11 +14,10 @@ import Login from "./pages/Login";
 import MusicianProfile from "./pages/MusicianProfile";
 import SignUp from "./pages/SignUp";
 
-import UserContext from "./contexts/UserContext";
+import { UserContext } from "./contexts/UserContext";
 
 const Routes = () => {
   const { currentUser } = useContext(UserContext);
-  const history = useHistory();
 
   return (
     <Switch>

@@ -25,7 +25,6 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
 
   const {
     register,
-    watch,
     handleSubmit,
     formState: { errors, isValid },
     control,
@@ -35,7 +34,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     shouldFocusError: true,
   });
 
-  const [signUp, { data, error, loading }] = useMutation(SIGNUP, {
+  const [signUp, { loading }] = useMutation(SIGNUP, {
     onCompleted: () => {
       history.push(redirect);
     },

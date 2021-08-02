@@ -8,7 +8,7 @@ import Title from "../Title";
 import FormContainer from "../FormContainer";
 import Button from "../Button";
 import { LOGIN } from "../../graphql/mutations";
-import UserContext from "../../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 import "./LoginForm.css";
 const LoginForm = ({ redirect = "/assemble" }) => {
@@ -17,14 +17,14 @@ const LoginForm = ({ redirect = "/assemble" }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
     shouldFocusError: true,
   });
 
-  const [login, { data, error, loading }] = useMutation(LOGIN, {
+  const [login, { loading }] = useMutation(LOGIN, {
     onCompleted: (data) => {
       const {
         token,
