@@ -1,13 +1,29 @@
+import { BrowserRouter as Router } from "react-router-dom";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+
+import Routes from "./Routes";
+import NavigationBar from "./components/NavigationBar";
+import UserProvider from "./contexts/UserProvider";
+
 import "bootstrap/dist/css/bootstrap.min.css";
-import { StylesProvider } from "@material-ui/core/styles";
 import "./App.css";
 import SignUpForm from "./components/SignUpForm";
 
+const client = new ApolloClient({
+  uri: process.env.GRAPHQL_URL || "http://localhost:4000/",
+  cache: new InMemoryCache(),
+});
+
 function App() {
   return (
-    <>
-      <SignUpForm />
-    </>
+    <ApolloProvider client={client}>
+      <UserProvider>
+        <Router>
+          <NavigationBar />
+          <Routes />
+        </Router>
+      </UserProvider>
+    </ApolloProvider>
   );
 }
 
