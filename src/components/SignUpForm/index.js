@@ -4,7 +4,7 @@ import { useState } from "react";
 import FormInput from "../FormInput";
 import Title from "../Title";
 import FormContainer from "../FormContainer";
-import MultipleSelectInput from "../MultipleSelectInput";
+import MultiSelectDropDown from "../MultiSelectDropdown";
 import Button from "../Button";
 
 import genreOptions from "../../data/genreOptions";
@@ -20,6 +20,7 @@ const SignUpForm = () => {
     watch,
     handleSubmit,
     formState: { errors, isValid },
+    control,
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -121,27 +122,35 @@ const SignUpForm = () => {
           <section>
             <Title text="YOUR MUSIC" />
 
-            <MultipleSelectInput
-              register={register("genre", { required: true })}
+            <MultiSelectDropDown
               options={genreOptions}
+              placeholder="Select your genre(s)"
+              isMulti={true}
               name="genre"
+              control={control}
               label="What genre(s) do you play?"
             />
 
-            <MultipleSelectInput
-              register={register("instruments", { required: true })}
+            <MultiSelectDropDown
               options={instrumentOptions}
+              placeholder="Select your instrument(s)"
+              isMulti={true}
               name="instruments"
+              control={control}
               label="What instrument(s) do you play?"
             />
 
-            <MultipleSelectInput
-              register={register("genre", { required: true })}
-              options={experienceOptions}
+            <label for="cars">What level are you?</label>
+            <select
+              id="experienceLevel"
               name="experienceLevel"
-              label="What level are you?"
-              isMulti="false"
-            />
+              placeholder="Select your experience level"
+              {...register("experienceLevel", { required: true })}
+            >
+              <option value="newbie">Newbie</option>
+              <option value="amateur">Amateur</option>
+              <option value="expert">Expert</option>
+            </select>
 
             <FormInput
               placeholder="Website URL"
@@ -161,56 +170,40 @@ const SignUpForm = () => {
           <section>
             <Title text="YOUR GOALS" />
 
-            <MultipleSelectInput
-              register={register("lookingFor", { required: true })}
-              options={[
-                {
-                  value: "true",
-                  label: "Yes",
-                },
-                {
-                  value: "false",
-                  label: "No",
-                },
-              ]}
+            <MultiSelectDropDown
+              options={instrumentOptions}
+              placeholder="Who are you looking for?"
+              isMulti={true}
               name="lookingFor"
+              control={control}
               label="Are you looking for someone in particular?"
-              isMulti="true"
             />
 
-            <MultipleSelectInput
-              register={register("openToCollaboration", { required: true })}
+            <label for="openToCollaboration">
+              Are you interested in collaborations?
+            </label>
+            <select
+              id="openToCollaboration"
               name="openToCollaboration"
-              options={[
-                {
-                  value: "true",
-                  label: "Yes",
-                },
-                {
-                  value: "false",
-                  label: "No",
-                },
-              ]}
-              label="Are you interested in collaborations?"
-              isMulti="false"
-            />
+              placeholder="Select..."
+              {...register("openToCollaboration", { required: true })}
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
 
-            <MultipleSelectInput
-              register={register("openToJoiningBand", { required: true })}
+            <label for="openToJoiningBand">
+              Are you interested in joining a band?
+            </label>
+            <select
+              id="openToJoiningBand"
               name="openToJoiningBand"
-              options={[
-                {
-                  value: "true",
-                  label: "Yes",
-                },
-                {
-                  value: "false",
-                  label: "No",
-                },
-              ]}
-              label="Are you interested in joining a band?"
-              isMulti="false"
-            />
+              placeholder="Select..."
+              {...register("openToJoiningBand", { required: true })}
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
           </section>
         )}
 
