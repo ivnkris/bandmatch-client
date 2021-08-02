@@ -5,14 +5,15 @@
 }
 
 .card-container {
-  width: 230px;
-  height: 300px;
+  width: 250px;
+  height: 320px;
   background-color: #131313;
   text-align: center;
   color: white;
   text-transform: uppercase;
   border-radius: 10px;
   position: relative;
+  margin: 15px;
 }
 
 .card-image {
@@ -39,7 +40,7 @@
 }
 
 .card-title {
-  size: 20px;
+  font-size: 24px;
   margin: 10px;
   padding: 0px;
   font-weight: 500;
@@ -58,6 +59,6 @@
 }
 
 .instrument-icon {
-  padding-left: 3px;
-  padding-right: 3px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
