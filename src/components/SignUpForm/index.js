@@ -23,6 +23,10 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     setFormStep(formStep + 1);
   };
 
+  const lastFormStep = () => {
+    setFormStep(formStep - 1);
+  };
+
   const {
     register,
     handleSubmit,
@@ -42,9 +46,21 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
   });
 
   const onSubmit = async (formData) => {
+    if (formData.openToCollaboration === "true") {
+      formData.openToCollaboration = true;
+    } else {
+      formData.openToCollaboration = false;
+    }
+
+    if (formData.openToJoiningBand === "true") {
+      formData.openToJoiningBand = true;
+    } else {
+      formData.openToJoiningBand = false;
+    }
+    console.log(formData);
     await signUp({
       variables: {
-        signUpInput: formData,
+        signupInput: { ...formData, isPremium: false },
       },
     });
   };
@@ -58,24 +74,53 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
       return undefined;
     } else if (formStep === 3) {
       return (
-        <div className="button-block">
+        <div className="button-block d-flex gap-4 mt-2 py-3">
+          <Button
+            label="GO BACK"
+            disabled={!isValid}
+            mode="secondary"
+            size="medium"
+            type="button"
+            onClick={lastFormStep}
+          ></Button>
           <Button
             label="CREATE ACCOUNT"
             disabled={!isValid}
             mode="primary"
-            size="large"
+            size="medium"
+            type="submit"
+          ></Button>
+        </div>
+      );
+    } else if (formStep === 0) {
+      return (
+        <div className="button-block  py-3">
+          <Button
+            label="NEXT STEP"
+            disabled={!isValid}
+            mode="primary"
+            size="medium"
             type="button"
+            onClick={nextFormStep}
           ></Button>
         </div>
       );
     } else {
       return (
-        <div className="button-block">
+        <div className="button-block d-flex gap-4 mt-2 py-3">
+          <Button
+            label="GO BACK"
+            disabled={!isValid}
+            mode="secondary"
+            size="medium"
+            type="button"
+            onClick={lastFormStep}
+          ></Button>
           <Button
             label="NEXT STEP"
             disabled={!isValid}
             mode="primary"
-            size="large"
+            size="medium"
             type="button"
             onClick={nextFormStep}
           ></Button>
@@ -106,11 +151,16 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               register={register("email", { required: true })}
             />
             <FormInput
+              type="password"
               placeholder="Password"
               error={errors.password}
               register={register("password", { required: true })}
             />
-            <FormInput placeholder="Confirm Password" error={errors.password} />
+            <FormInput
+              type="password"
+              placeholder="Confirm Password"
+              error={errors.password}
+            />
           </section>
         )}
 
@@ -132,6 +182,17 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               placeholder="Postcode"
               error={errors.postcode}
               register={register("postcode", { required: true })}
+            />
+            <FormInput
+              placeholder="Website URL"
+              error={errors.websiteUrl}
+              register={register("websiteUrl", { required: false })}
+            />
+
+            <FormInput
+              placeholder="SoundCloud URL"
+              error={errors.soundCloudUrl}
+              register={register("soundCloudUrl", { required: false })}
             />
           </section>
         )}
@@ -158,31 +219,26 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               label="What instrument(s) do you play?"
             />
 
-            <section className="dropdown-form">
-              <label for="cars">What level are you?</label>
+            <section className="dropdown-div">
+              <div className="select-label">What level are you?</div>
               <select
+                className="select-dropdown"
                 id="experienceLevel"
                 name="experienceLevel"
                 placeholder="Select your experience level"
                 {...register("experienceLevel", { required: true })}
               >
-                <option value="newbie">Newbie</option>
-                <option value="amateur">Amateur</option>
-                <option value="expert">Expert</option>
+                <option className="option-text" value="newbie">
+                  Newbie
+                </option>
+                <option className="option-text" value="amateur">
+                  Amateur
+                </option>
+                <option className="option-text" value="expert">
+                  Expert
+                </option>
               </select>
             </section>
-
-            <FormInput
-              placeholder="Website URL"
-              error={errors.websiteUrl}
-              register={register("websiteUrl", { required: true })}
-            />
-
-            <FormInput
-              placeholder="SoundCloud URL"
-              error={errors.soundCloudUrl}
-              register={register("soundCloudUrl", { required: true })}
-            />
           </section>
         )}
 
@@ -192,46 +248,59 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
 
             <MultiSelectDropDown
               options={instrumentOptions}
-              placeholder="Who are you looking for?"
+              placeholder="Musician type..."
               isMulti={true}
               name="lookingFor"
               control={control}
-              label="Are you looking for someone in particular?"
+              label="Who do you want to work with?"
             />
 
-            <section className="dropdown-form">
-              <label for="openToCollaboration">
-                Are you interested in collaborations?
-              </label>
+            <section className="dropdown-div">
+              <div className="select-label">Interested in collaborations?</div>
               <select
+                className="select-dropdown"
                 id="openToCollaboration"
                 name="openToCollaboration"
                 placeholder="Select..."
                 {...register("openToCollaboration", { required: true })}
               >
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                <option className="option-text" value="true">
+                  Yes
+                </option>
+                <option className="option-text" value="false">
+                  No
+                </option>
               </select>
             </section>
 
-            <section className="dropdown-form">
-              <label for="openToJoiningBand">
-                Are you interested in joining a band?
-              </label>
+            <section className="dropdown-div">
+              <div className="select-label">Interested in joining a band?</div>
               <select
+                className="select-dropdown"
                 id="openToJoiningBand"
                 name="openToJoiningBand"
                 placeholder="Select..."
                 {...register("openToJoiningBand", { required: true })}
               >
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                <option className="option-text" value="true">
+                  Yes
+                </option>
+                <option className="option-text" value="false">
+                  No
+                </option>
               </select>
             </section>
           </section>
         )}
 
         {renderButton()}
+
+        <div className="text-center my-2">
+          Already have an account?{" "}
+          <a className="signup-link" href="/login">
+            Login
+          </a>
+        </div>
       </form>
     </FormContainer>
   );

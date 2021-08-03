@@ -1,19 +1,48 @@
+import { GiHamburgerMenu } from "react-icons/gi";
+import "bootstrap/dist/js/bootstrap";
+
 import "./NavigationBar.css";
 
 const NavigationBar = (props) => {
   return (
-    <nav className="nav-bar">
-      <ul>
-        <div className="nav-bar-logo-container">
-          <li>BAND MATCH</li>
+    <nav id="navbar" className="navbar navbar-expand-lg nav-bar">
+      <div className="container-fluid">
+        <a className="navbar-brand nav-bar-logo-container" href="/">
+          <div>BAND MATCH</div>
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon">
+            <GiHamburgerMenu />
+          </span>
+        </button>
+        <div
+          className="collapse navbar-collapse dropdown-nav"
+          id="navbarNavAltMarkup"
+        >
+          <div className="navbar-nav nav-links nav-bar-links-container">
+            <a className="nav-link nav-bar-link" href="/assemble">
+              ASSEMBLE
+            </a>
+            <a className="nav-link nav-bar-link" href="/collaborate">
+              COLLAB
+            </a>
+            <a className="nav-link nav-bar-link" href="/gig">
+              GIG
+            </a>
+            <a className="nav-link nav-bar-link" href="/login">
+              LOGIN
+            </a>
+          </div>
         </div>
-        <div className="nav-bar-links-container">
-          <li>ASSEMBLE</li>
-          <li>COLLAB</li>
-          <li>GIG</li>
-          <li>LOGIN</li>
-        </div>
-      </ul>
+      </div>
     </nav>
   );
 };

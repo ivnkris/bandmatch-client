@@ -21,8 +21,7 @@
 .button--primary:hover {
   background-color: #ffd3248c;
   transform: scale(1.02);
-  box-shadow: 0 10px 10px rgba(255, 255, 255, 0.12),
-    0 4px 4px rgba(255, 255, 255, 0.06);
+  box-shadow: 0.2rem 0.2rem 2rem 0 rgba(255, 255, 255, 0.49);
 }
 
 .button--secondary {

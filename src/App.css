@@ -3,6 +3,7 @@
 * {
   font-family: "Roboto Mono", monospace;
   color: white;
+  box-sizing: border-box;
 }
 
 p {

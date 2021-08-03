@@ -17,7 +17,7 @@ const LoginForm = ({ redirect = "/assemble" }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -56,7 +56,13 @@ const LoginForm = ({ redirect = "/assemble" }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="pb-5 text-center">
+        <div className="spinner-border " role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -77,14 +83,20 @@ const LoginForm = ({ redirect = "/assemble" }) => {
             register={register("password", { required: true })}
           />
         </section>
-        <div className="button-block">
+        <div className="button-block py-3">
           <Button
             label="LOGIN"
-            // disabled={!isValid}
+            disabled={!isValid}
             mode="primary"
-            size="large"
+            size="medium"
             type="submit"
           ></Button>
+        </div>
+        <div className="text-center my-2">
+          Don't have an account?{" "}
+          <a className="signup-link" href="/signup">
+            Sign Up
+          </a>
         </div>
       </form>
     </FormContainer>

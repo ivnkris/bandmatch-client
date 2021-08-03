@@ -4,6 +4,7 @@
 
 .form-input {
   margin: auto;
+  padding: 0 1rem;
   width: 100%;
   border-radius: 5%;
   height: 48px;
@@ -16,6 +17,6 @@
 }
 
 .form-input--error::placeholder {
-  color: #fb5858;
+  color: yellow;
   font-size: 1.1rem;
 }
