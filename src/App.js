@@ -6,6 +6,7 @@ import NavigationBar from "./components/NavigationBar";
 import UserProvider from "./contexts/UserProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./Reset.css";
 import "./App.css";
 
 const client = new ApolloClient({
