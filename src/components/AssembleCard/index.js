@@ -6,7 +6,7 @@ import "./AssembleCard.css";
 
 const AssembleCard = (props) => {
   const title =
-    props.type === "band" ? props.name : props.firstName + props.lastName;
+    props.type === "band" ? props.name : props.firstName + " " + props.lastName;
   const instruments =
     props.type === "band"
       ? getInstrumentIcons(props.instruments)
