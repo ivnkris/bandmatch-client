@@ -1,22 +1,30 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { useHistory } from "react-router-dom";
 
 import FormInput from "../FormInput";
 import Title from "../Title";
 import FormContainer from "../FormContainer";
 import MultiSelectDropDown from "../MultiSelectDropdown";
 import Button from "../Button";
+import { SIGNUP } from "../../graphql/mutations";
 
 import genreOptions from "../../data/genreOptions";
 import instrumentOptions from "../../data/instrumentOptions";
 
 import "./SignUpForm.css";
-const SignUpForm = () => {
+const SignUpForm = ({ redirect = "/assemble" }) => {
+  const history = useHistory();
+
   const [formStep, setFormStep] = useState(0);
+
+  const nextFormStep = () => {
+    setFormStep(formStep + 1);
+  };
 
   const {
     register,
-    watch,
     handleSubmit,
     formState: { errors, isValid },
     control,
@@ -26,13 +34,24 @@ const SignUpForm = () => {
     shouldFocusError: true,
   });
 
-  const nextFormStep = () => {
-    setFormStep(formStep + 1);
-  };
+  const [signUp, { loading }] = useMutation(SIGNUP, {
+    onCompleted: () => {
+      history.push(redirect);
+    },
+    onError: () => {},
+  });
 
   const onSubmit = async (formData) => {
-    console.log(formData);
+    await signUp({
+      variables: {
+        signUpInput: formData,
+      },
+    });
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const renderButton = () => {
     if (formStep > 3) {

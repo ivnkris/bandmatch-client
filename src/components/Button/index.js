@@ -1,10 +1,10 @@
 import "./Button.css";
 import "../../App.css";
 
-const Button = ({ label, onClick, size, mode, buttonId }) => {
+const Button = ({ label, onClick, size, mode, buttonId, type }) => {
   return (
     <button
-      type="button"
+      type={type}
       className={[`button--${mode}`, `button--${size}`].join(" ")}
       onClick={onClick}
       id={buttonId}
