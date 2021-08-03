@@ -58,25 +58,25 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
       return undefined;
     } else if (formStep === 3) {
       return (
-        <div className="button-block">
+        <div className="button-block py-3">
           <Button
             label="CREATE ACCOUNT"
             disabled={!isValid}
             mode="primary"
-            size="large"
+            size="medium"
             type="button"
           ></Button>
         </div>
       );
     } else {
       return (
-        <div className="button-block">
+        <div className="button-block  py-3">
           <Button
             label="NEXT STEP"
             disabled={!isValid}
             mode="primary"
-            size="large"
-            type="button"
+            size="medium"
+            type="submit"
             onClick={nextFormStep}
           ></Button>
         </div>
@@ -133,6 +133,17 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               error={errors.postcode}
               register={register("postcode", { required: true })}
             />
+            <FormInput
+              placeholder="Website URL"
+              error={errors.websiteUrl}
+              register={register("websiteUrl", { required: true })}
+            />
+
+            <FormInput
+              placeholder="SoundCloud URL"
+              error={errors.soundCloudUrl}
+              register={register("soundCloudUrl", { required: true })}
+            />
           </section>
         )}
 
@@ -158,31 +169,26 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               label="What instrument(s) do you play?"
             />
 
-            <section className="dropdown-form">
-              <label for="cars">What level are you?</label>
+            <section className="dropdown-div">
+              <div className="select-label">What level are you?</div>
               <select
+                className="select-dropdown"
                 id="experienceLevel"
                 name="experienceLevel"
                 placeholder="Select your experience level"
                 {...register("experienceLevel", { required: true })}
               >
-                <option value="newbie">Newbie</option>
-                <option value="amateur">Amateur</option>
-                <option value="expert">Expert</option>
+                <option className="option-text" value="newbie">
+                  Newbie
+                </option>
+                <option className="option-text" value="amateur">
+                  Amateur
+                </option>
+                <option className="option-text" value="expert">
+                  Expert
+                </option>
               </select>
             </section>
-
-            <FormInput
-              placeholder="Website URL"
-              error={errors.websiteUrl}
-              register={register("websiteUrl", { required: true })}
-            />
-
-            <FormInput
-              placeholder="SoundCloud URL"
-              error={errors.soundCloudUrl}
-              register={register("soundCloudUrl", { required: true })}
-            />
           </section>
         )}
 
@@ -199,39 +205,56 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               label="Are you looking for someone in particular?"
             />
 
-            <section className="dropdown-form">
-              <label for="openToCollaboration">
+            <section className="dropdown-div">
+              <div className="select-label">
                 Are you interested in collaborations?
-              </label>
+              </div>
               <select
+                className="select-dropdown"
                 id="openToCollaboration"
                 name="openToCollaboration"
                 placeholder="Select..."
                 {...register("openToCollaboration", { required: true })}
               >
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                <option className="option-text" value="true">
+                  Yes
+                </option>
+                <option className="option-text" value="false">
+                  No
+                </option>
               </select>
             </section>
 
-            <section className="dropdown-form">
-              <label for="openToJoiningBand">
+            <section className="dropdown-div">
+              <div className="select-label">
                 Are you interested in joining a band?
-              </label>
+              </div>
               <select
+                className="select-dropdown"
                 id="openToJoiningBand"
                 name="openToJoiningBand"
                 placeholder="Select..."
                 {...register("openToJoiningBand", { required: true })}
               >
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                <option className="option-text" value="true">
+                  Yes
+                </option>
+                <option className="option-text" value="false">
+                  No
+                </option>
               </select>
             </section>
           </section>
         )}
 
         {renderButton()}
+
+        <div className="text-center my-2">
+          Already have an account?{" "}
+          <a className="signup-link" href="/login">
+            Login
+          </a>
+        </div>
       </form>
     </FormContainer>
   );

@@ -4,5 +4,23 @@
   justify-content: center;
 }
 
-/* .dropdown-form {
-} */
+.dropdown-div {
+  display: block;
+  padding: 0 2rem;
+  border-radius: 5%;
+}
+
+.select-label {
+  margin: 1rem 0;
+}
+
+.select-dropdown {
+  width: 100%;
+  color: grey;
+  height: 2.5rem;
+  padding: 0 0.5rem;
+}
+
+.option-text {
+  color: grey;
+}
