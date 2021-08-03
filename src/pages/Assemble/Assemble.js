@@ -5,11 +5,26 @@ import Header from "../../components/Header";
 const cards = [
   {
     type: "band",
-    name: "Cool Kids",
+    name: "Cool Kids Very Long Name",
     imageUrl:
       "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    instruments: ["drums", "keyboard", "vocalist", "guitar"],
-    lookingFor: ["bassist, keyboardist"],
+    instruments: [
+      "drums",
+      "keyboard",
+      "vocalist",
+      "guitar",
+      "keyboard",
+      "vocalist",
+      "guitar",
+    ],
+    lookingFor: [
+      "bassist",
+      "keyboardist",
+      "bassist",
+      "keyboardist",
+      "bassist",
+      "keyboardist",
+    ],
   },
   {
     type: "band",

@@ -10,7 +10,7 @@ const AssembleCard = (props) => {
   const instruments =
     props.type === "band"
       ? getInstrumentIcons(props.instruments)
-      : props.instruments.join(" ");
+      : props.instruments.join(" & ");
 
   return (
     <div className="card-container">
@@ -25,12 +25,12 @@ const AssembleCard = (props) => {
           <div className="card-image-overlay-item">{props.experienceLevel}</div>
         </div>
       </div>
-      <div>
+      <div className="card-body">
         <h3 className="card-title">{title}</h3>
-        <p>{[...instruments]}</p>
-        <p>
+        <p className="card-text-instruments">{[...instruments]}</p>
+        <p className="card-text-looking">
           LOOKING FOR:{" "}
-          <span className="lowercase-text">{props.lookingFor.join(", ")} </span>
+          <span className="lowercase-text">{props.lookingFor.join(" & ")}</span>
         </p>
         <div className="icon-container">
           <FaComment size={24} onClick={props.handleMessage} />
