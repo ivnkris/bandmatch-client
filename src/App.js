@@ -13,6 +13,7 @@ import NavigationBar from "./components/NavigationBar";
 import UserProvider from "./contexts/UserContext";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./Reset.css";
 import "./App.css";
 
 const httpLink = createHttpLink({
