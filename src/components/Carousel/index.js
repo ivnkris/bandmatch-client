@@ -1,5 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import "./Carousel.css";
 
 import AssembleCard from "../AssembleCard";
 
@@ -32,13 +33,15 @@ const CardsCarousel = ({ cards }) => {
         imageUrl={card.imageUrl}
         instruments={card.instruments}
         lookingFor={card.lookingFor}
+        genre={card.genre}
+        experienceLevel={card.experienceLevel}
         key={index}
       />
     );
   });
 
   return (
-    <div>
+    <div className="carousel-container">
       <Carousel responsive={responsive}>{cardComponents}</Carousel>
     </div>
   );
