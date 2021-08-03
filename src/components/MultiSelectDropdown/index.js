@@ -15,7 +15,7 @@ const MultiSelectDropDown = ({
   return (
     <div className="multiSelect">
       <div className="question-div">
-        <h3 className="question">{label}</h3>
+        <div className="question">{label}</div>
       </div>
       <Controller
         render={({ field: { onChange, value, ref } }) => (

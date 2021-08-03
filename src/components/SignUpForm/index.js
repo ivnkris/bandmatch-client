@@ -23,6 +23,10 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     setFormStep(formStep + 1);
   };
 
+  const lastFormStep = () => {
+    setFormStep(formStep - 1);
+  };
+
   const {
     register,
     handleSubmit,
@@ -42,9 +46,21 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
   });
 
   const onSubmit = async (formData) => {
+    if (formData.openToCollaboration === "true") {
+      formData.openToCollaboration = true;
+    } else {
+      formData.openToCollaboration = false;
+    }
+
+    if (formData.openToJoiningBand === "true") {
+      formData.openToJoiningBand = true;
+    } else {
+      formData.openToJoiningBand = false;
+    }
+    console.log(formData);
     await signUp({
       variables: {
-        signUpInput: formData,
+        signupInput: { ...formData, isPremium: false },
       },
     });
   };
@@ -58,17 +74,25 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
       return undefined;
     } else if (formStep === 3) {
       return (
-        <div className="button-block py-3">
+        <div className="button-block d-flex gap-4 mt-2 py-3">
+          <Button
+            label="GO BACK"
+            disabled={!isValid}
+            mode="secondary"
+            size="medium"
+            type="button"
+            onClick={lastFormStep}
+          ></Button>
           <Button
             label="CREATE ACCOUNT"
             disabled={!isValid}
             mode="primary"
             size="medium"
-            type="button"
+            type="submit"
           ></Button>
         </div>
       );
-    } else {
+    } else if (formStep === 0) {
       return (
         <div className="button-block  py-3">
           <Button
@@ -76,7 +100,28 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
             disabled={!isValid}
             mode="primary"
             size="medium"
-            type="submit"
+            type="button"
+            onClick={nextFormStep}
+          ></Button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="button-block d-flex gap-4 mt-2 py-3">
+          <Button
+            label="GO BACK"
+            disabled={!isValid}
+            mode="secondary"
+            size="medium"
+            type="button"
+            onClick={lastFormStep}
+          ></Button>
+          <Button
+            label="NEXT STEP"
+            disabled={!isValid}
+            mode="primary"
+            size="medium"
+            type="button"
             onClick={nextFormStep}
           ></Button>
         </div>
@@ -106,11 +151,16 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               register={register("email", { required: true })}
             />
             <FormInput
+              type="password"
               placeholder="Password"
               error={errors.password}
               register={register("password", { required: true })}
             />
-            <FormInput placeholder="Confirm Password" error={errors.password} />
+            <FormInput
+              type="password"
+              placeholder="Confirm Password"
+              error={errors.password}
+            />
           </section>
         )}
 
@@ -136,13 +186,13 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
             <FormInput
               placeholder="Website URL"
               error={errors.websiteUrl}
-              register={register("websiteUrl", { required: true })}
+              register={register("websiteUrl", { required: false })}
             />
 
             <FormInput
               placeholder="SoundCloud URL"
               error={errors.soundCloudUrl}
-              register={register("soundCloudUrl", { required: true })}
+              register={register("soundCloudUrl", { required: false })}
             />
           </section>
         )}
@@ -198,17 +248,15 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
 
             <MultiSelectDropDown
               options={instrumentOptions}
-              placeholder="Who are you looking for?"
+              placeholder="Musician type..."
               isMulti={true}
               name="lookingFor"
               control={control}
-              label="Are you looking for someone in particular?"
+              label="Who do you want to work with?"
             />
 
             <section className="dropdown-div">
-              <div className="select-label">
-                Are you interested in collaborations?
-              </div>
+              <div className="select-label">Interested in collaborations?</div>
               <select
                 className="select-dropdown"
                 id="openToCollaboration"
@@ -226,9 +274,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
             </section>
 
             <section className="dropdown-div">
-              <div className="select-label">
-                Are you interested in joining a band?
-              </div>
+              <div className="select-label">Interested in joining a band?</div>
               <select
                 className="select-dropdown"
                 id="openToJoiningBand"
