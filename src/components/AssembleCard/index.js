@@ -21,16 +21,20 @@ const AssembleCard = (props) => {
         }}
       >
         <div className="card-image-overlay">
-          <div className="card-image-overlay-item"> {props.genre}</div>
           <div className="card-image-overlay-item">{props.experienceLevel}</div>
         </div>
       </div>
       <div className="card-body">
-        <h3 className="card-title">{title}</h3>
-        <p className="card-text-instruments">{[...instruments]}</p>
-        <p className="card-text-looking">
-          LOOKING FOR:{" "}
-          <span className="lowercase-text">{props.lookingFor.join(" & ")}</span>
+        <h3 className="card-title text-limit-one-line">{title}</h3>
+        <p className="p-yellow pb-2 text-limit-one-line">
+          {props.genre.join("/")}
+        </p>
+        <p className="card-text-instruments text-limit-one-line">
+          {[...instruments]}
+        </p>
+        <p className="p-yellow card-text">LOOKING FOR: </p>
+        <p className="lowercase-text text-limit-one-line">
+          {props.lookingFor.join(" | ")}
         </p>
         <div className="icon-container">
           <FaComment size={24} onClick={props.handleMessage} />
