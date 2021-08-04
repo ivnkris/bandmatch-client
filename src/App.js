@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
   ApolloClient,
@@ -10,7 +9,7 @@ import { setContext } from "@apollo/client/link/context";
 
 import Routes from "./Routes";
 import NavigationBar from "./components/NavigationBar";
-import UserProvider from "./contexts/UserContext";
+import UserProvider from "./contexts/UserProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Reset.css";
@@ -36,28 +35,9 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
-
-  const onLogin = (user) => {
-    localStorage.setItem("user", JSON.stringify(user));
-    setCurrentUser(user);
-  };
-
-  const onLogout = () => {
-    localStorage.removeItem("user");
-    setCurrentUser();
-
-    window.location.assign("/login");
-  };
   return (
     <ApolloProvider client={client}>
-      <UserProvider
-        currentUser={currentUser}
-        onLogin={onLogin}
-        onLogout={onLogout}
-      >
+      <UserProvider>
         <Router>
           <NavigationBar />
           <Routes />
