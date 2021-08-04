@@ -13,7 +13,7 @@ const AssembleCard = (props) => {
       : props.instruments.join(" & ");
 
   return (
-    <div className="card-container">
+    <div className="card-container" key={props.uuid}>
       <div
         className="card-image"
         style={{

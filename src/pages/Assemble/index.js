@@ -156,7 +156,10 @@ const cards = [
 const Assemble = (props) => {
   return (
     <div className="assemble-container">
-      <Header title="Create, complete or join a band" />
+      <div className="pt-3">
+        <Header title="Create, complete or join a band" />
+      </div>
+
       <CardsCarousel cards={cards} />
     </div>
   );

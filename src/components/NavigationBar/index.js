@@ -51,11 +51,14 @@ const NavigationBar = (props) => {
                 LOGIN
               </a>
             )}
-            {/* TODO: anchor tag needs to be replaced with button */}
             {state.user && (
-              <a className="nav-link nav-bar-link" onClick={handleLogout}>
+              <button
+                type="link"
+                className="logout-btn nav-link nav-bar-link"
+                onClick={handleLogout}
+              >
                 LOGOUT
-              </a>
+              </button>
             )}
           </div>
         </div>

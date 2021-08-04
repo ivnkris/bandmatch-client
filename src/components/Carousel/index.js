@@ -1,31 +1,33 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { v4 as uuidv4 } from "uuid";
+
 import "./Carousel.css";
 
 import AssembleCard from "../AssembleCard";
 
 const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 8,
-  },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     items: 4,
+    slidesToSlide: 1,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
     items: 3,
+    slidesToSlide: 1,
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
     items: 1,
+    slidesToSlide: 1,
   },
 };
 
 const CardsCarousel = ({ cards }) => {
-  const cardComponents = cards.map((card, index) => {
+  const cardComponents = cards.map((card) => {
+    const uuid = uuidv4();
+    console.log(uuid);
     return (
       <AssembleCard
         type={card.type}
@@ -37,14 +39,21 @@ const CardsCarousel = ({ cards }) => {
         lookingFor={card.lookingFor}
         genre={card.genre}
         experienceLevel={card.experienceLevel}
-        key={index}
+        uuid={uuid}
       />
     );
   });
 
   return (
-    <div className="carousel-container">
-      <Carousel responsive={responsive}>{cardComponents}</Carousel>
+    <div className="band-carousel">
+      <Carousel
+        infinite={true}
+        itemClass="carousel-item-padding-40-px"
+        containerClass="carousel-container"
+        responsive={responsive}
+      >
+        {cardComponents}
+      </Carousel>
     </div>
   );
 };

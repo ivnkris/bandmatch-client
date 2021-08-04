@@ -1,12 +1,4 @@
-.carousel-container {
-  background-color: #131313;
-  margin-top: 10px;
+.band-carousel {
+  padding-top: 2rem;
   margin-bottom: 10px;
-  padding-left: 20px;
-}
-
-@media screen and (max-width: 500px) {
-  .carousel-container {
-    padding-left: 50px;
-  }
 }
