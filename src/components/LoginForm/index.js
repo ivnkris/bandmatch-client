@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 
@@ -8,11 +7,13 @@ import Title from "../Title";
 import FormContainer from "../FormContainer";
 import Button from "../Button";
 import { LOGIN } from "../../graphql/mutations";
-import { UserContext } from "../../contexts/UserContext";
+import { useUserContext } from "../../contexts/UserProvider";
 
 import "./LoginForm.css";
+
 const LoginForm = ({ redirect = "/assemble" }) => {
-  const history = useHistory();
+  let history = useHistory();
+  const {dispatch} = useUserContext();
 
   const {
     register,
@@ -26,26 +27,25 @@ const LoginForm = ({ redirect = "/assemble" }) => {
 
   const [login, { loading }] = useMutation(LOGIN, {
     onCompleted: (data) => {
-      const {
-        token,
-        user: { email, id, firstName, lastName },
-      } = data.login;
+      const payload = {
+        token: data.login.token,
+        email: data.login.user.email,
+        firstName: data.login.user.firstName,
+        lastName: data.login.user.lastName,
+        id: data.login.user.id
+      }
 
-      onLogin({
-        id,
-        email,
-        token,
-        firstName,
-        lastName,
-      });
+      localStorage.setItem("user", JSON.stringify(payload))
+
+      dispatch({
+        type: "LOGIN",
+        payload
+      })
 
       history.push(redirect || "/assemble");
-      console.log(token);
     },
     onError: () => {},
   });
-
-  const { onLogin } = useContext(UserContext);
 
   const onSubmit = async (formData) => {
     await login({

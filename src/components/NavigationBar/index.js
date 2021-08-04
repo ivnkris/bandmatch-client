@@ -1,9 +1,18 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import "bootstrap/dist/js/bootstrap";
 
+import { useUserContext } from "../../contexts/UserProvider";
+
 import "./NavigationBar.css";
 
 const NavigationBar = (props) => {
+  const { state, dispatch } = useUserContext();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGOUT" });
+  };
+
   return (
     <nav id="navbar" className="navbar navbar-expand-lg nav-bar">
       <div className="container-fluid">
@@ -37,9 +46,17 @@ const NavigationBar = (props) => {
             <a className="nav-link nav-bar-link" href="/gig">
               GIG
             </a>
-            <a className="nav-link nav-bar-link" href="/login">
-              LOGIN
-            </a>
+            {!state.user && (
+              <a className="nav-link nav-bar-link" href="/login">
+                LOGIN
+              </a>
+            )}
+            {/* TODO: anchor tag needs to be replaced with button */}
+            {state.user && (
+              <a className="nav-link nav-bar-link" onClick={handleLogout}>
+                LOGOUT
+              </a>
+            )}
           </div>
         </div>
       </div>

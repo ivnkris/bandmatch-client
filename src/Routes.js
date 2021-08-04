@@ -1,6 +1,6 @@
-import { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
+import { useUserContext } from "./contexts/UserProvider";
 import Assemble from "./pages/Assemble";
 import BandProfile from "./pages/BandProfile";
 import Collaborate from "./pages/Collaborate";
@@ -14,45 +14,43 @@ import Login from "./pages/Login/index";
 import MusicianProfile from "./pages/MusicianProfile";
 import SignUp from "./pages/SignUp/index";
 
-import { UserContext } from "./contexts/UserContext";
-
 const Routes = () => {
-  const { currentUser } = useContext(UserContext);
+  const { state } = useUserContext();
 
   return (
     <Switch>
       <Route exact path="/assemble">
-        {currentUser ? <Assemble /> : <Redirect to="/login" />}
+        {state.user ? <Assemble /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/band">
-        {currentUser ? <BandProfile /> : <Redirect to="/login" />}
+        {state.user ? <BandProfile /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/collab">
-        {currentUser ? <Collaborate /> : <Redirect to="/login" />}
+        {state.user ? <Collaborate /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/gig">
-        {currentUser ? <Gig /> : <Redirect to="/login" />}
+        {state.user ? <Gig /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/create-band">
-        {currentUser ? <CreateBand /> : <Redirect to="/login" />}
+        {state.user ? <CreateBand /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/edit-band">
-        {currentUser ? <EditBand /> : <Redirect to="/login" />}
+        {state.user ? <EditBand /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/edit-profile">
-        {currentUser ? <EditProfile /> : <Redirect to="/login" />}
+        {state.user ? <EditProfile /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/inbox">
-        {currentUser ? <Inbox /> : <Redirect to="/login" />}
+        {state.user ? <Inbox /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/login">
-        {!currentUser ? <Login /> : <Redirect to="/profile" />}
+        {!state.user ? <Login /> : <Redirect to="/profile" />}
       </Route>
       <Route exact path="/signup">
-        {!currentUser ? <SignUp /> : <Redirect to="/profile" />}
+        {!state.user ? <SignUp /> : <Redirect to="/profile" />}
       </Route>
       <Route exact path="/profile">
-        {currentUser ? <MusicianProfile /> : <Redirect to="/login" />}
+        {state.user ? <MusicianProfile /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/">
         <Home />
