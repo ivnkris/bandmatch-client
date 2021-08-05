@@ -12,8 +12,23 @@ p {
   padding: 2px;
 }
 
+.title {
+  font-size: 22px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
 .pb-2 {
   padding-bottom: 2px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.gutter {
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 .p-yellow {
@@ -24,9 +39,44 @@ p {
   text-transform: lowercase;
 }
 
+.solid-background {
+  background-color: #131313;
+}
+
+.see-through-background-90 {
+  background-color: #131313;
+  opacity: 90%;
+}
+
+.see-through-background-98 {
+  background-color: #131313;
+  opacity: 98%;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
 .text-limit-one-line {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.cards-container {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 500px) {
+  .gutter {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
