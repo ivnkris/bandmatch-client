@@ -1,6 +1,7 @@
 import "./Assemble.css";
-import CardsCarousel from "../../components/Carousel";
 import Header from "../../components/Header";
+import CardsCarousel from "../../components/Carousel";
+import FilterStrip from "../../components/FilterStrip";
 
 const cards = [
   {
@@ -156,11 +157,9 @@ const cards = [
 const Assemble = (props) => {
   return (
     <div className="assemble-container">
-      <div className="pt-3">
-        <Header title="Create, complete or join a band" />
-      </div>
-
+      <Header className="pt-3" title="Create, complete or join a band" />
       <CardsCarousel cards={cards} />
+      <FilterStrip title="FIND YOUR MATCH" />
     </div>
   );
 };
