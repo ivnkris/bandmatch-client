@@ -25,7 +25,7 @@ const AssembleCard = (props) => {
         </div>
       </div>
       <div className="card-body">
-        <h3 className="card-title text-limit-one-line">{title}</h3>
+        <h3 className="title text-limit-one-line">{title}</h3>
         <p className="p-yellow pb-2 text-limit-one-line">
           {props.genre.join("/")}
         </p>
