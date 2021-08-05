@@ -13,7 +13,12 @@ const AssembleCard = (props) => {
       : props.instruments.join(" & ");
 
   return (
-    <div className="card-container" key={props.uuid}>
+    <div
+      className={[`card-container-${props.version}`, `card-container`].join(
+        " "
+      )}
+      key={props.uuid}
+    >
       <div
         className="card-image"
         style={{
@@ -32,10 +37,14 @@ const AssembleCard = (props) => {
         <p className="card-text-instruments text-limit-one-line">
           {[...instruments]}
         </p>
-        <p className="p-yellow card-text">LOOKING FOR: </p>
-        <p className="lowercase-text text-limit-one-line">
-          {props.lookingFor.join(" | ")}
-        </p>
+        {props.version === "extended" && (
+          <>
+            <p className="p-yellow card-text">LOOKING FOR: </p>
+            <p className="lowercase-text text-limit-one-line">
+              {props.lookingFor.join(" | ")}
+            </p>
+          </>
+        )}
         <div className="icon-container">
           <FaComment size={24} onClick={props.handleMessage} />
           <FaUser size={24} onClick={props.handleProfilePreview} />
