@@ -44,17 +44,14 @@ const AssembleCard = (props) => {
 
   const title =
     props.type === "band" ? props.name : props.firstName + " " + props.lastName;
-  const instruments =
-    props.type === "band"
-      ? getInstrumentIcons(props.instruments)
-      : props.instruments.join(" & ");
+  const instruments = getInstrumentIcons(props.instruments);
 
   return (
     <div
       className={[`card-container-${props.version}`, `card-container`].join(
         " "
       )}
-      key={props.uuid}
+      key={JSON.stringify(props.uuid)}
     >
       <div
         className="card-image"
@@ -77,7 +74,7 @@ const AssembleCard = (props) => {
         {props.version === "extended" && (
           <>
             <p className="p-yellow card-text">LOOKING FOR: </p>
-            <p className="lowercase-text text-limit-one-line">
+            <p className="text-limit-one-line">
               {props.lookingFor.join(" | ")}
             </p>
           </>
