@@ -1,4 +1,8 @@
 import { GiHamburgerMenu } from "react-icons/gi";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+
 import "bootstrap/dist/js/bootstrap";
 
 import { useUserContext } from "../../contexts/UserProvider";
@@ -11,6 +15,10 @@ const NavigationBar = (props) => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
@@ -52,13 +60,28 @@ const NavigationBar = (props) => {
               </a>
             )}
             {state.user && (
-              <button
-                type="link"
-                className="logout-btn nav-link nav-bar-link"
-                onClick={handleLogout}
+              <DropdownButton
+                id="dropdown-button-dark-example2"
+                variant="secondary"
+                title={
+                  capitalizeFirstLetter(state.user.firstName) +
+                  " " +
+                  capitalizeFirstLetter(state.user.lastName)
+                }
+                align="end"
+                className="nav-menu-button"
               >
-                LOGOUT
-              </button>
+                <Dropdown.Item href="/profile">My Profile</Dropdown.Item>
+                <Dropdown.Item href="/inbox">Inbox</Dropdown.Item>
+                <Dropdown.Divider />
+                <button
+                  type="link"
+                  className="logout-btn nav-link"
+                  onClick={handleLogout}
+                >
+                  LOGOUT
+                </button>
+              </DropdownButton>
             )}
           </div>
         </div>

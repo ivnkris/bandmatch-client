@@ -7,6 +7,7 @@
   padding: 1% 2%;
   font-family: "Roboto Mono", monospace;
   top: 0;
+  z-index: 1000;
 }
 
 .dropdown-nav {
@@ -25,10 +26,16 @@
   transform: scale(1.05);
 }
 
+/* .nav-menu-dropdown {
+  background-color: darkgray;
+  opacity: 1 !important;
+} */
+
 .logout-btn {
   background-color: unset;
+  color: rgb(48, 48, 48) !important;
   border: none;
-  margin: 0 1rem;
+  margin: auto;
 }
 
 @media screen and (max-width: 990px) {

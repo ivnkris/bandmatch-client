@@ -7,8 +7,13 @@ import "./Carousel.css";
 import AssembleCard from "../AssembleCard";
 
 const responsive = {
+  largeDesktop: {
+    breakpoint: { max: 3000, min: 1201 },
+    items: 6,
+    slidesToSlide: 1,
+  },
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    breakpoint: { max: 1200, min: 1024 },
     items: 4,
     slidesToSlide: 1,
   },
