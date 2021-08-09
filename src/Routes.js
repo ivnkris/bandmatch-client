@@ -20,7 +20,8 @@ const Routes = () => {
   return (
     <Switch>
       <Route exact path="/assemble">
-        {state.user ? <Assemble /> : <Redirect to="/login" />}
+        <Assemble />
+        {/* {state.user ? <Assemble /> : <Redirect to="/login" />} */}
       </Route>
       <Route exact path="/band">
         {state.user ? <BandProfile /> : <Redirect to="/login" />}
