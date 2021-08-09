@@ -73,6 +73,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     if (formStep > 3) {
       return undefined;
     } else if (formStep === 3) {
+      console.log(isValid);
       return (
         <div className="button-block d-flex gap-4 mt-2 py-3">
           <Button
