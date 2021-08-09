@@ -1,10 +1,47 @@
+import React, { useState } from "react";
 import { FaComment, FaUser } from "react-icons/fa";
-import getInstrumentIcons from "../../utils/getInstrumentIcons";
 
 import "../../App.css";
 import "./AssembleCard.css";
+import getInstrumentIcons from "../../utils/getInstrumentIcons";
+import ProfilePreviewModal from "../ProfilePreviewModal";
 
 const AssembleCard = (props) => {
+  const [user, setUser] = React.useState({
+    imageUrl: "",
+    experienceLevel: "",
+    name: "",
+    description: "",
+    instruments: [],
+    genre: [],
+    id: 123,
+    soundCloudUrl: "",
+    type: "",
+  });
+  const [modalShow, setModalShow] = React.useState(false);
+
+  const renderProfilePreviewModal = () => {
+    // get user info from database
+
+    // fake user info for now
+    setUser({
+      imageUrl:
+        "https://images.unsplash.com/photo-1523456752049-9ccb633594bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      experienceLevel: "NEWBIE",
+      firstName: "Dominika",
+      lastName: "Pietrzak",
+      description: "This is my super interesting description",
+      instruments: ["guitar", "vocalist"],
+      genre: ["rock", "punk"],
+      id: 123,
+      soundCloudUrl:
+        "https://w.soundcloud.com/player/?url=https://soundcloud.com/oliviarodrigo/good-4-u-1",
+      type: "musician",
+    });
+
+    setModalShow(true);
+  };
+
   const title =
     props.type === "band" ? props.name : props.firstName + " " + props.lastName;
   const instruments =
@@ -25,7 +62,7 @@ const AssembleCard = (props) => {
           backgroundImage: "url(" + props.imageUrl + ")",
         }}
       >
-        <div className="card-image-overlay">
+        <div className="image-overlay ">
           <div className="card-image-overlay-item">{props.experienceLevel}</div>
         </div>
       </div>
@@ -47,7 +84,12 @@ const AssembleCard = (props) => {
         )}
         <div className="icon-container">
           <FaComment size={24} onClick={props.handleMessage} />
-          <FaUser size={24} onClick={props.handleProfilePreview} />
+          <FaUser size={24} onClick={renderProfilePreviewModal} />
+          <ProfilePreviewModal
+            user={user}
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
         </div>
       </div>
     </div>
