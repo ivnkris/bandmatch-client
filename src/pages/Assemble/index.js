@@ -215,7 +215,7 @@ const Assemble = (props) => {
         <CardsCarousel cards={cards} />
       </div>
       <FilterStrip title="FIND YOUR MATCH" />
-      <div className="see-through-background-98 text-align-center">
+      <div className="see-through-background-90 text-align-center">
         <div className="cards-container">{constructCards(cards)}</div>
         <Button label="LOAD MORE" size="medium" mode="primary" />
       </div>
