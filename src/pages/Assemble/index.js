@@ -7,207 +7,7 @@ import FilterStrip from "../../components/FilterStrip";
 import constructCards from "../../utils/costructCards";
 import Button from "../../components/Button";
 import { ASSEMBLE } from "../../graphql/queries";
-
-// const cards = [
-//   {
-//     type: "band",
-//     name: "Cool Kids Very Long Name",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-//     instruments: [
-//       "drums",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//     ],
-//     experienceLevel: "newbie",
-//     genre: ["ROCK", "JAZZ"],
-//     lookingFor: [
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//     ],
-//   },
-//   {
-//     type: "musician",
-//     firstName: "Beth",
-//     lastName: "Forter",
-//     genre: ["ROCK", "JAZZ"],
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1521417531039-75e91486cc40?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHJvY2slMjBzaW5nZXJ8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60",
-//     genre: ["ROCK"],
-//     experienceLevel: "newbie",
-//     instruments: ["singer", "guitarist"],
-//     lookingFor: ["drummer", "keyboardist"],
-//   },
-//   {
-//     type: "band",
-//     name: "Cool Kids Very Long Name",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-//     instruments: [
-//       "drums",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//     ],
-//     experienceLevel: "newbie",
-//     genre: ["ROCK", "JAZZ"],
-//     lookingFor: [
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//     ],
-//   },
-//   {
-//     type: "musician",
-//     firstName: "Beth",
-//     lastName: "Forter",
-//     genre: ["ROCK", "JAZZ"],
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1521417531039-75e91486cc40?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHJvY2slMjBzaW5nZXJ8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60",
-//     genre: ["ROCK"],
-//     experienceLevel: "newbie",
-//     instruments: ["singer", "guitarist"],
-//     lookingFor: ["drummer", "keyboardist"],
-//   },
-//   {
-//     type: "band",
-//     name: "Cool Kids Very Long Name",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-//     instruments: [
-//       "drums",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//     ],
-//     experienceLevel: "newbie",
-//     genre: ["ROCK", "JAZZ"],
-//     lookingFor: [
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//     ],
-//   },
-//   {
-//     type: "musician",
-//     firstName: "Beth",
-//     lastName: "Forter",
-//     genre: ["ROCK", "JAZZ"],
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1521417531039-75e91486cc40?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHJvY2slMjBzaW5nZXJ8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60",
-//     genre: ["ROCK"],
-//     experienceLevel: "newbie",
-//     instruments: ["singer", "guitarist"],
-//     lookingFor: ["drummer", "keyboardist"],
-//   },
-//   {
-//     type: "band",
-//     name: "Cool Kids Very Long Name",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-//     instruments: [
-//       "drums",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//     ],
-//     experienceLevel: "newbie",
-//     genre: ["ROCK", "JAZZ"],
-//     lookingFor: [
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//     ],
-//   },
-//   {
-//     type: "musician",
-//     firstName: "Beth",
-//     lastName: "Forter",
-//     genre: ["ROCK", "JAZZ"],
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1521417531039-75e91486cc40?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHJvY2slMjBzaW5nZXJ8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60",
-//     genre: ["ROCK"],
-//     experienceLevel: "newbie",
-//     instruments: ["singer", "guitarist"],
-//     lookingFor: ["drummer", "keyboardist"],
-//   },
-//   {
-//     type: "band",
-//     name: "Cool Kids Very Long Name",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-//     instruments: [
-//       "drums",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//     ],
-//     experienceLevel: "newbie",
-//     genre: ["ROCK", "JAZZ"],
-//     lookingFor: [
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//     ],
-//   },
-//   {
-//     type: "band",
-//     name: "Cool Kids Very Long Name",
-//     imageUrl:
-//       "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-//     instruments: [
-//       "drums",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//       "keyboard",
-//       "vocalist",
-//       "guitar",
-//     ],
-//     experienceLevel: "newbie",
-//     genre: ["ROCK", "JAZZ"],
-//     lookingFor: [
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//       "bassist",
-//       "keyboardist",
-//     ],
-//   },
-// ];
+import shuffleArray from "../../utils/shuffleArray";
 
 const Assemble = (props) => {
   const { data, loading, error } = useQuery(ASSEMBLE);
@@ -252,6 +52,8 @@ const Assemble = (props) => {
       };
     });
 
+    const shuffledCards = shuffleArray(cards);
+
     return (
       <div className="assemble-container">
         <Header className="pt-3" title="Create, complete or join a band" />
@@ -261,7 +63,7 @@ const Assemble = (props) => {
         </div>
         <FilterStrip title="FIND YOUR MATCH" />
         <div className="see-through-background-90 text-align-center">
-          <div className="cards-container">{constructCards(cards)}</div>
+          <div className="cards-container">{constructCards(shuffledCards)}</div>
           <Button label="LOAD MORE" size="medium" mode="primary" />
         </div>
       </div>

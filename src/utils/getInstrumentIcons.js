@@ -1,16 +1,59 @@
-import { FaGuitar, FaDrum, FaMicrophone } from "react-icons/fa";
+import { FaGuitar, FaDrum, FaMicrophone, FaUsers } from "react-icons/fa";
+import {
+  GiMusicalKeyboard,
+  GiPianoKeys,
+  GiGuitarBassHead,
+  GiSaxophone,
+} from "react-icons/gi";
+
+const getSize = (instrumentsLength) => {
+  if (instrumentsLength > 4) {
+    return 16;
+  } else {
+    return 24;
+  }
+};
 
 const getInstrumentIcons = (instruments) => {
+  const props = {
+    size: getSize(instruments.length),
+    className: "instrument-icon",
+  };
+
   return instruments.map((instrument) => {
     if (instrument === "guitar") {
-      return <FaGuitar size={24} className="instrument-icon" />;
+      return <FaGuitar {...props} />;
     }
+
     if (instrument === "drums") {
-      return <FaDrum size={24} className="instrument-icon" />;
+      return <FaDrum {...props} />;
     }
-    if (instrument === "vocalist") {
-      return <FaMicrophone size={24} className="instrument-icon" />;
+
+    if (instrument === "singer") {
+      return <FaMicrophone {...props} />;
     }
+
+    if (instrument === "keyboard") {
+      return <GiMusicalKeyboard {...props} />;
+    }
+
+    if (instrument === "piano") {
+      return <GiPianoKeys {...props} />;
+    }
+
+    if (instrument === "bass") {
+      return <GiGuitarBassHead {...props} />;
+    }
+
+    if (instrument === "saxophone") {
+      return <GiSaxophone {...props} />;
+    }
+
+    if (instrument === "band") {
+      return <FaUsers {...props} />;
+    }
+
+    return <FaUsers {...props} />;
   });
 };
 
