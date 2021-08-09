@@ -5,7 +5,7 @@ import AssembleCard from "../components/AssembleCard";
 const constructCards = (cards, version = "extended") => {
   const cardsToRender = cards.map((card) => {
     const uuid = uuidv4();
-    console.log(uuid);
+
     return (
       <AssembleCard
         type={card.type}

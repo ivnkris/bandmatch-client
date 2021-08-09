@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useReducer } from "react";
 
-import reducer from "../reducer";
+import reducer from "../reducer/reducer";
 
 const UserContext = createContext();
 
