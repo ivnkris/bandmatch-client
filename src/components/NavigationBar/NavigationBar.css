@@ -7,6 +7,7 @@
   padding: 1% 2%;
   font-family: "Roboto Mono", monospace;
   top: 0;
+  z-index: 1000;
 }
 
 .dropdown-nav {
@@ -25,10 +26,22 @@
   transform: scale(1.05);
 }
 
+.dropdown-menu-item {
+  opacity: 1 !important;
+}
+
 .logout-btn {
   background-color: unset;
+  width: 100%;
+  color: rgb(48, 48, 48) !important;
   border: none;
-  margin: 0 1rem;
+  margin: auto;
+}
+
+.logout-btn:hover {
+  background-color: #bdbdbd;
+  border: none;
+  margin: auto;
 }
 
 @media screen and (max-width: 990px) {

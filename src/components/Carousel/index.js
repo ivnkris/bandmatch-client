@@ -3,9 +3,14 @@ import "react-multi-carousel/lib/styles.css";
 import constructCards from "../../utils/costructCards";
 
 const responsive = {
+  largeDesktop: {
+    breakpoint: { max: 3000, min: 1401 },
+    items: 6,
+    slidesToSlide: 1,
+  },
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 4,
+    breakpoint: { max: 1400, min: 1024 },
+    items: 5,
     slidesToSlide: 1,
   },
   tablet: {

@@ -1,4 +1,8 @@
 import { GiHamburgerMenu } from "react-icons/gi";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
+import { isMobile, isBrowser } from "react-device-detect";
+
 import "bootstrap/dist/js/bootstrap";
 
 import { useUserContext } from "../../contexts/UserProvider";
@@ -11,6 +15,10 @@ const NavigationBar = (props) => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
@@ -51,14 +59,48 @@ const NavigationBar = (props) => {
                 LOGIN
               </a>
             )}
-            {state.user && (
-              <button
-                type="link"
-                className="logout-btn nav-link nav-bar-link"
-                onClick={handleLogout}
+
+            {state.user && isMobile && (
+              <>
+                <a className="nav-link nav-bar-link" href="/assemble">
+                  MY PROFILE
+                </a>
+                <a className="nav-link nav-bar-link" href="/collaborate">
+                  INBOX
+                </a>
+                <button
+                  type="link"
+                  className="logout-btn nav-link"
+                  onClick={handleLogout}
+                >
+                  LOGOUT
+                </button>
+              </>
+            )}
+            {state.user && isBrowser && (
+              <DropdownButton
+                variant="secondary"
+                title={
+                  capitalizeFirstLetter(state.user.firstName) +
+                  " " +
+                  capitalizeFirstLetter(state.user.lastName)
+                }
+                align="end"
+                className="nav-menu-button"
               >
-                LOGOUT
-              </button>
+                <Dropdown.Item className="dropdown-menu-item" href="/profile">
+                  My Profile
+                </Dropdown.Item>
+                <Dropdown.Item href="/inbox">Inbox</Dropdown.Item>
+                <Dropdown.Divider />
+                <button
+                  type="link"
+                  className="logout-btn nav-link"
+                  onClick={handleLogout}
+                >
+                  LOGOUT
+                </button>
+              </DropdownButton>
             )}
           </div>
         </div>
