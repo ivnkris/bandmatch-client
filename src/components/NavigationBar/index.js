@@ -79,7 +79,6 @@ const NavigationBar = (props) => {
             )}
             {state.user && isBrowser && (
               <DropdownButton
-                id="dropdown-button-dark-example2"
                 variant="secondary"
                 title={
                   capitalizeFirstLetter(state.user.firstName) +
@@ -89,7 +88,9 @@ const NavigationBar = (props) => {
                 align="end"
                 className="nav-menu-button"
               >
-                <Dropdown.Item href="/profile">My Profile</Dropdown.Item>
+                <Dropdown.Item className="dropdown-menu-item" href="/profile">
+                  My Profile
+                </Dropdown.Item>
                 <Dropdown.Item href="/inbox">Inbox</Dropdown.Item>
                 <Dropdown.Divider />
                 <button

@@ -26,14 +26,20 @@
   transform: scale(1.05);
 }
 
-/* .nav-menu-dropdown {
-  background-color: darkgray;
+.dropdown-menu-item {
   opacity: 1 !important;
-} */
+}
 
 .logout-btn {
   background-color: unset;
+  width: 100%;
   color: rgb(48, 48, 48) !important;
+  border: none;
+  margin: auto;
+}
+
+.logout-btn:hover {
+  background-color: #bdbdbd;
   border: none;
   margin: auto;
 }
