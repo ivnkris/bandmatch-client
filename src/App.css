@@ -44,13 +44,11 @@ p {
 }
 
 .see-through-background-90 {
-  background-color: #131313;
-  opacity: 90%;
+  background-color: #131313c5;
 }
 
 .see-through-background-98 {
-  background-color: #131313;
-  opacity: 98%;
+  background-color: #131313e7;
 }
 
 .text-align-center {
