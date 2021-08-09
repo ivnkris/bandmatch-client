@@ -1,6 +1,9 @@
 import "./Assemble.css";
-import CardsCarousel from "../../components/Carousel";
 import Header from "../../components/Header";
+import CardsCarousel from "../../components/Carousel";
+import FilterStrip from "../../components/FilterStrip";
+import constructCards from "../../utils/costructCards";
+import Button from "../../components/Button";
 
 const cards = [
   {
@@ -151,16 +154,71 @@ const cards = [
     instruments: ["singer", "guitarist"],
     lookingFor: ["drummer", "keyboardist"],
   },
+  {
+    type: "band",
+    name: "Cool Kids Very Long Name",
+    imageUrl:
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    instruments: [
+      "drums",
+      "keyboard",
+      "vocalist",
+      "guitar",
+      "keyboard",
+      "vocalist",
+      "guitar",
+    ],
+    experienceLevel: "newbie",
+    genre: ["ROCK", "JAZZ"],
+    lookingFor: [
+      "bassist",
+      "keyboardist",
+      "bassist",
+      "keyboardist",
+      "bassist",
+      "keyboardist",
+    ],
+  },
+  {
+    type: "band",
+    name: "Cool Kids Very Long Name",
+    imageUrl:
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9wJTIwYmFuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    instruments: [
+      "drums",
+      "keyboard",
+      "vocalist",
+      "guitar",
+      "keyboard",
+      "vocalist",
+      "guitar",
+    ],
+    experienceLevel: "newbie",
+    genre: ["ROCK", "JAZZ"],
+    lookingFor: [
+      "bassist",
+      "keyboardist",
+      "bassist",
+      "keyboardist",
+      "bassist",
+      "keyboardist",
+    ],
+  },
 ];
 
 const Assemble = (props) => {
   return (
     <div className="assemble-container">
-      <div className="pt-3">
-        <Header title="Create, complete or join a band" />
+      <Header className="pt-3" title="Create, complete or join a band" />
+      <div className="see-through-background-90 mt-20 ">
+        <p className="title gutter">NEW KIDS ON THE BLOCK</p>
+        <CardsCarousel cards={cards} />
       </div>
-
-      <CardsCarousel cards={cards} />
+      <FilterStrip title="FIND YOUR MATCH" />
+      <div className="see-through-background-98 text-align-center">
+        <div className="cards-container">{constructCards(cards)}</div>
+        <Button label="LOAD MORE" size="medium" mode="primary" />
+      </div>
     </div>
   );
 };

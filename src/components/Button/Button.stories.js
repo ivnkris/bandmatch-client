@@ -13,7 +13,6 @@ Primary.args = {
   onClick: () => {},
   size: "medium",
   mode: "primary",
-  disappearMobile: "disappearMobile",
 };
 
 export const Secondary = (args) => <Button {...args} />;
@@ -22,5 +21,4 @@ Secondary.args = {
   onClick: () => {},
   size: "large",
   mode: "secondary",
-  disappearMobile: "disappearMobile",
 };
