@@ -37,15 +37,6 @@
   border-radius: 10px;
 }
 
-.card-image-overlay {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: space-between;
-}
-
 .card-image-overlay-item {
   background-color: #131313;
   padding: 4px;
