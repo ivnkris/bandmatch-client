@@ -1,7 +1,7 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { isMobile, isBrowser } from "react-device-detect";
 
 import "bootstrap/dist/js/bootstrap";
 
@@ -59,7 +59,25 @@ const NavigationBar = (props) => {
                 LOGIN
               </a>
             )}
-            {state.user && (
+
+            {state.user && isMobile && (
+              <>
+                <a className="nav-link nav-bar-link" href="/assemble">
+                  MY PROFILE
+                </a>
+                <a className="nav-link nav-bar-link" href="/collaborate">
+                  INBOX
+                </a>
+                <button
+                  type="link"
+                  className="logout-btn nav-link"
+                  onClick={handleLogout}
+                >
+                  LOGOUT
+                </button>
+              </>
+            )}
+            {state.user && isBrowser && (
               <DropdownButton
                 id="dropdown-button-dark-example2"
                 variant="secondary"
