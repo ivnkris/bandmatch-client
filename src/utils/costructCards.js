@@ -18,6 +18,7 @@ const constructCards = (cards, version = "extended") => {
         genre={card.genre}
         experienceLevel={card.experienceLevel}
         version={version}
+        userId={card.id}
         uuid={uuid}
       />
     );
