@@ -7,10 +7,16 @@ import CardsCarousel from "../../components/Carousel";
 import FilterStrip from "../../components/FilterStrip";
 import constructCards from "../../utils/costructCards";
 import Button from "../../components/Button";
+
 import { ASSEMBLE } from "../../graphql/queries";
 import shuffleArray from "../../utils/shuffleArray";
+import { useUserContext } from "../../contexts/UserProvider";
 
 const Assemble = (props) => {
+  const { state } = useUserContext();
+
+  // TO DO: pass filters (state.userFilters) as inputs in query
+  console.log("these are the user filters", state.userFilters);
   const { data, loading, error } = useQuery(ASSEMBLE);
 
   if (loading) {

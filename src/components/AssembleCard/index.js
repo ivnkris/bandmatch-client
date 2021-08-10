@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaComment, FaUser } from "react-icons/fa";
+import $ from "jquery";
 
 import "../../App.css";
 import "./AssembleCard.css";
@@ -20,8 +21,12 @@ const AssembleCard = (props) => {
   });
   const [modalShow, setModalShow] = React.useState(false);
 
-  const renderProfilePreviewModal = () => {
-    // get user info from database
+  const renderProfilePreviewModal = (event) => {
+    // get user id from card
+    const userId = $(event.target).parent().attr("user");
+    console.log("This is the chosen one", userId);
+
+    // get user id from card
 
     // fake user info for now
     setUser({
@@ -79,7 +84,7 @@ const AssembleCard = (props) => {
             </p>
           </>
         )}
-        <div className="icon-container">
+        <div className="icon-container" user={props.userId}>
           <FaComment size={24} onClick={props.handleMessage} />
           <FaUser size={24} onClick={renderProfilePreviewModal} />
           <ProfilePreviewModal

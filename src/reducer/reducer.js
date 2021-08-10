@@ -13,6 +13,13 @@ const reducer = (state, action) => {
     };
   }
 
+  if (action.type === "SETUSERFILTERS") {
+    return {
+      ...state,
+      userFilters: action.payload,
+    };
+  }
+
   return state;
 };
 

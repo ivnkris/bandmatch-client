@@ -12,6 +12,10 @@ p {
   padding: 3px;
 }
 
+.black-text {
+  color: #131313 !important;
+}
+
 .title {
   font-size: 22px;
   margin-top: 6px;

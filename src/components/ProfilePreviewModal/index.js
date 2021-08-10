@@ -1,9 +1,9 @@
 import { Modal } from "react-bootstrap";
 import { FaComment, FaUser } from "react-icons/fa";
+import $ from "jquery";
+
 import getInstrumentIcons from "../../utils/getInstrumentIcons";
-
 import "./ProfilePreviewModal.css";
-
 import SoundCloudWidget from "../SoundCloudWidget";
 
 function ProfilePreviewModal(props) {
@@ -11,6 +11,7 @@ function ProfilePreviewModal(props) {
     props.user.type === "band"
       ? props.user.name
       : props.user.firstName + " " + props.user.lastName;
+
   const instruments = getInstrumentIcons(props.user.instruments);
 
   return (
@@ -37,9 +38,11 @@ function ProfilePreviewModal(props) {
         <p className="p-yellow pb-2">{props.user.genre.join("/")}</p>
         <div className="pb-10">{[...instruments]}</div>
         <p>{props.user.description}</p>
-        <div className="flex-apart icons-container">
+        <div className="flex-apart icons-container" user={props.user.id}>
           <FaComment size={30} onClick={props.handleMessage} />
-          <FaUser size={30} onClick={console.log("hello")} />
+          <a href={`profile/${props.user.id}`}>
+            <FaUser size={30} />
+          </a>
         </div>
         <div>
           <SoundCloudWidget soundCloudUrl={props.user.soundCloudUrl} />
