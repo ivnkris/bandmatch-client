@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 
 import "./Assemble.css";
 import Header from "../../components/Header";
 import CardsCarousel from "../../components/Carousel";
 import FilterStrip from "../../components/FilterStrip";
-import constructCards from "../../utils/costructCards";
+import constructCards from "../../utils/constructCards";
 import Button from "../../components/Button";
 
 import { ASSEMBLE } from "../../graphql/queries";
@@ -15,9 +15,23 @@ import { useUserContext } from "../../contexts/UserProvider";
 const Assemble = (props) => {
   const { state } = useUserContext();
 
-  // TO DO: pass filters (state.userFilters) as inputs in query
-  console.log("these are the user filters", state.userFilters);
-  const { data, loading, error } = useQuery(ASSEMBLE);
+  const filters = {
+    genre: state.userFilters.genre,
+    instruments: state.userFilters.instruments,
+    lookingFor: state.userFilters.lookingFor,
+    experienceLevel: state.userFilters.experienceLevel,
+    userType: state.userFilters.userType,
+  };
+
+  console.log("client filters", filters);
+
+  const { data, loading, error } = useQuery(ASSEMBLE, {
+    variables: {
+      assembleFilters: filters,
+    },
+  });
+
+  console.log("data", data);
 
   if (loading) {
     return <div message="Fetching all blogs"></div>;
@@ -26,7 +40,7 @@ const Assemble = (props) => {
   if (error) {
     return <div>Error</div>;
   }
-  if (data) {
+  if (data.assemble.bands || data.assemble.musicians) {
     const bands = data.assemble.bands.map((band) => {
       return {
         ...band,

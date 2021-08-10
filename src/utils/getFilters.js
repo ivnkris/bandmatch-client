@@ -4,11 +4,11 @@ const getFilters = (filterName) => {
     return filters;
   } else {
     return {
-      genre: "",
-      instruments: "",
-      lookingFor: "",
-      experienceLevel: "",
-      type: "",
+      genre: [],
+      instruments: [],
+      lookingFor: [],
+      experienceLevel: [],
+      userType: [],
     };
   }
 };
