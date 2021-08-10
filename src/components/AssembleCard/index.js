@@ -8,7 +8,7 @@ import getInstrumentIcons from "../../utils/getInstrumentIcons";
 import ProfilePreviewModal from "../ProfilePreviewModal";
 
 const AssembleCard = (props) => {
-  const [user, setUser] = React.useState({
+  const [user, setUser] = useState({
     imageUrl: "",
     experienceLevel: "",
     name: "",
@@ -19,7 +19,7 @@ const AssembleCard = (props) => {
     soundCloudUrl: "",
     type: "",
   });
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   const renderProfilePreviewModal = (event) => {
     // get user id from card
@@ -56,7 +56,6 @@ const AssembleCard = (props) => {
       className={[`card-container-${props.version}`, `card-container`].join(
         " "
       )}
-      key={JSON.stringify(props.uuid)}
     >
       <div
         className="card-image"

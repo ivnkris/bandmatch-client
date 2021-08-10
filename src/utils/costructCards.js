@@ -1,13 +1,10 @@
-import { v4 as uuidv4 } from "uuid";
-
 import AssembleCard from "../components/AssembleCard";
 
 const constructCards = (cards, version = "extended") => {
   const cardsToRender = cards.map((card) => {
-    const uuid = uuidv4();
-
     return (
       <AssembleCard
+        key={`${version}-${card.id}`}
         type={card.type}
         name={card.name}
         firstName={card.firstName}
@@ -19,7 +16,6 @@ const constructCards = (cards, version = "extended") => {
         experienceLevel={card.experienceLevel}
         version={version}
         userId={card.id}
-        uuid={uuid}
       />
     );
   });

@@ -20,40 +20,40 @@ const getInstrumentIcons = (instruments) => {
     className: "instrument-icon",
   };
 
-  return instruments.map((instrument) => {
+  return instruments.map((instrument, index) => {
     if (instrument === "guitar") {
-      return <FaGuitar {...props} />;
+      return <FaGuitar {...props} key={`${instrument}-${index}`} />;
     }
 
     if (instrument === "drums") {
-      return <FaDrum {...props} />;
+      return <FaDrum {...props} key={`${instrument}-${index}`} />;
     }
 
     if (instrument === "singer") {
-      return <FaMicrophone {...props} />;
+      return <FaMicrophone {...props} key={`${instrument}-${index}`} />;
     }
 
     if (instrument === "keyboard") {
-      return <GiMusicalKeyboard {...props} />;
+      return <GiMusicalKeyboard {...props} key={`${instrument}-${index}`} />;
     }
 
     if (instrument === "piano") {
-      return <GiPianoKeys {...props} />;
+      return <GiPianoKeys {...props} key={`${instrument}-${index}`} />;
     }
 
     if (instrument === "bass") {
-      return <GiGuitarBassHead {...props} />;
+      return <GiGuitarBassHead {...props} key={`${instrument}-${index}`} />;
     }
 
     if (instrument === "saxophone") {
-      return <GiSaxophone {...props} />;
+      return <GiSaxophone {...props} key={`${instrument}-${index}`} />;
     }
 
     if (instrument === "band") {
-      return <FaUsers {...props} />;
+      return <FaUsers {...props} key={`${instrument}-${index}`} />;
     }
 
-    return <FaUsers {...props} />;
+    return <FaUsers {...props} key={`${instrument}-${index}`} />;
   });
 };
 
