@@ -48,6 +48,7 @@ function FilterModal(props) {
 
     // save filters in local storage, in case page is reloaded
     const filters = JSON.stringify(payload);
+
     localStorage.setItem("userFilters", filters);
   };
 
@@ -122,13 +123,7 @@ function FilterModal(props) {
             control={control}
             label="Band or Musician"
           />
-          <Button
-            type="submit"
-            label="APPLY"
-            mode="primary"
-            size="medium"
-            onClick={handleApplyFilters}
-          />
+          <Button type="submit" label="APPLY" mode="primary" size="medium" />
         </form>
       </Modal.Body>
     </Modal>

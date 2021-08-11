@@ -57,7 +57,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     } else {
       formData.openToJoiningBand = false;
     }
-    console.log(formData);
+
     await signUp({
       variables: {
         signupInput: { ...formData, isPremium: false },
