@@ -1,16 +1,15 @@
 import { gql } from "@apollo/client";
 
 export const ASSEMBLE = gql`
-  query ExampleQuery {
-    assemble {
+  query ExampleQuery($assembleFilters: Filter) {
+    assemble(filters: $assembleFilters) {
       musicians {
         id
         firstName
         lastName
-        description
         genre {
-          name
           id
+          name
         }
         experienceLevel
         instruments {
@@ -19,44 +18,33 @@ export const ASSEMBLE = gql`
           role
         }
         imageUrl
-        websiteUrl
         lookingFor {
-          id
           name
+          id
           role
         }
-        soundCloudUrl
-        openToCollaboration
-        openToJoiningBand
-        band
-        bandName
-        bandImage
+        postcode
       }
       bands {
         id
         name
-        description
         location
         genre {
           id
           name
         }
         experienceLevel
-        numberOfMembers
         instruments {
+          id
           name
           role
-          id
         }
         imageUrl
-        websiteUrl
-        soundCloudUrl
         lookingFor {
-          id
-          name
           role
+          name
+          id
         }
-        openToCollaboration
         openToMembers
         members {
           id

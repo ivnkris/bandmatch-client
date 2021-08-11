@@ -1,6 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import constructCards from "../../utils/costructCards";
+import constructCards from "../../utils/constructCards";
 
 const responsive = {
   largeDesktop: {

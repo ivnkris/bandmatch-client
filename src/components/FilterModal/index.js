@@ -27,14 +27,14 @@ function FilterModal(props) {
     instruments,
     experienceLevel,
     lookingFor,
-    type,
+    userType,
   }) => {
     const payload = {
       genre,
       instruments,
       experienceLevel,
       lookingFor,
-      type,
+      userType,
     };
 
     // save filters in global context
@@ -48,6 +48,7 @@ function FilterModal(props) {
 
     // save filters in local storage, in case page is reloaded
     const filters = JSON.stringify(payload);
+
     localStorage.setItem("userFilters", filters);
   };
 
@@ -115,20 +116,14 @@ function FilterModal(props) {
               { value: "band", label: "band" },
               { value: "musician", label: "musician" },
             ]}
-            defaultValue={state.userFilters.type}
+            defaultValue={state.userFilters.userType}
             placeholder="Select performer type"
             isMulti={true}
-            name="type"
+            name="userType"
             control={control}
             label="Band or Musician"
           />
-          <Button
-            type="submit"
-            label="APPLY"
-            mode="primary"
-            size="medium"
-            onClick={handleApplyFilters}
-          />
+          <Button type="submit" label="APPLY" mode="primary" size="medium" />
         </form>
       </Modal.Body>
     </Modal>

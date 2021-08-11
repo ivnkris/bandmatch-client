@@ -7,7 +7,7 @@ import Button from "../Button/index";
 import FilterModal from "../FilterModal";
 
 const FilterStrip = (props) => {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   return (
     <div className="filter-strip-container see-through-background-90">
