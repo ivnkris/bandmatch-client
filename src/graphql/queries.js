@@ -53,3 +53,17 @@ export const ASSEMBLE = gql`
     }
   }
 `;
+
+export const GENRESINSTRUMENTS = gql`
+  query Genres {
+    genres {
+      id
+      name
+    }
+    instruments {
+      id
+      name
+      role
+    }
+  }
+`;

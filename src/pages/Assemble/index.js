@@ -34,6 +34,7 @@ const Assemble = (props) => {
   }
 
   if (error) {
+    console.log(error);
     return <div>Error</div>;
   }
 
