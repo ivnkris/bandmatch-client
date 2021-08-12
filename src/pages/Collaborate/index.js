@@ -36,7 +36,11 @@ const Collaborate = (props) => {
 	} = useQuery(COLLABORATE_CAROUSEL);
 
 	if (loading) {
-		return <div message="Fetching all users"></div>;
+		return (
+			<div>
+				<h1>Loading...</h1>
+			</div>
+		);
 	}
 
 	if (error) {
@@ -45,7 +49,11 @@ const Collaborate = (props) => {
 	}
 
 	if (carouselLoading) {
-		return <div message="Fetching carousel..."></div>;
+		return (
+			<div>
+				<h1>Loading...</h1>
+			</div>
+		);
 	}
 
 	if (carouselError) {
