@@ -55,6 +55,58 @@ export const ASSEMBLE = gql`
 	}
 `;
 
+export const CAROUSEL = gql`
+	query Query {
+		assemble {
+			musicians {
+				id
+				firstName
+				lastName
+				postcode
+				genre {
+					id
+					name
+				}
+				experienceLevel
+				instruments {
+					id
+					name
+					role
+				}
+				imageUrl
+				lookingFor {
+					id
+					name
+					role
+				}
+				openToJoiningBand
+			}
+			bands {
+				id
+				name
+				location
+				genre {
+					id
+					name
+				}
+				experienceLevel
+				instruments {
+					id
+					name
+					role
+				}
+				imageUrl
+				lookingFor {
+					id
+					name
+					role
+				}
+				openToMembers
+			}
+		}
+	}
+`;
+
 export const COLLABORATE = gql`
 	query Query($collaborateFilters: Filter) {
 		collaborate(filters: $collaborateFilters) {

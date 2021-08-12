@@ -9,87 +9,75 @@ import constructCards from "../../utils/constructCards";
 import Button from "../../components/Button";
 
 import { ASSEMBLE } from "../../graphql/queries";
-import shuffleArray from "../../utils/shuffleArray";
+import { CAROUSEL } from "../../graphql/queries";
 import { useUserContext } from "../../contexts/UserProvider";
+import renderCards from "../../utils/renderCardsLogic";
 
 const Assemble = (props) => {
-  const { state } = useUserContext();
+	const { state } = useUserContext();
 
-  const filters = {
-    genre: state.userFilters.genre,
-    instruments: state.userFilters.instruments,
-    lookingFor: state.userFilters.lookingFor,
-    experienceLevel: state.userFilters.experienceLevel,
-    userType: state.userFilters.userType,
-  };
+	const filters = {
+		genre: state.userFilters.genre,
+		instruments: state.userFilters.instruments,
+		lookingFor: state.userFilters.lookingFor,
+		experienceLevel: state.userFilters.experienceLevel,
+		userType: state.userFilters.userType,
+	};
 
-  const { data, loading, error } = useQuery(ASSEMBLE, {
-    variables: {
-      assembleFilters: filters,
-    },
-  });
+	const { data: assembleData, loading, error } = useQuery(ASSEMBLE, {
+		variables: {
+			assembleFilters: filters,
+		},
+	});
 
-  if (loading) {
-    return <div message="Fetching all blogs"></div>;
-  }
+	const {
+		data: carouselData,
+		loading: carouselLoading,
+		error: carouselError,
+	} = useQuery(CAROUSEL);
 
-  if (error) {
-    console.log(error);
-    return <div>Error</div>;
-  }
+	if (loading) {
+		return <div message="Fetching assemble cards..."></div>;
+	}
 
-  let bands = {};
+	if (error) {
+		console.log(error);
+		return <div>Error</div>;
+	}
 
-  if (data.assemble.bands) {
-    bands = data.assemble.bands.map((band) => {
-      return {
-        ...band,
-        type: "band",
-      };
-    });
-  }
-  const newCards = [...data.assemble.musicians, ...bands];
+	if (carouselLoading) {
+		return <div message="Fetching carousel..."></div>;
+	}
 
-  const cards = newCards.map((card) => {
-    let genres = [];
-    let instruments = [];
-    let lookingFor = [];
+	if (carouselError) {
+		console.log(carouselError);
+		return <div>Error</div>;
+	}
 
-    card.genre.forEach((genre) => {
-      genres.push(genre.name);
-    });
+	let carouselCards;
+	if (carouselData) {
+		carouselCards = renderCards(carouselData.assemble);
+	}
 
-    card.instruments.forEach((instrument) => {
-      instruments.push(instrument.name);
-    });
+	let assembleCards;
+	if (assembleData) {
+		assembleCards = renderCards(assembleData.assemble);
+	}
 
-    card.lookingFor.forEach((looking) => {
-      lookingFor.push(looking.name);
-    });
-    return {
-      ...card,
-      genre: genres,
-      instruments,
-      lookingFor,
-    };
-  });
-
-  const shuffledCards = shuffleArray(cards);
-
-  return (
-    <div className="assemble-container">
-      <Header className="pt-3" title="Create, complete or join a band" />
-      <div className="see-through-background-90 mt-20 ">
-        <p className="title gutter">NEW KIDS ON THE BLOCK</p>
-        <CardsCarousel cards={cards} />
-      </div>
-      <FilterStrip title="FIND YOUR MATCH" />
-      <div className="see-through-background-90 text-align-center">
-        <div className="cards-container">{constructCards(shuffledCards)}</div>
-        <Button label="LOAD MORE" size="medium" mode="primary" />
-      </div>
-    </div>
-  );
+	return (
+		<div className="assemble-container">
+			<Header className="pt-3" title="Create, complete or join a band" />
+			<div className="see-through-background-90 mt-20 ">
+				<p className="title gutter">NEW KIDS ON THE BLOCK</p>
+				<CardsCarousel cards={carouselCards} />
+			</div>
+			<FilterStrip title="FIND YOUR MATCH" />
+			<div className="see-through-background-90 text-align-center">
+				<div className="cards-container">{constructCards(assembleCards)}</div>
+				<Button label="LOAD MORE" size="medium" mode="primary" />
+			</div>
+		</div>
+	);
 };
 
 export default Assemble;
