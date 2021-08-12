@@ -8,8 +8,7 @@ import FilterStrip from "../../components/FilterStrip";
 import constructCards from "../../utils/constructCards";
 import Button from "../../components/Button";
 
-import { ASSEMBLE } from "../../graphql/queries";
-import { CAROUSEL } from "../../graphql/queries";
+import { ASSEMBLE, ASSEMBLE_CAROUSEL } from "../../graphql/queries";
 import { useUserContext } from "../../contexts/UserProvider";
 import renderCards from "../../utils/renderCardsLogic";
 
@@ -34,7 +33,7 @@ const Assemble = (props) => {
 		data: carouselData,
 		loading: carouselLoading,
 		error: carouselError,
-	} = useQuery(CAROUSEL);
+	} = useQuery(ASSEMBLE_CAROUSEL);
 
 	if (loading) {
 		return <div message="Fetching assemble cards..."></div>;

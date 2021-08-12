@@ -8,9 +8,9 @@ import FilterStrip from "../../components/FilterStrip";
 import constructCards from "../../utils/constructCards";
 import Button from "../../components/Button";
 
-import { COLLABORATE } from "../../graphql/queries";
-import shuffleArray from "../../utils/shuffleArray";
+import { COLLABORATE, COLLABORATE_CAROUSEL } from "../../graphql/queries";
 import { useUserContext } from "../../contexts/UserProvider";
+import renderCards from "../../utils/renderCardsLogic";
 
 const Collaborate = (props) => {
 	const { state } = useUserContext();
@@ -23,11 +23,17 @@ const Collaborate = (props) => {
 		userType: state.userFilters.userType,
 	};
 
-	const { data, loading, error } = useQuery(COLLABORATE, {
+	const { data: collaborateData, loading, error } = useQuery(COLLABORATE, {
 		variables: {
 			collaborateFilters: filters,
 		},
 	});
+
+	const {
+		data: carouselData,
+		loading: carouselLoading,
+		error: carouselError,
+	} = useQuery(COLLABORATE_CAROUSEL);
 
 	if (loading) {
 		return <div message="Fetching all users"></div>;
@@ -38,54 +44,37 @@ const Collaborate = (props) => {
 		return <div>Error</div>;
 	}
 
-	let bands = {};
-
-	if (data.collaborate.bands) {
-		bands = data.collaborate.bands.map((band) => {
-			return {
-				...band,
-				type: "band",
-			};
-		});
+	if (carouselLoading) {
+		return <div message="Fetching carousel..."></div>;
 	}
-	const newCards = [...data.collaborate.musicians, ...bands];
 
-	const cards = newCards.map((card) => {
-		let genres = [];
-		let instruments = [];
-		let lookingFor = [];
+	if (carouselError) {
+		console.log(carouselError);
+		return <div>Error</div>;
+	}
 
-		card.genre.forEach((genre) => {
-			genres.push(genre.name);
-		});
+	let carouselCards;
+	if (carouselData) {
+		carouselCards = renderCards(carouselData.collaborate);
+	}
 
-		card.instruments.forEach((instrument) => {
-			instruments.push(instrument.name);
-		});
-
-		card.lookingFor.forEach((looking) => {
-			lookingFor.push(looking.name);
-		});
-		return {
-			...card,
-			genre: genres,
-			instruments,
-			lookingFor,
-		};
-	});
-
-	const shuffledCards = shuffleArray(cards);
+	let collaborateCards;
+	if (collaborateData) {
+		collaborateCards = renderCards(collaborateData.collaborate);
+	}
 
 	return (
 		<div className="collaborate-container">
 			<Header className="pt-3" title="Collaborate with other musicians" />
 			<div className="see-through-background-90 mt-20 ">
 				<p className="title gutter">NEW KIDS ON THE BLOCK</p>
-				<CardsCarousel cards={cards} />
+				<CardsCarousel cards={carouselCards} />
 			</div>
 			<FilterStrip title="FIND YOUR COLLABORATORS" />
 			<div className="see-through-background-90 text-align-center">
-				<div className="cards-container">{constructCards(shuffledCards)}</div>
+				<div className="cards-container">
+					{constructCards(collaborateCards)}
+				</div>
 				<Button label="LOAD MORE" size="medium" mode="primary" />
 			</div>
 		</div>

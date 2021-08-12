@@ -55,7 +55,7 @@ export const ASSEMBLE = gql`
 	}
 `;
 
-export const CAROUSEL = gql`
+export const ASSEMBLE_CAROUSEL = gql`
 	query Query {
 		assemble {
 			musicians {
@@ -137,6 +137,58 @@ export const COLLABORATE = gql`
 				firstName
 				lastName
 				postcode
+				genre {
+					id
+					name
+				}
+				experienceLevel
+				instruments {
+					id
+					name
+					role
+				}
+				imageUrl
+				lookingFor {
+					id
+					name
+					role
+				}
+				openToCollaboration
+			}
+		}
+	}
+`;
+
+export const COLLABORATE_CAROUSEL = gql`
+	query Query {
+		collaborate {
+			musicians {
+				id
+				firstName
+				lastName
+				postcode
+				genre {
+					id
+					name
+				}
+				experienceLevel
+				instruments {
+					id
+					name
+					role
+				}
+				imageUrl
+				lookingFor {
+					id
+					name
+					role
+				}
+				openToCollaboration
+			}
+			bands {
+				id
+				name
+				location
 				genre {
 					id
 					name
