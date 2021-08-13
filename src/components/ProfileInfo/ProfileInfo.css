@@ -1,0 +1,30 @@
+.profile-strip {
+  width: 100%;
+  display: flex;
+  padding: 3rem 10rem;
+  opacity: 100%;
+  background-color: #131313;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.musician-image-div {
+  box-sizing: border-box;
+}
+
+.musician-image {
+  max-height: 20rem;
+  border: #ffd324 0.3rem solid;
+}
+
+.musician-info-div {
+  margin-left: 8rem;
+  margin-right: 2px;
+  width: 65%;
+}
+
+.profile-icon-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}
