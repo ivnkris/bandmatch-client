@@ -4,22 +4,27 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 3rem;
+  padding: 3rem 6rem;
   opacity: 100%;
   background-color: #131313e3;
   box-sizing: border-box;
   align-items: center;
 }
 
-.musician-image {
-  max-height: 20rem;
+.profile-image {
   border: #ffd324 0.3rem solid;
-  margin: 1rem 2rem;
+  width: 25rem;
+  height: 15rem;
+  max-height: 20rem;
+  margin: 1rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
 }
 
 .musician-info-div {
-  margin: 1rem;
-  width: 50%;
+  width: 40%;
 }
 
 .profile-icon-container {
