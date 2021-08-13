@@ -1,18 +1,18 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 
-import "./Assemble.css";
+import "./Collaborate.css";
 import Header from "../../components/Header";
 import CardsCarousel from "../../components/Carousel";
 import FilterStrip from "../../components/FilterStrip";
 import constructCards from "../../utils/constructCards";
 import Button from "../../components/Button";
 
-import { ASSEMBLE, ASSEMBLE_CAROUSEL } from "../../graphql/queries";
+import { COLLABORATE, COLLABORATE_CAROUSEL } from "../../graphql/queries";
 import { useUserContext } from "../../contexts/UserProvider";
 import renderCards from "../../utils/renderCardsLogic";
 
-const Assemble = (props) => {
+const Collaborate = (props) => {
 	const { state } = useUserContext();
 
 	const filters = {
@@ -23,9 +23,9 @@ const Assemble = (props) => {
 		userType: state.userFilters.userType,
 	};
 
-	const { data: assembleData, loading, error } = useQuery(ASSEMBLE, {
+	const { data: collaborateData, loading, error } = useQuery(COLLABORATE, {
 		variables: {
-			assembleFilters: filters,
+			collaborateFilters: filters,
 		},
 	});
 
@@ -33,10 +33,14 @@ const Assemble = (props) => {
 		data: carouselData,
 		loading: carouselLoading,
 		error: carouselError,
-	} = useQuery(ASSEMBLE_CAROUSEL);
+	} = useQuery(COLLABORATE_CAROUSEL);
 
 	if (loading) {
-		return <div message="Fetching assemble cards..."></div>;
+		return (
+			<div>
+				<h1>Loading...</h1>
+			</div>
+		);
 	}
 
 	if (error) {
@@ -45,7 +49,11 @@ const Assemble = (props) => {
 	}
 
 	if (carouselLoading) {
-		return <div message="Fetching carousel..."></div>;
+		return (
+			<div>
+				<h1>Loading...</h1>
+			</div>
+		);
 	}
 
 	if (carouselError) {
@@ -55,28 +63,30 @@ const Assemble = (props) => {
 
 	let carouselCards;
 	if (carouselData) {
-		carouselCards = renderCards(carouselData.assemble);
+		carouselCards = renderCards(carouselData.collaborate);
 	}
 
-	let assembleCards;
-	if (assembleData) {
-		assembleCards = renderCards(assembleData.assemble);
+	let collaborateCards;
+	if (collaborateData) {
+		collaborateCards = renderCards(collaborateData.collaborate);
 	}
 
 	return (
-		<div className="assemble-container">
-			<Header className="pt-3" title="Create, complete or join a band" />
+		<div className="collaborate-container">
+			<Header className="pt-3" title="Collaborate with other musicians" />
 			<div className="see-through-background-90 mt-20 ">
 				<p className="title gutter">NEW KIDS ON THE BLOCK</p>
 				<CardsCarousel cards={carouselCards} />
 			</div>
-			<FilterStrip title="FIND YOUR MATCH" />
+			<FilterStrip title="FIND YOUR COLLABORATORS" />
 			<div className="see-through-background-90 text-align-center">
-				<div className="cards-container">{constructCards(assembleCards)}</div>
+				<div className="cards-container">
+					{constructCards(collaborateCards)}
+				</div>
 				<Button label="LOAD MORE" size="medium" mode="primary" />
 			</div>
 		</div>
 	);
 };
 
-export default Assemble;
+export default Collaborate;

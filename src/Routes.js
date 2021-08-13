@@ -15,49 +15,49 @@ import MusicianProfile from "./pages/MusicianProfile";
 import SignUp from "./pages/SignUp/index";
 
 const Routes = () => {
-  const { state } = useUserContext();
+	const { state } = useUserContext();
 
-  return (
-    <Switch>
-      <Route exact path="/assemble">
-        <Assemble />
-        {/* {state.user ? <Assemble /> : <Redirect to="/login" />} */}
-      </Route>
-      <Route exact path="/band">
-        {state.user ? <BandProfile /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/collab">
-        {state.user ? <Collaborate /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/gig">
-        {state.user ? <Gig /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/create-band">
-        {state.user ? <CreateBand /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/edit-band">
-        {state.user ? <EditBand /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/edit-profile">
-        {state.user ? <EditProfile /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/inbox">
-        {state.user ? <Inbox /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/login">
-        {!state.user ? <Login /> : <Redirect to="/profile" />}
-      </Route>
-      <Route exact path="/signup">
-        {!state.user ? <SignUp /> : <Redirect to="/profile" />}
-      </Route>
-      <Route exact path="/profile">
-        {state.user ? <MusicianProfile /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/">
-        <Home />
-      </Route>
-    </Switch>
-  );
+	return (
+		<Switch>
+			<Route exact path="/assemble">
+				<Assemble />
+				{/* {state.user ? <Assemble /> : <Redirect to="/login" />} */}
+			</Route>
+			<Route exact path="/band">
+				{state.user ? <BandProfile /> : <Redirect to="/login" />}
+			</Route>
+			<Route exact path="/collaborate">
+				{state.user ? <Collaborate /> : <Redirect to="/login" />}
+			</Route>
+			<Route exact path="/gig">
+				{state.user ? <Gig /> : <Redirect to="/login" />}
+			</Route>
+			<Route exact path="/create-band">
+				{state.user ? <CreateBand /> : <Redirect to="/login" />}
+			</Route>
+			<Route exact path="/edit-band">
+				{state.user ? <EditBand /> : <Redirect to="/login" />}
+			</Route>
+			<Route exact path="/edit-profile">
+				{state.user ? <EditProfile /> : <Redirect to="/login" />}
+			</Route>
+			<Route exact path="/inbox">
+				{state.user ? <Inbox /> : <Redirect to="/login" />}
+			</Route>
+			<Route exact path="/login">
+				{!state.user ? <Login /> : <Redirect to="/profile" />}
+			</Route>
+			<Route exact path="/signup">
+				{!state.user ? <SignUp /> : <Redirect to="/profile" />}
+			</Route>
+			<Route exact path="/profile">
+				{state.user ? <MusicianProfile /> : <Redirect to="/login" />}
+			</Route>
+			<Route exact path="/">
+				<Home />
+			</Route>
+		</Switch>
+	);
 };
 
 export default Routes;

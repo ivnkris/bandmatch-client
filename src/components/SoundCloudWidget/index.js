@@ -6,13 +6,13 @@ const SoundCloudWidget = (props) => {
     <div className="soundCloudWidget-container">
       <div className="soundCloudWidget">
         <iframe
+          title="SoundCloud Widget"
           id="sc-widget"
           src={props.soundCloudUrl}
           width="350px"
           height="100px"
           scrolling="no"
           frameborder="no"
-          title="sound cloud widget"
         ></iframe>
       </div>
     </div>
