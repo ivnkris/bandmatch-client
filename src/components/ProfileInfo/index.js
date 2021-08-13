@@ -22,6 +22,10 @@ const ProfileInfo = () => {
           ut neque. Aliquam vel justo accumsan, ultrices dolor non, lacinia
           velit. Mauris quis viverra ipsum, in mattis nunc."
         </div>
+
+        <p className="p-yellow mt-2 text-limit-one-line">
+          LOOKING FOR: <span className="looking-for">GUITARIST, DRUMMER</span>
+        </p>
         <div className="profile-icon-container mt-4">
           <FaComment size={24} />
           <FaUser size={24} />

@@ -12,6 +12,7 @@ const SoundCloudWidget = (props) => {
           height="100px"
           scrolling="no"
           frameborder="no"
+          title="sound cloud widget"
         ></iframe>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import ProfileInfo from "../../components/ProfileInfo";
+import SoundCloudWidget from "../../components/SoundCloudWidget";
 import "./MusicianProfile.css";
 
 const MusicianProfile = (props) => {
@@ -6,6 +7,7 @@ const MusicianProfile = (props) => {
     <div className="profile-container">
       <div className="p-3"></div>
       <ProfileInfo />
+      <SoundCloudWidget />
     </div>
   );
 };
