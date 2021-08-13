@@ -7,7 +7,8 @@ const MusicianProfile = (props) => {
     <div className="profile-container">
       <div className="p-3"></div>
       <ProfileInfo />
-      <SoundCloudWidget />
+
+      <SoundCloudWidget src="https://soundcloud.com/firemanbands" />
     </div>
   );
 };
