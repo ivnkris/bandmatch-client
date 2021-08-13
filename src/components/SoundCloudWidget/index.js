@@ -12,7 +12,7 @@ const SoundCloudWidget = (props) => {
           width="350px"
           height="100px"
           scrolling="no"
-          frameborder="no"
+          frameBorder="no"
         ></iframe>
       </div>
     </div>
