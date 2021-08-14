@@ -17,6 +17,6 @@
 }
 
 .form-input--error::placeholder {
-  color: yellow;
+  color: red;
   font-size: 1.1rem;
 }

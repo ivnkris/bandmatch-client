@@ -8,6 +8,7 @@ const FormInput = ({
   type = "text",
   error,
   register,
+  required,
 }) => {
   return (
     <div className="form-element">
@@ -19,6 +20,7 @@ const FormInput = ({
         })}
         placeholder={placeholder}
         {...register}
+        required={required}
       />
     </div>
   );
