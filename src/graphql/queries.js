@@ -257,3 +257,47 @@ export const MUSICIAN_USER = gql`
     }
   }
 `;
+
+export const BAND_PREVIEW = gql`
+  query Query($bandId: ID!) {
+    band(id: $bandId) {
+      id
+      name
+      description
+      location
+      genre {
+        name
+      }
+      experienceLevel
+      numberOfMembers
+      instruments {
+        name
+        role
+      }
+      imageUrl
+      soundCloudUrl
+    }
+  }
+`;
+
+export const MUSICIAN_PREVIEW = gql`
+  query Query($musicianUserId: ID!) {
+    musicianUser(id: $musicianUserId) {
+      id
+      firstName
+      lastName
+      description
+      postcode
+      genre {
+        name
+      }
+      experienceLevel
+      instruments {
+        name
+        role
+      }
+      imageUrl
+      soundCloudUrl
+    }
+  }
+`;
