@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaComment, FaUser } from "react-icons/fa";
 import { useLazyQuery } from "@apollo/client";
 

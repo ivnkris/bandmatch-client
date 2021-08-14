@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 
 import "../../App.css";
 import "./FilterStrip.css";
