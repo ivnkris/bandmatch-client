@@ -25,7 +25,6 @@ const MusicianProfile = (props) => {
 
   if (musicianData) {
     const musician = musicianData.musicianUser;
-
     const name = musician.firstName + " " + musician.lastName;
     const openTo = () => {
       if (musician.openToCollaboration && musician.openToJoiningBand) {
@@ -38,23 +37,18 @@ const MusicianProfile = (props) => {
         return "";
       }
     };
-    console.log(musician.lookingFor);
     let genres = [];
     let instruments = [];
     let lookingFor = [];
-
     musician.genre.forEach((genre) => {
       genres.push(genre.name);
     });
-
     musician.instruments.forEach((instrument) => {
       instruments.push(instrument.name);
     });
-
     musician.lookingFor.forEach((looking) => {
       lookingFor.push(looking.role);
     });
-
     return (
       <div className="profile-container">
         <div className="p-3"></div>
@@ -68,7 +62,6 @@ const MusicianProfile = (props) => {
           lookingFor={lookingFor}
           soundCloudUrl={musician.soundCloudUrl}
         />
-
         <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
       </div>
     );
