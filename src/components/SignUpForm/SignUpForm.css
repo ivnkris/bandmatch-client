@@ -16,11 +16,20 @@
 
 .select-dropdown {
   width: 100%;
-  color: grey;
+  color: white;
   height: 2.5rem;
   padding: 0 0.5rem;
+  background-color: #808080;
+}
+
+.select-dropdown:active {
+  background-color: rgb(104, 103, 103);
 }
 
 .option-text {
-  color: grey;
+  color: white;
+}
+
+.error-message {
+  margin-left: 2.5rem;
 }
