@@ -132,7 +132,7 @@ const AssembleCard = (props) => {
                   <div className="pb-10">
                     {generateInstruments(band.instruments).join(" ")}
                   </div>
-                  <p>{band.description}</p>
+                  <p className="regular-text">{band.description}</p>
                   <div
                     className="flex-apart profile-preview-icons-container"
                     user={band.id}
