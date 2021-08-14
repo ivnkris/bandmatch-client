@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaComment, FaUser } from "react-icons/fa";
 import { useLazyQuery } from "@apollo/client";
 
@@ -17,97 +17,23 @@ import {
 } from "../../utils/userInfoFormatting";
 
 const AssembleCard = (props) => {
-  const { setModalState } = useModal();
+  const { setModalState, modalState } = useModal();
 
-  const [
-    getBandInfo,
-    {
-      data: bandData,
-      loading: bandLoading,
-      error: bandError,
-      called: bandCalled,
-    },
-  ] = useLazyQuery(BAND_PREVIEW);
-
-  const [
-    getMusicianInfo,
-    {
-      data: musicianData,
-      loading: musicianLoading,
-      error: musicianError,
-      called: musicianCalled,
-    },
-  ] = useLazyQuery(MUSICIAN_PREVIEW);
-
-  useEffect(() => {
-    if (
-      (bandCalled || musicianCalled) &&
-      !bandLoading &&
-      !musicianLoading &&
-      !bandError &&
-      !musicianError
-    ) {
-      if (!bandData && !musicianData) {
-        setModalState({
-          open: true,
-          content: (
-            <Modal.Body className="solid-background">
-              <p> Sorry, we couldn't load filtering options at this time </p>
-            </Modal.Body>
-          ),
-        });
-      } else {
-        if (musicianData) {
-          const musician = musicianData.musicianUser;
-          const title = musician.firstName + " " + musician.lastName;
+  const [getBandInfo] = useLazyQuery(BAND_PREVIEW, {
+    fetchPolicy: "network-only",
+    onCompleted: (data) => {
+      if (!modalState.open) {
+        if (!data) {
           setModalState({
             open: true,
             content: (
-              <>
-                <Modal.Body className="solid-background text-align-center">
-                  <div
-                    className="profile-preview-image"
-                    style={{
-                      backgroundImage: "url(" + musician.imageUrl + ")",
-                    }}
-                  >
-                    <div className="image-overlay">
-                      <div className="profile-preview-image-overlay-item">
-                        {musician.experienceLevel}
-                      </div>
-                    </div>
-                  </div>
-                  <h5 className="title">{title}</h5>
-                  <p className="p-yellow pb-2">
-                    {generateGenres(musician.genre).join(" / ")}
-                  </p>
-                  <p className="pb-10">
-                    {generateInstruments(musician.instruments).join(" ")}
-                  </p>
-                  <p className="regular-text">{musician.description}</p>
-                  <div
-                    className="flex-apart profile-preview-icons-container"
-                    user={musician.id}
-                  >
-                    <Button
-                      label="MESSAGE"
-                      onClick={() => console.log("msg")}
-                      size="medium"
-                      mode="primary"
-                    />
-                    <a href={`profile/${musician.id}`}>
-                      <Button label="PROFILE" size="medium" mode="secondary" />
-                    </a>
-                  </div>
-                  <div>
-                    <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
-                  </div>
-                </Modal.Body>
-              </>
+              <Modal.Body className="solid-background">
+                <p> Sorry, we couldn't load filtering options at this time </p>
+              </Modal.Body>
             ),
           });
-        } else if (bandData) {
-          const band = bandData.band;
+        } else {
+          const band = data.band;
           setModalState({
             open: true,
             content: (
@@ -155,52 +81,96 @@ const AssembleCard = (props) => {
             ),
           });
         }
-
-        console.log("band data", bandData, "musician data", musicianData);
       }
-    }
-  }, [
-    bandCalled,
-    bandData,
-    bandError,
-    bandLoading,
-    musicianCalled,
-    musicianData,
-    musicianError,
-    musicianLoading,
-    setModalState,
-  ]);
+    },
+    onError: (error) => {
+      setModalState({
+        open: true,
+        content: (
+          <Modal.Body className="solid-background">
+            <p> Sorry, we couldn't load filtering options at this time </p>
+          </Modal.Body>
+        ),
+      });
+    },
+  });
 
-  // const renderProfilePreviewModal = (event) => {
-  //   // get user id from card
-  //   const userId = $(event.target).parent().attr("user");
-  //   console.log("This is the chosen one", userId);
-
-  //   // get type of user to determine which model will be queried
-  //   const userType = $(event.target).parent().attr("type");
-
-  //   if (userType === "band") {
-  //     getBandInfo();
-  //   }
-
-  //   // fake user info for now
-  //   setUser({
-  //     imageUrl:
-  //       "https://images.unsplash.com/photo-1523456752049-9ccb633594bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-  //     experienceLevel: "NEWBIE",
-  //     firstName: "Dominika",
-  //     lastName: "Pietrzak",
-  //     description: "This is my super interesting description",
-  //     instruments: ["guitar", "vocalist"],
-  //     genre: ["rock", "punk"],
-  //     id: 123,
-  //     soundCloudUrl:
-  //       "https://w.soundcloud.com/player/?url=https://soundcloud.com/oliviarodrigo/good-4-u-1",
-  //     type: "musician",
-  //   });
-
-  //   setModalShow(true);
-  // };
+  const [getMusicianInfo] = useLazyQuery(MUSICIAN_PREVIEW, {
+    fetchPolicy: "network-only",
+    onCompleted: (data) => {
+      if (!modalState.open) {
+        if (!data) {
+          setModalState({
+            open: true,
+            content: (
+              <Modal.Body className="solid-background">
+                <p> Sorry, we couldn't load filtering options at this time </p>
+              </Modal.Body>
+            ),
+          });
+        } else {
+          const musician = data.musicianUser;
+          const title = musician.firstName + " " + musician.lastName;
+          setModalState({
+            open: true,
+            content: (
+              <>
+                <Modal.Body className="solid-background text-align-center">
+                  <div
+                    className="profile-preview-image"
+                    style={{
+                      backgroundImage: "url(" + musician.imageUrl + ")",
+                    }}
+                  >
+                    <div className="image-overlay">
+                      <div className="profile-preview-image-overlay-item">
+                        {musician.experienceLevel}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="title">{title}</p>
+                  <p className="p-yellow pb-2">
+                    {generateGenres(musician.genre).join(" / ")}
+                  </p>
+                  <p className="pb-10">
+                    {generateInstruments(musician.instruments).join(" ")}
+                  </p>
+                  <p className="regular-text">{musician.description}</p>
+                  <div
+                    className="flex-apart profile-preview-icons-container"
+                    user={musician.id}
+                  >
+                    <Button
+                      label="MESSAGE"
+                      onClick={() => console.log("msg")}
+                      size="medium"
+                      mode="primary"
+                    />
+                    <a href={`profile/${musician.id}`}>
+                      <Button label="PROFILE" size="medium" mode="secondary" />
+                    </a>
+                  </div>
+                  <div>
+                    <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
+                  </div>
+                </Modal.Body>
+              </>
+            ),
+          });
+        }
+      }
+    },
+    onError: (error) => {
+      setModalState({
+        open: true,
+        content: (
+          <Modal.Body className="solid-background">
+            <p> Sorry, we couldn't load filtering options at this time </p>
+          </Modal.Body>
+        ),
+      });
+    },
+  });
 
   const title =
     props.type === "band" ? props.name : props.firstName + " " + props.lastName;
