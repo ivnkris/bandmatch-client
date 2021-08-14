@@ -47,6 +47,10 @@ p {
   text-transform: lowercase;
 }
 
+.regular-text {
+  text-transform: none;
+}
+
 .solid-background {
   background-color: #131313;
 }

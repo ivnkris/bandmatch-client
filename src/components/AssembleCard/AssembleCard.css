@@ -79,3 +79,24 @@
   margin-left: 5px;
   margin-right: 5px;
 }
+
+/* profile preview modal */
+.profile-preview-image {
+  height: 200px;
+  background-position: "center";
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-preview-image-overlay-item {
+  background-color: #131313;
+  padding: 10px;
+}
+
+.profile-preview-icons-container {
+  margin: auto;
+  width: 80%;
+}
