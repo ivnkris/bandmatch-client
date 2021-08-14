@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 
 import FormInput from "../FormInput";
@@ -9,9 +9,7 @@ import FormContainer from "../FormContainer";
 import MultiSelectDropDown from "../MultiSelectDropdown";
 import Button from "../Button";
 import { SIGNUP } from "../../graphql/mutations";
-
-import genreOptions from "../../data/genreOptions";
-import instrumentOptions from "../../data/instrumentOptions";
+import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
 import "./SignUpForm.css";
 const SignUpForm = ({ redirect = "/assemble" }) => {
@@ -34,7 +32,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     control,
   } = useForm({
     mode: "onBlur",
-    reValidateMode: "onChange",
+    reValidateMode: "onBlur",
     shouldFocusError: true,
   });
 
@@ -44,6 +42,41 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     },
     onError: () => {},
   });
+
+  const {
+    data: formSelectData,
+    loading: genreLoading,
+    error: formSelectDataError,
+  } = useQuery(GENRESINSTRUMENTS);
+
+  let genreOptions;
+  let instrumentOptions;
+  let lookingForOptions;
+
+  if (formSelectData) {
+    genreOptions = formSelectData.genres.map((genre) => {
+      return {
+        value: genre.id,
+        label: genre.name.charAt(0).toUpperCase() + genre.name.slice(1),
+      };
+    });
+
+    instrumentOptions = formSelectData.instruments.map((instrument) => {
+      return {
+        value: instrument.id,
+        label:
+          instrument.name.charAt(0).toUpperCase() + instrument.name.slice(1),
+      };
+    });
+
+    lookingForOptions = formSelectData.instruments.map((instrument) => {
+      return {
+        value: instrument.id,
+        label:
+          instrument.role.charAt(0).toUpperCase() + instrument.role.slice(1),
+      };
+    });
+  }
 
   const onSubmit = async (formData) => {
     if (formData.openToCollaboration === "true") {
@@ -65,20 +98,14 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     });
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   const renderButton = () => {
     if (formStep > 3) {
       return undefined;
     } else if (formStep === 3) {
-      console.log(isValid);
       return (
         <div className="button-block d-flex gap-4 mt-2 py-3">
           <Button
             label="GO BACK"
-            disabled={!isValid}
             mode="secondary"
             size="medium"
             type="button"
@@ -95,7 +122,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
       );
     } else if (formStep === 0) {
       return (
-        <div className="button-block  py-3">
+        <div className="button-block py-3">
           <Button
             label="NEXT STEP"
             disabled={!isValid}
@@ -111,7 +138,6 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
         <div className="button-block d-flex gap-4 mt-2 py-3">
           <Button
             label="GO BACK"
-            disabled={!isValid}
             mode="secondary"
             size="medium"
             type="button"
@@ -148,8 +174,16 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
             />
             <FormInput
               placeholder="Email"
+              type="email"
               error={errors.email}
-              register={register("email", { required: true })}
+              register={register(
+                "email",
+                { required: true },
+                {
+                  pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                }
+              )}
+              required={true}
             />
             <FormInput
               type="password"
@@ -233,7 +267,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
                   Newbie
                 </option>
                 <option className="option-text" value="amateur">
-                  Amateur
+                  Midway
                 </option>
                 <option className="option-text" value="expert">
                   Expert
@@ -248,7 +282,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
             <Title text="YOUR GOALS" />
 
             <MultiSelectDropDown
-              options={instrumentOptions}
+              options={lookingForOptions}
               placeholder="Musician type..."
               isMulti={true}
               name="lookingFor"

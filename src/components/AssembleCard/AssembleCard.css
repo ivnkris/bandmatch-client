@@ -18,6 +18,10 @@
   box-shadow: 0.2px 0px 2px rgba(255, 255, 255, 0.49);
 }
 
+.card-container:hover {
+  transform: scale(1.01);
+}
+
 .card-container-extended {
   width: 250px;
   height: 340px;

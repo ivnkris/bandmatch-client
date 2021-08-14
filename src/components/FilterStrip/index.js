@@ -74,21 +74,25 @@ const FilterStrip = (props) => {
         const serverGenres = data.genres.map((genre) => {
           return {
             value: genre.id,
-            label: genre.name,
+            label: genre.name.charAt(0).toUpperCase() + genre.name.slice(1),
           };
         });
 
         const instruments = data.instruments.map((instrument) => {
           return {
             value: instrument.id,
-            label: instrument.name,
+            label:
+              instrument.name.charAt(0).toUpperCase() +
+              instrument.name.slice(1),
           };
         });
 
         const musicalRoles = data.instruments.map((instrument) => {
           return {
             value: instrument.id,
-            label: instrument.role,
+            label:
+              instrument.role.charAt(0).toUpperCase() +
+              instrument.role.slice(1),
           };
         });
 
