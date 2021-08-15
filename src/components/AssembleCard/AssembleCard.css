@@ -4,41 +4,8 @@
   font-family: "Roboto Mono", monospace;
 }
 
-.card-container {
-  background-color: #131313;
-  opacity: 100%;
-  text-align: center;
-  color: white;
-  text-transform: uppercase;
-  border-radius: 10px;
-  position: relative;
-  margin: auto;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0.2px 0px 2px rgba(255, 255, 255, 0.49);
-}
-
 .card-container:hover {
   transform: scale(1.01);
-}
-
-.card-container-extended {
-  width: 250px;
-  height: 340px;
-}
-
-.card-container-shortened {
-  width: 250px;
-  height: 290px;
-}
-
-.card-image {
-  height: 130px;
-  background-position: "center";
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  border-radius: 10px;
 }
 
 .card-image-overlay-item {
