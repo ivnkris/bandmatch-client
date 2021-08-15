@@ -211,6 +211,26 @@ export const COLLABORATE_CAROUSEL = gql`
   }
 `;
 
+export const GIGS = gql`
+  query Query($gigsFilters: Filter) {
+    gigs(filters: $gigsFilters) {
+      id
+      title
+      fee
+      venue {
+        name
+        id
+        postcode
+      }
+      dateTime
+      genre {
+        name
+      }
+      imageUrl
+    }
+  }
+`;
+
 export const GENRESINSTRUMENTS = gql`
   query Genres {
     genres {
