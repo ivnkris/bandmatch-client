@@ -5,7 +5,7 @@ import "./Assemble.css";
 import Header from "../../components/Header";
 import CardsCarousel from "../../components/Carousel";
 import FilterStrip from "../../components/FilterStrip";
-import constructCards from "../../utils/constructCards";
+import { constructPerformerCards } from "../../utils/constructCards";
 import Button from "../../components/Button";
 
 import { ASSEMBLE, ASSEMBLE_CAROUSEL } from "../../graphql/queries";
@@ -71,7 +71,9 @@ const Assemble = (props) => {
       <div className="see-through-background-90 text-align-center">
         {assembleLoading && <LoadingSpinner />}
         {assembleData && (
-          <div className="cards-container">{constructCards(assembleCards)}</div>
+          <div className="cards-container">
+            {constructPerformerCards(assembleCards)}
+          </div>
         )}
         <Button label="LOAD MORE" size="medium" mode="primary" />
       </div>
