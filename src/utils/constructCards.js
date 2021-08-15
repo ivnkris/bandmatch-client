@@ -1,6 +1,7 @@
 import AssembleCard from "../components/AssembleCard";
+import GigCard from "../components/GigCard";
 
-const constructCards = (cards, version = "extended") => {
+export const constructPerformerCards = (cards, version = "extended") => {
   const cardsToRender = cards.map((card) => {
     return (
       <AssembleCard
@@ -23,4 +24,21 @@ const constructCards = (cards, version = "extended") => {
   return cardsToRender;
 };
 
-export default constructCards;
+export const constructGigCards = (gigs) => {
+  const cardsToRender = gigs.map((gig) => {
+    return (
+      <GigCard
+        key={gig.id}
+        title={gig.title}
+        genre={gig.genre.name}
+        imageUrl={gig.imageUrl}
+        dateTime={gig.dateTime}
+        venueName={gig.venue.name}
+        postcode={gig.venue.postcode}
+        gigId={gig.id}
+      />
+    );
+  });
+
+  return cardsToRender;
+};
