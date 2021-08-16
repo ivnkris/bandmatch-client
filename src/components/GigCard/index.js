@@ -8,12 +8,16 @@ const GigCard = (props) => {
         style={{
           backgroundImage: "url(" + props.imageUrl + ")",
         }}
-      ></div>
+      >
+        <div className="image-overlay">
+          <div className="card-image-overlay-item">{props.genre}</div>
+        </div>
+      </div>
       <div>
         <h3 className="title text-limit-one-line"> {props.title} </h3>
         <p> {props.dateTime} </p>
-        <p>
-          {props.genre} GIG @ {props.venueName} {props.postcode}
+        <p className="text-limit-two-line">
+          @ {props.venueName} {props.postcode}
         </p>
       </div>
       <div id={props.gigId}>
