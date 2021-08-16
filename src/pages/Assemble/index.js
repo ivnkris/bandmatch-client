@@ -60,7 +60,7 @@ const Assemble = (props) => {
   }
 
   return (
-    <div className="assemble-container">
+    <div className="results-page-container">
       <Header className="pt-3" title="Create, complete or join a band" />
       <div className="see-through-background-90 mt-20 ">
         <p className="title gutter">NEW KIDS ON THE BLOCK</p>

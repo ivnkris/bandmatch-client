@@ -61,7 +61,7 @@ const Collaborate = (props) => {
   }
 
   return (
-    <div className="collaborate-container">
+    <div className="results-page-container">
       <Header className="pt-3" title="Collaborate with other musicians" />
       <div className="see-through-background-90 mt-20 ">
         <p className="title gutter">NEW KIDS ON THE BLOCK</p>
