@@ -4,15 +4,6 @@
   font-family: "Roboto Mono", monospace;
 }
 
-.card-container:hover {
-  transform: scale(1.01);
-}
-
-.card-image-overlay-item {
-  background-color: #131313;
-  padding: 4px;
-}
-
 .card-body {
   margin-left: 2px;
   margin-right: 2px;
