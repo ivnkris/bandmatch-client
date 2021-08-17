@@ -5,7 +5,7 @@ import "./Collaborate.css";
 import Header from "../../components/Header";
 import CardsCarousel from "../../components/Carousel";
 import FilterStrip from "../../components/FilterStrip";
-import constructCards from "../../utils/constructCards";
+import { constructPerformerCards } from "../../utils/constructCards";
 import Button from "../../components/Button";
 
 import { COLLABORATE, COLLABORATE_CAROUSEL } from "../../graphql/queries";
@@ -61,7 +61,7 @@ const Collaborate = (props) => {
   }
 
   return (
-    <div className="collaborate-container">
+    <div className="results-page-container">
       <Header className="pt-3" title="Collaborate with other musicians" />
       <div className="see-through-background-90 mt-20 ">
         <p className="title gutter">NEW KIDS ON THE BLOCK</p>
@@ -73,7 +73,7 @@ const Collaborate = (props) => {
         {collaborateLoading && <LoadingSpinner />}
         {collaborateData && (
           <div className="cards-container">
-            {constructCards(collaborateCards)}
+            {constructPerformerCards(collaborateCards)}
           </div>
         )}
 
