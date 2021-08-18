@@ -2,7 +2,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import { useUserContext } from "./contexts/UserProvider";
 import Assemble from "./pages/Assemble";
-import BandProfile from "./pages/BandProfile";
+import BandProfile from "./pages/BandProfile/index.js";
 import Collaborate from "./pages/Collaborate";
 import Gig from "./pages/Gig";
 import CreateBand from "./pages/CreateBand";
@@ -23,9 +23,7 @@ const Routes = () => {
         <Assemble />
         {/* {state.user ? <Assemble /> : <Redirect to="/login" />} */}
       </Route>
-      <Route exact path="/band">
-        {state.user ? <BandProfile /> : <Redirect to="/login" />}
-      </Route>
+
       <Route exact path="/collaborate">
         {state.user ? <Collaborate /> : <Redirect to="/login" />}
       </Route>
@@ -53,6 +51,9 @@ const Routes = () => {
       </Route>
       <Route exact path="/profile/:id">
         {state.user ? <MusicianProfile /> : <Redirect to="/login" />}
+      </Route>
+      <Route exact path="/bands/:id">
+        {state.user ? <BandProfile /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/">
         <Home />

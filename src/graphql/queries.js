@@ -259,21 +259,84 @@ export const MUSICIAN_USER = gql`
       }
       experienceLevel
       instruments {
-        name
         id
+        name
       }
       imageUrl
       websiteUrl
       soundCloudUrl
+      lookingFor {
+        id
+        role
+      }
       openToCollaboration
+      openToJoiningBand
+      gigs {
+        id
+        title
+        description
+
+        imageUrl
+        websiteUrl
+        dateTime
+        venue {
+          id
+          name
+          postcode
+        }
+      }
+    }
+  }
+`;
+export const BAND = gql`
+  query Query($bandId: ID!) {
+    band(id: $bandId) {
+      id
+      name
+      description
+      location
+      genre {
+        name
+        id
+      }
+      experienceLevel
+      numberOfMembers
+      instruments {
+        id
+        name
+      }
+      imageUrl
+      websiteUrl
+      soundCloudUrl
       lookingFor {
         role
         id
       }
-      openToJoiningBand
-      band
-      bandName
-      bandImage
+      openToCollaboration
+      openToMembers
+      members {
+        id
+        firstName
+        lastName
+        imageUrl
+        instruments {
+          id
+          name
+        }
+      }
+      gigs {
+        id
+        title
+        description
+        imageUrl
+        websiteUrl
+        dateTime
+        venue {
+          postcode
+          name
+          id
+        }
+      }
     }
   }
 `;
