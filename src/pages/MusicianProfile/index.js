@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import ProfileInfo from "../../components/ProfileInfo";
 import SoundCloudWidget from "../../components/SoundCloudWidget";
 import Title from "../../components/Title";
+import Button from "../../components/Button";
+
 import { useUserContext } from "../../contexts/UserProvider";
 import { MUSICIAN_USER } from "../../graphql/queries";
 import { constructGigCards } from "../../utils/constructCards";
@@ -62,8 +64,11 @@ const MusicianProfile = (props) => {
       <div className="profile-container">
         <div className="p-2"></div>
         {myProfile && (
-          <div className="see-through-background-90 text-align-center">
+          <div className="see-through-background-90 text-align-center profile-title-div">
             <Title text="MY PROFILE" />
+            <div className="create-band-button ">
+              <Button label="CREATE A BAND" mode="primary" size="medium" />
+            </div>
           </div>
         )}
         <ProfileInfo
