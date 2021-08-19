@@ -13,12 +13,10 @@ const ProfileInfo = (props) => {
           backgroundImage: "url(" + props.imageUrl + ")",
         }}
       ></div>
-      {/* <img className="musician-image" src="" alt="musician name" /> */}
+
       <div className="musician-info-div text-center">
         <p className="title mb-2">{props.name}</p>
-        <p className="p-yellow pb-2 text-limit-one-line">
-          {props.instruments.join(" | ")}
-        </p>
+        <p className="p-yellow pb-2 ">{props.instruments.join(" | ")}</p>
         <p className="p-yellow pb-2 text-limit-one-line">
           {" "}
           {props.genre.join(" | ")}

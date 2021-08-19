@@ -8,7 +8,11 @@ import FilterStrip from "../../components/FilterStrip";
 import Button from "../../components/Button";
 
 const Gig = (props) => {
-  const { data, loading, error } = useQuery(GIGS);
+  const { data, loading, error } = useQuery(GIGS, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+  });
 
   if (error) {
     console.log(error);
@@ -20,12 +24,13 @@ const Gig = (props) => {
   }
 
   if (data) {
+    const gigs = data.gigs;
     return (
       <div className="results-page-container">
         <Header className="pt-3" title="Unleash Your Music to the world" />
         <FilterStrip title="FIND YOUR GIG" />
         <div className="see-through-background-90 text-align-center">
-          <div className="cards-container">{constructGigCards(data.gigs)}</div>
+          <div className="cards-container">{constructGigCards(gigs)}</div>
           <Button label="LOAD MORE" size="medium" mode="primary" />
         </div>
       </div>

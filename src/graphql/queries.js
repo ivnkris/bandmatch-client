@@ -1,55 +1,59 @@
 import { gql } from "@apollo/client";
 
 export const ASSEMBLE = gql`
-  query ExampleQuery($assembleFilters: Filter) {
+  query Query($assembleFilters: Filter) {
     assemble(filters: $assembleFilters) {
       musicians {
         id
         firstName
         lastName
+        description
+        postcode
         genre {
-          id
           name
+          id
         }
         experienceLevel
         instruments {
-          id
           name
+          id
           role
         }
         imageUrl
-        openToJoiningBand
+        websiteUrl
+        soundCloudUrl
         lookingFor {
-          name
-          id
           role
+          id
         }
-        postcode
+        openToCollaboration
+        openToJoiningBand
       }
       bands {
-        id
         name
+        id
+        description
         location
         genre {
-          id
           name
+          id
         }
         experienceLevel
+        numberOfMembers
         instruments {
-          id
           name
+          id
           role
         }
         imageUrl
+        websiteUrl
+        soundCloudUrl
         lookingFor {
           role
-          name
           id
         }
+        openToCollaboration
         openToMembers
-        members {
-          id
-        }
       }
     }
   }
@@ -216,17 +220,33 @@ export const GIGS = gql`
     gigs(filters: $gigsFilters) {
       id
       title
-      fee
-      venue {
-        name
-        id
-        postcode
-      }
-      dateTime
+      description
       genre {
         name
+        id
       }
       imageUrl
+      fee
+      websiteUrl
+      dateTime
+      venue {
+        id
+        name
+        postcode
+      }
+      accepting
+      # performers {
+      #   musician {
+      #     firstName
+      #     id
+      #     lastName
+      #   }
+      #   band {
+      #     id
+      #     name
+      #   }
+      #   confirmed
+      # }
     }
   }
 `;
@@ -265,15 +285,47 @@ export const MUSICIAN_USER = gql`
       imageUrl
       websiteUrl
       soundCloudUrl
-      openToCollaboration
       lookingFor {
         role
         id
       }
+      openToCollaboration
       openToJoiningBand
-      band
-      bandName
-      bandImage
+    }
+  }
+`;
+
+export const BAND = gql`
+  query Query($bandId: ID!) {
+    band(id: $bandId) {
+      id
+      name
+      description
+      location
+      genre {
+        name
+        id
+      }
+      experienceLevel
+      numberOfMembers
+      instruments {
+        id
+        name
+      }
+      imageUrl
+      websiteUrl
+      soundCloudUrl
+      lookingFor {
+        role
+        id
+      }
+      openToCollaboration
+      openToMembers
+      musicians {
+        id
+        firstName
+        lastName
+      }
     }
   }
 `;

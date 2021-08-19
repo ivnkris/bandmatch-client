@@ -3,15 +3,30 @@ import { useParams } from "react-router-dom";
 
 import ProfileInfo from "../../components/ProfileInfo";
 import SoundCloudWidget from "../../components/SoundCloudWidget";
+import Title from "../../components/Title";
+import Button from "../../components/Button";
+
+import { useUserContext } from "../../contexts/UserProvider";
 import { MUSICIAN_USER } from "../../graphql/queries";
+import {
+  constructGigCards,
+  constructPerformerCards,
+} from "../../utils/constructCards";
 import "./MusicianProfile.css";
 
 const MusicianProfile = (props) => {
+  const { state } = useUserContext();
   const { id } = useParams();
+
+  const myProfile = id === state.user.id;
 
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
     variables: {
       musicianUserId: id,
+    },
+
+    onError: (error) => {
+      console.log(error);
     },
   });
 
@@ -25,6 +40,7 @@ const MusicianProfile = (props) => {
 
   if (musicianData) {
     const musician = musicianData.musicianUser;
+    console.log(musician);
     const name = musician.firstName + " " + musician.lastName;
     const openTo = () => {
       if (musician.openToCollaboration && musician.openToJoiningBand) {
@@ -51,7 +67,15 @@ const MusicianProfile = (props) => {
     });
     return (
       <div className="profile-container">
-        <div className="p-3"></div>
+        <div className="p-2"></div>
+        {myProfile && (
+          <div className="see-through-background-90 text-align-center profile-title-div">
+            <Title text="MY PROFILE" />
+            <div className="create-band-button ">
+              <Button label="CREATE A BAND" mode="primary" size="medium" />
+            </div>
+          </div>
+        )}
         <ProfileInfo
           imageUrl={musician.imageUrl}
           name={name}
@@ -63,6 +87,30 @@ const MusicianProfile = (props) => {
           soundCloudUrl={musician.soundCloudUrl}
         />
         <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
+
+        <div className="see-through-background-90 text-align-center">
+          {myProfile ? (
+            <Title text="MY GIGS" />
+          ) : (
+            <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s GIGS</p>
+          )}
+
+          <div className="cards-container">
+            {/* {constructGigCards(musician.gigs)} */}
+          </div>
+        </div>
+
+        <div className="see-through-background-90 text-align-center">
+          {myProfile ? (
+            <Title text="MY BANDS" />
+          ) : (
+            <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s BANDS</p>
+          )}
+
+          <div className="cards-container">
+            {/* {constructPerformerCards(musician.bands, "shortened")} */}
+          </div>
+        </div>
       </div>
     );
   }
