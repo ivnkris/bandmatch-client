@@ -30,6 +30,9 @@ const Assemble = (props) => {
       variables: {
         assembleFilters: filters,
       },
+      onError: (error) => {
+        console.log(error);
+      },
     }
   );
 

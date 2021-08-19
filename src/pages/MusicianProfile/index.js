@@ -8,7 +8,10 @@ import Button from "../../components/Button";
 
 import { useUserContext } from "../../contexts/UserProvider";
 import { MUSICIAN_USER } from "../../graphql/queries";
-import { constructGigCards } from "../../utils/constructCards";
+import {
+  constructGigCards,
+  constructPerformerCards,
+} from "../../utils/constructCards";
 import "./MusicianProfile.css";
 
 const MusicianProfile = (props) => {
@@ -21,6 +24,7 @@ const MusicianProfile = (props) => {
     variables: {
       musicianUserId: id,
     },
+
     onError: (error) => {
       console.log(error);
     },
@@ -36,6 +40,7 @@ const MusicianProfile = (props) => {
 
   if (musicianData) {
     const musician = musicianData.musicianUser;
+    console.log(musician);
     const name = musician.firstName + " " + musician.lastName;
     const openTo = () => {
       if (musician.openToCollaboration && musician.openToJoiningBand) {
@@ -91,7 +96,19 @@ const MusicianProfile = (props) => {
           )}
 
           <div className="cards-container">
-            {constructGigCards(musician.gigs)}
+            {/* {constructGigCards(musician.gigs)} */}
+          </div>
+        </div>
+
+        <div className="see-through-background-90 text-align-center">
+          {myProfile ? (
+            <Title text="MY BANDS" />
+          ) : (
+            <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s BANDS</p>
+          )}
+
+          <div className="cards-container">
+            {/* {constructPerformerCards(musician.bands, "shortened")} */}
           </div>
         </div>
       </div>

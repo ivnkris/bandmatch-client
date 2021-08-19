@@ -72,7 +72,7 @@ const BandProfile = (props) => {
         <div className="see-through-background-90 text-align-center">
           <p className="title mb-2 pt-2 fs-1">{name}'s GIGS</p>
 
-          <div className="cards-container">{constructGigCards(band.gigs)}</div>
+          {/* <div className="cards-container">{constructGigCards(band.gigs)}</div> */}
         </div>
       </div>
     );
