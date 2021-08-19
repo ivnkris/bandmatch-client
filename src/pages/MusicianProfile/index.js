@@ -7,7 +7,7 @@ import Title from "../../components/Title";
 import Button from "../../components/Button";
 
 import { useUserContext } from "../../contexts/UserProvider";
-import { MUSICIAN_USER } from "../../graphql/queries";
+import { GIGS, MUSICIAN_USER } from "../../graphql/queries";
 import {
   constructGigCards,
   constructPerformerCards,
@@ -16,19 +16,34 @@ import "./MusicianProfile.css";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
-  const { id } = useParams();
+  const { id: musicianId } = useParams();
 
-  const myProfile = id === state.user.id;
+  const myProfile = musicianId === state.user.id;
 
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
     variables: {
-      musicianUserId: id,
+      musicianUserId: musicianId,
     },
 
     onError: (error) => {
       console.log(error);
     },
   });
+
+  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
+    GIGS,
+    {
+      variables: {
+        gigsFilters: {
+          musician: musicianId,
+        },
+      },
+
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
 
   if (loading) {
     return <div>Loading</div>;
@@ -40,7 +55,7 @@ const MusicianProfile = (props) => {
 
   if (musicianData) {
     const musician = musicianData.musicianUser;
-    console.log(musician);
+
     const name = musician.firstName + " " + musician.lastName;
     const openTo = () => {
       if (musician.openToCollaboration && musician.openToJoiningBand) {
@@ -95,9 +110,11 @@ const MusicianProfile = (props) => {
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s GIGS</p>
           )}
 
-          <div className="cards-container">
-            {/* {constructGigCards(musician.gigs)} */}
-          </div>
+          {gigsData && (
+            <div className="cards-container">
+              {constructGigCards(gigsData.gigs)}
+            </div>
+          )}
         </div>
 
         <div className="see-through-background-90 text-align-center">
