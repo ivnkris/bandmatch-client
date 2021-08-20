@@ -86,7 +86,6 @@ const LoginForm = ({ redirect = "/assemble" }) => {
         <div className="button-block py-3">
           <Button
             label="LOGIN"
-            disabled={!isValid}
             mode="primary"
             size="medium"
             type="submit"

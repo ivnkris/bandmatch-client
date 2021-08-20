@@ -31,5 +31,9 @@
 }
 
 .error-message {
-  margin-left: 2.5rem;
+  margin: 0 2.5rem;
+  /* background-color: darkgray; */
+  /* color: black; */
+  font-size: 0.8rem;
+  padding: 0rem;
 }

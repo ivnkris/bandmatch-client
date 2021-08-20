@@ -6,6 +6,7 @@ export const LOGIN = gql`
       token
       user {
         id
+        email
         firstName
         lastName
         description
@@ -26,6 +27,7 @@ export const SIGNUP = gql`
       token
       user {
         id
+        email
         firstName
         lastName
         description
@@ -44,9 +46,6 @@ export const SIGNUP = gql`
         }
         openToCollaboration
         openToJoiningBand
-        band
-        bandName
-        bandImage
       }
     }
   }
