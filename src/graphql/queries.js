@@ -235,18 +235,11 @@ export const GIGS = gql`
         postcode
       }
       accepting
-      # performers {
-      #   musician {
-      #     firstName
-      #     id
-      #     lastName
-      #   }
-      #   band {
-      #     id
-      #     name
-      #   }
-      #   confirmed
-      # }
+      performers {
+        musician
+        band
+        confirmed
+      }
     }
   }
 `;

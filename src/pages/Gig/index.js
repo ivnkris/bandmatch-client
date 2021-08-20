@@ -8,11 +8,7 @@ import FilterStrip from "../../components/FilterStrip";
 import Button from "../../components/Button";
 
 const Gig = (props) => {
-  const { data, loading, error } = useQuery(GIGS, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-  });
+  const { data, loading, error } = useQuery(GIGS);
 
   if (error) {
     console.log(error);

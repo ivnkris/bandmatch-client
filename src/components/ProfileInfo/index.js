@@ -15,20 +15,23 @@ const ProfileInfo = (props) => {
       ></div>
 
       <div className="musician-info-div text-center">
-        <p className="title mb-2">{props.name}</p>
-        <p className="p-yellow pb-2 ">{props.instruments.join(" | ")}</p>
+        {props.myProfile && <p className="title mb-2">{props.name}</p>}
+        <p className="p-yellow pb-2 ">
+          Instrument(s): {props.instruments.join(" | ")}
+        </p>
         <p className="p-yellow pb-2 text-limit-one-line">
-          {" "}
-          {props.genre.join(" | ")}
+          Genre(s): {props.genre.join(" | ")}
         </p>
 
-        <p className="mb-3">{props.openTo}</p>
+        {props.myProfile && <p className="mb-3">{props.openTo}</p>}
         <div>{props.description}</div>
 
-        <p className="p-yellow mt-2 text-limit-one-line">
-          LOOKING FOR:{" "}
-          <span className="looking-for">{props.lookingFor.join(" | ")}</span>
-        </p>
+        {props.myProfile && (
+          <p className="p-yellow mt-2 text-limit-one-line">
+            LOOKING FOR:{" "}
+            <span className="looking-for">{props.lookingFor.join(" | ")}</span>
+          </p>
+        )}
         <div className="profile-icon-container mt-4">
           <FaComment size={24} />
           <a target="_blank" rel="noreferrer" href={props.soundCloudUrl}>
