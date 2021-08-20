@@ -51,3 +51,11 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const CREATE_BAND = gql`
+  mutation CreateBandMutation($createBandInput: BandInput!) {
+    createBand(input: $createBandInput) {
+      id
+    }
+  }
+`;
