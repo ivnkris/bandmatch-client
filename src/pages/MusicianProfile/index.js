@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "react-bootstrap";
@@ -26,6 +26,7 @@ import {
 import "./MusicianProfile.css";
 import { useModal } from "../../contexts/ModalProvider";
 import { useCallback } from "react";
+import { CREATE_BAND } from "../../graphql/mutations";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
@@ -43,10 +44,26 @@ const MusicianProfile = (props) => {
     shouldFocusError: true,
   });
 
-  const greatFunction = useCallback(
+  const [createBand] = useMutation(CREATE_BAND, {
+    onCompleted: (data) => {
+      console.log("it's done");
+    },
+  });
+
+  const onSubmit = useCallback(
     (formData) => {
-      console.log("hello");
-      console.log(formData);
+      formData.numberOfMembers = parseFloat(formData.numberOfMembers);
+      formData.openToCollaboration = formData.openToCollaboration = "true"
+        ? true
+        : false;
+      const openToMembers = formData.lookingFor.length > 0 ? true : false;
+      console.log(formData, openToMembers);
+
+      createBand({
+        variables: {
+          createBandInput: { ...formData, openToMembers: openToMembers },
+        },
+      });
       setModalState({
         open: false,
         content: null,
@@ -87,7 +104,7 @@ const MusicianProfile = (props) => {
             };
           });
 
-          const serverLookingfor = data.instruments.map((instrument) => {
+          const serverLookingFor = data.instruments.map((instrument) => {
             return {
               value: instrument.id,
               label:
@@ -104,15 +121,14 @@ const MusicianProfile = (props) => {
                   <Modal.Title>Create a new band</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="solid-background">
-                  {/* <form onSubmit={handleSubmit(greatFunction)}> */}
-                  <Accordion preExpanded={["a"]}>
-                    <AccordionItem uuid="a">
-                      <AccordionItemHeading>
-                        <AccordionItemButton>THE BASICS</AccordionItemButton>
-                      </AccordionItemHeading>
-                      <AccordionItemPanel>
-                        <form onSubmit={handleSubmit(greatFunction)}>
-                          {/* <p>BAND NAME</p>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <Accordion preExpanded={["a"]}>
+                      <AccordionItem uuid="a">
+                        <AccordionItemHeading>
+                          <AccordionItemButton>THE BASICS</AccordionItemButton>
+                        </AccordionItemHeading>
+                        <AccordionItemPanel>
+                          <p>BAND NAME</p>
                           <FormInput
                             placeholder="Band Name"
                             error={errors.name}
@@ -123,7 +139,7 @@ const MusicianProfile = (props) => {
                             placeholder="Brief description"
                             error={errors.description}
                             register={register("description")}
-                          /> */}
+                          />
                           <p>MUSIC GENRE</p>
                           <MultiSelectDropDown
                             options={serverGenres}
@@ -133,114 +149,132 @@ const MusicianProfile = (props) => {
                             control={control}
                           />
                           <p>EXPERIENCE</p>
+                          <section className="dropdown-div">
+                            <select
+                              className="select-dropdown"
+                              id="experienceLevel"
+                              name="experienceLevel"
+                              placeholder="Select your experience level"
+                              {...register("experienceLevel", {
+                                required: true,
+                              })}
+                            >
+                              <option className="option-text" value="newbie">
+                                Newbie
+                              </option>
+                              <option className="option-text" value="midway">
+                                Midway
+                              </option>
+                              <option className="option-text" value="expert">
+                                Expert
+                              </option>
+                            </select>
+                          </section>
+                        </AccordionItemPanel>
+                      </AccordionItem>
+                      <AccordionItem uuid="b">
+                        <AccordionItemHeading>
+                          <AccordionItemButton>
+                            COUPLE SPECIFICS
+                          </AccordionItemButton>
+                        </AccordionItemHeading>
+                        <AccordionItemPanel>
+                          <p>BAND PIC</p>
+                          <FormInput
+                            placeholder="Profile Image"
+                            error={errors.imageUrl}
+                            register={register("imageUrl", { required: true })}
+                          />
+                          <p>LOCATION</p>
+                          <FormInput
+                            placeholder="City"
+                            error={errors.location}
+                            register={register("location", { required: true })}
+                          />
+                          <p>NUMBER OF MEMBERS</p>
+                          <FormInput
+                            placeholder="Members"
+                            error={errors.numberOfMembers}
+                            register={register("numberOfMembers", {
+                              required: true,
+                            })}
+                          />
+                          <p>INSTRUMENTS</p>
                           <MultiSelectDropDown
-                            options={[
-                              { value: "newbie", label: "newbie" },
-                              { value: "midway", label: "midway" },
-                              { value: "expert", label: "expert" },
-                            ]}
-                            placeholder="Select your genre(s)"
+                            options={serverInstruments}
+                            placeholder="Band instruments"
                             isMulti={true}
-                            name="genre"
+                            name="instruments"
                             control={control}
                           />
-                          <Button
-                            type="submit"
-                            label="SUBMIT"
-                            mode="primary"
-                            size="medium"
-                          ></Button>
-                        </form>
-                      </AccordionItemPanel>
-                    </AccordionItem>
-                    <AccordionItem uuid="b">
-                      <AccordionItemHeading>
-                        <AccordionItemButton>
-                          COUPLE SPECIFICS
-                        </AccordionItemButton>
-                      </AccordionItemHeading>
-                      <AccordionItemPanel>
-                        <p>BAND PIC</p>
-                        <FormInput
-                          placeholder="Profile Image"
-                          error={errors.imageUrl}
-                          register={register("imageUrl", { required: true })}
-                        />
-                        <p>LOCATION</p>
-                        <FormInput
-                          placeholder="City"
-                          error={errors.location}
-                          register={register("location", { required: true })}
-                        />
-                        <p>NUMBER OF MEMBERS</p>
-                        <FormInput
-                          placeholder="Members"
-                          error={errors.numberOfMembers}
-                          register={register("numberOfMembers", {
-                            required: true,
-                          })}
-                        />
-                        <p>INSTRUMENTS</p>
-                        <MultiSelectDropDown
-                          options={serverInstruments}
-                          placeholder="Band instruments"
-                          isMulti={true}
-                          name="instruments"
-                          control={control}
-                        />
-                      </AccordionItemPanel>
-                    </AccordionItem>
-                    <AccordionItem uuid="c">
-                      <AccordionItemHeading>
-                        <AccordionItemButton>
-                          COLLABS AND MEDIA
-                        </AccordionItemButton>
-                      </AccordionItemHeading>
-                      <AccordionItemPanel>
-                        <p>FEATURE SONG</p>
-                        <p>Enter the Soundcloud url of your top song</p>
-                        <FormInput
-                          placeholder="Soundcloud url"
-                          error={errors.imageUrl}
-                          register={register("soundCloudUrl", {
-                            required: false,
-                          })}
-                        />
-                        <p>WEBSITE</p>
-                        <FormInput
-                          placeholder="Website url"
-                          error={errors.imageUrl}
-                          register={register("websiteUrl", {
-                            required: false,
-                          })}
-                        />
-                        <p>OPEN TO COLLABS?</p>
-                        <MultiSelectDropDown
-                          options={[
-                            { value: true, label: "YES" },
-                            { value: false, label: "NO" },
-                          ]}
-                          placeholder="Musician type..."
-                          isMulti={true}
-                          name="lookingFor"
-                          control={control}
-                        />
-                        <p>LOOKING FOR NEW MEMBERS?</p>
-                        <p>
-                          If you're looking for new members, please select from
-                          the options below. Ottherwise, leave the field blank.
-                        </p>
-                        <MultiSelectDropDown
-                          options={serverLookingfor}
-                          placeholder="Musician type..."
-                          isMulti={true}
-                          name="lookingFor"
-                          control={control}
-                        />
-                      </AccordionItemPanel>
-                    </AccordionItem>
-                  </Accordion>
-                  {/* </form> */}
+                        </AccordionItemPanel>
+                      </AccordionItem>
+                      <AccordionItem uuid="c">
+                        <AccordionItemHeading>
+                          <AccordionItemButton>
+                            COLLABS AND MEDIA
+                          </AccordionItemButton>
+                        </AccordionItemHeading>
+                        <AccordionItemPanel>
+                          <p>FEATURE SONG</p>
+                          <p>Enter the Soundcloud url of your top song</p>
+                          <FormInput
+                            placeholder="Soundcloud url"
+                            error={errors.soundCloudUrl}
+                            register={register("soundCloudUrl", {
+                              required: false,
+                            })}
+                          />
+                          <p>WEBSITE</p>
+                          <FormInput
+                            placeholder="Website url"
+                            error={errors.websiteUrl}
+                            register={register("websiteUrl", {
+                              required: false,
+                            })}
+                          />
+                          <p>ARE YOU OPEN TO COLLABS?</p>
+                          <section className="dropdown-div">
+                            <select
+                              className="select-dropdown"
+                              id="openToCollaboration"
+                              name="openToCollaboration"
+                              placeholder="Select your experience level"
+                              {...register("openToCollaboration", {
+                                required: true,
+                              })}
+                            >
+                              <option className="option-text" value={true}>
+                                YES
+                              </option>
+                              <option className="option-text" value={false}>
+                                NO
+                              </option>
+                            </select>
+                          </section>
+                          <p>LOOKING FOR NEW MEMBERS?</p>
+                          <p>
+                            If you're looking for new members, please select
+                            from the options below. Ottherwise, leave the field
+                            blank.
+                          </p>
+                          <MultiSelectDropDown
+                            options={serverLookingFor}
+                            placeholder="Musician type..."
+                            isMulti={true}
+                            name="lookingFor"
+                            control={control}
+                          />
+                        </AccordionItemPanel>
+                      </AccordionItem>
+                    </Accordion>
+                    <Button
+                      type="submit"
+                      label="SUBMIT"
+                      mode="primary"
+                      size="medium"
+                    ></Button>
+                  </form>
                 </Modal.Body>
               </>
             ),
