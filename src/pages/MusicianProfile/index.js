@@ -83,12 +83,22 @@ const MusicianProfile = (props) => {
     return (
       <div className="profile-container">
         <div className="p-2"></div>
-        {myProfile && (
+        {myProfile ? (
           <div className="see-through-background-90 text-align-center profile-title-div">
-            <Title text="MY PROFILE" />
+            <Title type="profile" text="MY PROFILE" />
             <div className="create-band-button ">
               <Button label="CREATE A BAND" mode="primary" size="medium" />
             </div>
+          </div>
+        ) : (
+          <div className="see-through-background-90 text-align-center profile-title-div">
+            <p className="title mb-2 pt-2 fs-1">{name}</p>
+            <p className="mb-3">{openTo()}</p>
+
+            <p className="p-yellow mt-2 text-limit-one-line">
+              LOOKING FOR:{" "}
+              <span className="looking-for">{lookingFor.join(" | ")}</span>
+            </p>
           </div>
         )}
         <ProfileInfo
@@ -100,12 +110,13 @@ const MusicianProfile = (props) => {
           description={musician.description}
           lookingFor={lookingFor}
           soundCloudUrl={musician.soundCloudUrl}
+          myProfile={myProfile}
         />
         <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
 
         <div className="see-through-background-90 text-align-center">
           {myProfile ? (
-            <Title text="MY GIGS" />
+            <Title type="section" text="MY GIGS" />
           ) : (
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s GIGS</p>
           )}
@@ -119,7 +130,7 @@ const MusicianProfile = (props) => {
 
         <div className="see-through-background-90 text-align-center">
           {myProfile ? (
-            <Title text="MY BANDS" />
+            <Title type="section" text="MY BANDS" />
           ) : (
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s BANDS</p>
           )}

@@ -161,7 +161,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {formStep === 0 && (
           <section>
-            <Title text="REGISTER" />
+            <Title type="section" text="REGISTER" />
             <FormInput
               placeholder="First Name"
               error={errors.firstName}
@@ -201,7 +201,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
 
         {formStep === 1 && (
           <section>
-            <Title text="SET UP YOUR PROFILE" />
+            <Title type="section" text="SET UP YOUR PROFILE" />
 
             <FormInput
               placeholder="Profile Image"
@@ -234,7 +234,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
 
         {formStep === 2 && (
           <section>
-            <Title text="YOUR MUSIC" />
+            <Title type="section" text="YOUR MUSIC" />
 
             <MultiSelectDropDown
               options={genreOptions}
@@ -279,7 +279,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
 
         {formStep === 3 && (
           <section>
-            <Title text="YOUR GOALS" />
+            <Title type="section" text="YOUR GOALS" />
 
             <MultiSelectDropDown
               options={lookingForOptions}
