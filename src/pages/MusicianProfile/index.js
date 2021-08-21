@@ -11,6 +11,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from "react-accessible-accordion";
+import $ from "jquery";
 
 import { useModal } from "../../contexts/ModalProvider";
 import { CREATE_BAND } from "../../graphql/mutations";
@@ -104,6 +105,16 @@ const MusicianProfile = (props) => {
     [setModalState]
   );
 
+  const validateMembers = (event) => {
+    const membersInput = $("#membersInput").val();
+
+    if (!membersInput) {
+      return;
+    }
+    const formattedMembers = membersInput.split(" ");
+    console.log("validating members", formattedMembers);
+  };
+
   const myProfile = id === state.user.id;
 
   const [renderCreateBandModal] = useLazyQuery(GENRESINSTRUMENTS, {
@@ -144,6 +155,9 @@ const MusicianProfile = (props) => {
                 instrument.role.slice(1),
             };
           });
+
+          const members = register("members", { required: true });
+          members.onBlur = validateMembers();
 
           setModalState({
             open: true,
@@ -229,9 +243,30 @@ const MusicianProfile = (props) => {
                           <FormInput
                             placeholder="Members"
                             error={errors.numberOfMembers}
-                            register={register("numberOfMembers", {
+                            register={register(
+                              "numberOfMembers",
+                              {
+                                required: true,
+                              },
+                              { pattern: /\d/g }
+                            )}
+                            required={true}
+                          />
+                          <p>MEMBERS</p>
+                          <FormInput
+                            register={register("members", {
                               required: true,
                             })}
+                            placeholder="Members"
+                            error={errors.numberOfMembers}
+                            required={true}
+                            id="membersInput"
+                            onChange={(e) => {
+                              validateMembers(e);
+                            }}
+                            onBlur={(e) => {
+                              validateMembers(e);
+                            }}
                           />
                           <p>INSTRUMENTS</p>
                           <MultiSelectDropDown
