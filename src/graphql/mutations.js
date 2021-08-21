@@ -15,9 +15,6 @@ export const LOGIN = gql`
         soundCloudUrl
         openToCollaboration
         openToJoiningBand
-        band
-        bandName
-        bandImage
       }
     }
   }

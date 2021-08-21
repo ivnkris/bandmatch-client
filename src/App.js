@@ -19,7 +19,7 @@ import "./Reset.css";
 import "./App.css";
 
 const httpLink = createHttpLink({
-  uri: process.env.GRAPHQL_URL || "http://localhost:4000/",
+  uri: process.env.GRAPHQL_URL || "http://localhost:4000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -48,13 +48,12 @@ const client = new ApolloClient({
 const AppModal = () => {
   const { modalState, setModalState } = useModal();
 
+  const onHideModal = () => {
+    setModalState({ open: false, content: null });
+  };
+
   return (
-    <Modal
-      size="lg"
-      show={modalState.open}
-      onHide={() => setModalState({ open: false, content: null })}
-      centered
-    >
+    <Modal size="lg" show={modalState.open} onHide={onHideModal} centered>
       {modalState?.content}
     </Modal>
   );

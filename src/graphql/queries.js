@@ -7,49 +7,53 @@ export const ASSEMBLE = gql`
         id
         firstName
         lastName
+        description
+        postcode
         genre {
-          id
           name
+          id
         }
         experienceLevel
         instruments {
-          id
           name
+          id
           role
         }
         imageUrl
-        openToJoiningBand
+        websiteUrl
+        soundCloudUrl
         lookingFor {
-          name
-          id
           role
+          id
         }
-        postcode
+        openToCollaboration
+        openToJoiningBand
       }
       bands {
-        id
         name
+        id
+        description
         location
         genre {
-          id
           name
+          id
         }
         experienceLevel
+        numberOfMembers
         instruments {
-          id
           name
+          id
           role
         }
         imageUrl
+        websiteUrl
+        soundCloudUrl
         lookingFor {
           role
-          name
           id
         }
+        openToCollaboration
         openToMembers
-        members {
-          id
-        }
       }
     }
   }
@@ -211,6 +215,35 @@ export const COLLABORATE_CAROUSEL = gql`
   }
 `;
 
+export const GIGS = gql`
+  query Query($gigsFilters: Filter) {
+    gigs(filters: $gigsFilters) {
+      id
+      title
+      description
+      genre {
+        name
+        id
+      }
+      imageUrl
+      fee
+      websiteUrl
+      dateTime
+      venue {
+        id
+        name
+        postcode
+      }
+      accepting
+      performers {
+        musician
+        band
+        confirmed
+      }
+    }
+  }
+`;
+
 export const GENRESINSTRUMENTS = gql`
   query Genres {
     genres {
@@ -245,15 +278,91 @@ export const MUSICIAN_USER = gql`
       imageUrl
       websiteUrl
       soundCloudUrl
-      openToCollaboration
       lookingFor {
         role
         id
       }
+      openToCollaboration
       openToJoiningBand
-      band
-      bandName
-      bandImage
+    }
+  }
+`;
+
+export const BAND = gql`
+  query Query($bandId: ID!) {
+    band(id: $bandId) {
+      id
+      name
+      description
+      location
+      genre {
+        name
+        id
+      }
+      experienceLevel
+      numberOfMembers
+      instruments {
+        id
+        name
+      }
+      imageUrl
+      websiteUrl
+      soundCloudUrl
+      lookingFor {
+        role
+        id
+      }
+      openToCollaboration
+      openToMembers
+      musicians {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const BAND_PREVIEW = gql`
+  query Query($bandId: ID!) {
+    band(id: $bandId) {
+      id
+      name
+      description
+      location
+      genre {
+        name
+      }
+      experienceLevel
+      numberOfMembers
+      instruments {
+        name
+        role
+      }
+      imageUrl
+      soundCloudUrl
+    }
+  }
+`;
+
+export const MUSICIAN_PREVIEW = gql`
+  query Query($musicianUserId: ID!) {
+    musicianUser(id: $musicianUserId) {
+      id
+      firstName
+      lastName
+      description
+      postcode
+      genre {
+        name
+      }
+      experienceLevel
+      instruments {
+        name
+        role
+      }
+      imageUrl
+      soundCloudUrl
     }
   }
 `;

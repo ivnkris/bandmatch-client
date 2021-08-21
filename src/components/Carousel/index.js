@@ -1,6 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import constructCards from "../../utils/constructCards";
+import { constructPerformerCards } from "../../utils/constructCards";
 
 const responsive = {
   largeDesktop: {
@@ -26,7 +26,7 @@ const responsive = {
 };
 
 const CardsCarousel = ({ cards }) => {
-  const cardComponents = constructCards(cards, "shortened");
+  const cardComponents = constructPerformerCards(cards, "shortened");
 
   return (
     <Carousel

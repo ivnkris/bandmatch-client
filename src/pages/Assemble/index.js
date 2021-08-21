@@ -5,12 +5,13 @@ import "./Assemble.css";
 import Header from "../../components/Header";
 import CardsCarousel from "../../components/Carousel";
 import FilterStrip from "../../components/FilterStrip";
-import constructCards from "../../utils/constructCards";
+import { constructPerformerCards } from "../../utils/constructCards";
 import Button from "../../components/Button";
 
 import { ASSEMBLE, ASSEMBLE_CAROUSEL } from "../../graphql/queries";
 import { useUserContext } from "../../contexts/UserProvider";
 import renderCards from "../../utils/renderCardsLogic";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Assemble = (props) => {
   const { state } = useUserContext();
@@ -23,10 +24,18 @@ const Assemble = (props) => {
     userType: state.userFilters.userType,
   };
 
-  const { data: assembleData, loading, error, fetchMore } = useQuery(ASSEMBLE, {
+  const {
+    data: assembleData,
+    loading: assembleLoading,
+    error,
+    fetchMore,
+  } = useQuery(ASSEMBLE, {
     variables: {
       assembleFilters: filters,
       offset: 0,
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 
@@ -36,17 +45,9 @@ const Assemble = (props) => {
     error: carouselError,
   } = useQuery(ASSEMBLE_CAROUSEL);
 
-  if (loading) {
-    return <div message="Fetching assemble cards..."></div>;
-  }
-
   if (error) {
     console.log(error);
     return <div>Error</div>;
-  }
-
-  if (carouselLoading) {
-    return <div message="Fetching carousel..."></div>;
   }
 
   if (carouselError) {
@@ -90,16 +91,21 @@ const Assemble = (props) => {
   };
 
   return (
-    <div className="assemble-container">
+    <div className="results-page-container">
       <Header className="pt-3" title="Create, complete or join a band" />
       <div className="see-through-background-90 mt-20 ">
         <p className="title gutter">NEW KIDS ON THE BLOCK</p>
-        <CardsCarousel cards={carouselCards} />
+        {carouselLoading && <LoadingSpinner />}
+        {carouselData && <CardsCarousel cards={carouselCards} />}
       </div>
       <FilterStrip title="FIND YOUR MATCH" />
-      {/* <Query query={chaptersQuery}> */}
       <div className="see-through-background-90 text-align-center">
-        <div className="cards-container">{constructCards(assembleCards)}</div>
+        {assembleLoading && <LoadingSpinner />}
+        {assembleData && (
+          <div className="cards-container">
+            {constructPerformerCards(assembleCards)}
+          </div>
+        )}
         <Button
           label="LOAD MORE"
           size="medium"
@@ -107,7 +113,6 @@ const Assemble = (props) => {
           onClick={onLoadMore}
         />
       </div>
-      {/* </Query> */}
     </div>
   );
 };

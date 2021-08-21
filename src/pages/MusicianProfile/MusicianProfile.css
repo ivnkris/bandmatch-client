@@ -5,3 +5,15 @@
   background-repeat: no-repeat;
   min-height: 98vh;
 }
+
+.profile-title-div {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.create-band-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-right: 3rem;
+}
