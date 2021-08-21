@@ -25,7 +25,6 @@ const MusicianSignupForm = () => {
   const [imageUrl, setImageUrl] = useState();
 
   const nextFormStep = () => {
-    console.log(imageUrl);
     setFormStep(formStep + 1);
   };
 
@@ -128,7 +127,7 @@ const MusicianSignupForm = () => {
       lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
-      imageUrl: formData.imageUrl,
+      imageUrl,
       description: formData.description,
       postcode: formData.postcode,
       websiteUrl: formData.websiteUrl,
