@@ -32,7 +32,8 @@ const Assemble = (props) => {
   } = useQuery(ASSEMBLE, {
     variables: {
       assembleFilters: filters,
-      offset: 0,
+      bandsOffset: 0,
+      musiciansOffset: 0,
     },
     onError: (error) => {
       console.log(error);
@@ -66,26 +67,26 @@ const Assemble = (props) => {
   }
 
   const onLoadMore = async () => {
-    console.log("assembleData", assembleData.assemble);
     await fetchMore({
       variables: {
-        offset: 1,
-        // offset: assembleData.assemble.length,
+        bandsOffset: assembleData.assemble.bands.length,
+        musiciansOffset: assembleData.assemble.musicians.length,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        console.log("prev", prev.assemble);
-        console.log("fetchMoreResult", fetchMoreResult.assemble);
-
         if (!fetchMoreResult) return prev;
 
-        return Object.assign({}, prev, {
-          assemble: [
-            ...prev.assemble.bands,
-            ...prev.assemble.musicians,
-            ...fetchMoreResult.assemble.bands,
-            ...fetchMoreResult.assemble.musicians,
-          ],
+        const result = Object.assign({}, prev, {
+          assemble: {
+            bands: [...prev.assemble.bands, ...fetchMoreResult.assemble.bands],
+            musicians: [
+              ...prev.assemble.musicians,
+              ...fetchMoreResult.assemble.musicians,
+            ],
+          },
         });
+        console.log(result);
+
+        return result;
       },
     });
   };

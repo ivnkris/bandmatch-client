@@ -6,7 +6,6 @@ import {
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
-import { offsetLimitPagination } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
 
 import Routes from "./Routes";
@@ -37,8 +36,13 @@ const client = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
-        fields: {
-          // assemble: offsetLimitPagination(),
+        assemble: {
+          feed: {
+            keyArgs: false,
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          },
         },
       },
     },
