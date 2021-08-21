@@ -73,9 +73,11 @@ const Assemble = (props) => {
         musiciansOffset: assembleData.assemble.musicians.length,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
+        console.log("prev", prev);
+        console.log("fetchMoreResult", fetchMoreResult);
         if (!fetchMoreResult) return prev;
 
-        const result = Object.assign({}, prev, {
+        const result = {
           assemble: {
             bands: [...prev.assemble.bands, ...fetchMoreResult.assemble.bands],
             musicians: [
@@ -83,8 +85,8 @@ const Assemble = (props) => {
               ...fetchMoreResult.assemble.musicians,
             ],
           },
-        });
-        console.log(result);
+        };
+        console.log("result", result);
 
         return result;
       },
