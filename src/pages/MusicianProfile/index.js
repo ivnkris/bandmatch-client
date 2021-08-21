@@ -20,7 +20,11 @@ import {
   constructPerformerCards,
 } from "../../utils/constructCards";
 import { useUserContext } from "../../contexts/UserProvider";
-import { GENRESINSTRUMENTS, MUSICIAN_USER } from "../../graphql/queries";
+import {
+  GENRESINSTRUMENTS,
+  MUSICIAN_USER,
+  VALIDATE_BAND_MEMBERS,
+} from "../../graphql/queries";
 
 import "./MusicianProfile.css";
 import ProfileInfo from "../../components/ProfileInfo";
@@ -54,6 +58,24 @@ const MusicianProfile = (props) => {
     mode: "onBlur",
     reValidateMode: "onChange",
     shouldFocusError: true,
+  });
+
+  const [validateBandMembers] = useLazyQuery(VALIDATE_BAND_MEMBERS, {
+    fetchPolicy: "network-only",
+    onCompleted: ({ checkIfMusicianExists }) => {
+      console.log("this is the data that came back", checkIfMusicianExists);
+
+      const invalidUsers = checkIfMusicianExists.filter(
+        (musician) => !musician.exists
+      );
+
+      if (invalidUsers.length) {
+        console.log("found invalid users", invalidUsers);
+        $("#membersInput").append(<h1> people are missing </h1>);
+      }
+      console.log("all good");
+      return;
+    },
   });
 
   const [createBand] = useMutation(CREATE_BAND, {
@@ -105,7 +127,7 @@ const MusicianProfile = (props) => {
     [setModalState]
   );
 
-  const validateMembers = (event) => {
+  const validateMembers = () => {
     const membersInput = $("#membersInput").val();
 
     if (!membersInput) {
@@ -113,6 +135,12 @@ const MusicianProfile = (props) => {
     }
     const formattedMembers = membersInput.split(" ");
     console.log("validating members", formattedMembers);
+
+    validateBandMembers({
+      variables: {
+        checkIfMusicianExistsInput: { musicians: formattedMembers },
+      },
+    });
   };
 
   const myProfile = id === state.user.id;
