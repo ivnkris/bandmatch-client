@@ -8,9 +8,7 @@ import Button from "../Button";
 
 import "./ImageUpload.css";
 
-const ImageUpload = ({ firstName, lastName, email, setImageUrl, imageUrl }) => {
-  console.log(email);
-
+const ImageUpload = ({ email, setImageUrl, imageUrl }) => {
   const [images, setImages] = useState([]);
 
   const onChange = (imageList) => {
