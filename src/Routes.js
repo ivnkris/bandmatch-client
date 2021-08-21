@@ -31,9 +31,6 @@ const Routes = () => {
         <Gig />
         {/* {state.user ? <Gig /> : <Redirect to="/login" />} */}
       </Route>
-      <Route exact path="/create-band">
-        {state.user ? <CreateBand /> : <Redirect to="/login" />}
-      </Route>
       <Route exact path="/edit-band">
         {state.user ? <EditBand /> : <Redirect to="/login" />}
       </Route>
