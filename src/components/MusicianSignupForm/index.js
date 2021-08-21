@@ -13,9 +13,9 @@ import Button from "../Button";
 import { SIGNUP } from "../../graphql/mutations";
 import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
-import "./SignUpForm.css";
+import "./MusicianSignupForm.css";
 
-const SignUpForm = () => {
+const MusicianSignupForm = () => {
   let history = useHistory();
   const { dispatch } = useUserContext();
 
@@ -425,4 +425,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default MusicianSignupForm;
