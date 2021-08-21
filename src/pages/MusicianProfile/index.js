@@ -36,10 +36,12 @@ import FormInput from "../../components/FormInput";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
-  const { id } = useParams();
   const { modalState, setModalState } = useModal();
-
   let history = useHistory();
+
+  const { id } = useParams();
+
+  const myProfile = id === state.user.id;
 
   const redirectToBandPage = (url) => {
     setModalState({
@@ -59,91 +61,6 @@ const MusicianProfile = (props) => {
     reValidateMode: "onChange",
     shouldFocusError: true,
   });
-
-  const [validateBandMembers] = useLazyQuery(VALIDATE_BAND_MEMBERS, {
-    fetchPolicy: "network-only",
-    onCompleted: ({ checkIfMusicianExists }) => {
-      console.log("this is the data that came back", checkIfMusicianExists);
-
-      const invalidUsers = checkIfMusicianExists.filter(
-        (musician) => !musician.exists
-      );
-
-      if (invalidUsers.length) {
-        console.log("found invalid users", invalidUsers);
-        $("#membersInput").append(<h1> people are missing </h1>);
-      }
-      console.log("all good");
-      return;
-    },
-  });
-
-  const [createBand] = useMutation(CREATE_BAND, {
-    onCompleted: (data) => {
-      const bandId = data.createBand.id;
-
-      setModalState({
-        open: true,
-        content: (
-          <>
-            <Modal.Header className="solid-background" closeButton>
-              <Modal.Title>Create a new band</Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="solid-background">
-              <p>Band created succcessfully</p>
-            </Modal.Body>
-          </>
-        ),
-      });
-
-      setTimeout(() => {
-        redirectToBandPage(`/bands/${bandId}`);
-      }, 1500);
-    },
-    onError: (error) => {
-      //TO DO: handle error
-    },
-  });
-
-  const onSubmit = useCallback(
-    (formData) => {
-      formData.numberOfMembers = parseFloat(formData.numberOfMembers);
-      formData.openToCollaboration = formData.openToCollaboration = "true"
-        ? true
-        : false;
-      const openToMembers = formData.lookingFor.length > 0 ? true : false;
-      console.log(formData, openToMembers);
-
-      createBand({
-        variables: {
-          createBandInput: { ...formData, openToMembers: openToMembers },
-        },
-      });
-      setModalState({
-        open: false,
-        content: null,
-      });
-    },
-    [setModalState]
-  );
-
-  const validateMembers = () => {
-    const membersInput = $("#membersInput").val();
-
-    if (!membersInput) {
-      return;
-    }
-    const formattedMembers = membersInput.split(" ");
-    console.log("validating members", formattedMembers);
-
-    validateBandMembers({
-      variables: {
-        checkIfMusicianExistsInput: { musicians: formattedMembers },
-      },
-    });
-  };
-
-  const myProfile = id === state.user.id;
 
   const [renderCreateBandModal] = useLazyQuery(GENRESINSTRUMENTS, {
     fetchPolicy: "network-only",
@@ -393,6 +310,89 @@ const MusicianProfile = (props) => {
     },
   });
 
+  const [validateBandMembers] = useLazyQuery(VALIDATE_BAND_MEMBERS, {
+    fetchPolicy: "network-only",
+    onCompleted: ({ checkIfMusicianExists }) => {
+      console.log("this is the data that came back", checkIfMusicianExists);
+
+      const invalidUsers = checkIfMusicianExists.filter(
+        (musician) => !musician.exists
+      );
+
+      if (invalidUsers.length) {
+        console.log("found invalid users", invalidUsers);
+        $("#membersInput").append(<h1> people are missing </h1>);
+      }
+      console.log("all good");
+      return;
+    },
+  });
+
+  const validateMembers = () => {
+    const membersInput = $("#membersInput").val();
+
+    if (!membersInput) {
+      return;
+    }
+    const formattedMembers = membersInput.split(" ");
+    console.log("validating members", formattedMembers);
+
+    validateBandMembers({
+      variables: {
+        checkIfMusicianExistsInput: { musicians: formattedMembers },
+      },
+    });
+  };
+
+  const [createBand] = useMutation(CREATE_BAND, {
+    onCompleted: (data) => {
+      const bandId = data.createBand.id;
+
+      setModalState({
+        open: true,
+        content: (
+          <>
+            <Modal.Header className="solid-background" closeButton>
+              <Modal.Title>Create a new band</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="solid-background">
+              <p>Band created succcessfully</p>
+            </Modal.Body>
+          </>
+        ),
+      });
+
+      setTimeout(() => {
+        redirectToBandPage(`/bands/${bandId}`);
+      }, 1500);
+    },
+    onError: (error) => {
+      //TO DO: handle error
+    },
+  });
+
+  const onSubmit = useCallback(
+    (formData) => {
+      formData.numberOfMembers = parseFloat(formData.numberOfMembers);
+      formData.openToCollaboration = formData.openToCollaboration = "true"
+        ? true
+        : false;
+      const openToMembers = formData.lookingFor.length > 0 ? true : false;
+      console.log(formData, openToMembers);
+
+      createBand({
+        variables: {
+          createBandInput: { ...formData, openToMembers: openToMembers },
+        },
+      });
+      setModalState({
+        open: false,
+        content: null,
+      });
+    },
+    [setModalState]
+  );
+
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
     variables: {
       musicianUserId: id,
@@ -413,7 +413,7 @@ const MusicianProfile = (props) => {
 
   if (musicianData) {
     const musician = musicianData.musicianUser;
-    // console.log(musician);
+
     const name = musician.firstName + " " + musician.lastName;
     const openTo = () => {
       if (musician.openToCollaboration && musician.openToJoiningBand) {
