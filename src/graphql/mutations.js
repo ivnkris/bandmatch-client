@@ -27,3 +27,13 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const CREATE_MESSAGE = gql`
+  mutation Mutation($createMessageInput: MessageInput!) {
+    createMessage(input: $createMessageInput) {
+      id
+      senderId
+      text
+    }
+  }
+`;
