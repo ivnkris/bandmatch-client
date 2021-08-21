@@ -31,8 +31,8 @@ export const SIGNUP = gql`
 `;
 
 export const SIGNUP_VENUE_USER = gql`
-  mutation Mutation($signUpVenueUserInput: SignupVenueInput!) {
-    signUpVenueUser(input: $signUpVenueUserInput) {
+  mutation Mutation($signupVenueUserInput: SignupVenueInput!) {
+    signupVenueUser(input: $signupVenueUserInput) {
       token
       user {
         id

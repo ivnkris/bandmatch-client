@@ -46,15 +46,31 @@ const NavigationBar = (props) => {
           id="navbarNavAltMarkup"
         >
           <div className="navbar-nav nav-links nav-bar-links-container">
-            <a className="nav-link nav-bar-link" href="/assemble">
-              ASSEMBLE
-            </a>
-            <a className="nav-link nav-bar-link" href="/collaborate">
-              COLLAB
-            </a>
-            <a className="nav-link nav-bar-link" href="/gig">
-              GIG
-            </a>
+            {(!state.user || state.user.type !== "venue") && (
+              <>
+                <a className="nav-link nav-bar-link" href="/assemble">
+                  ASSEMBLE
+                </a>
+                <a className="nav-link nav-bar-link" href="/collaborate">
+                  COLLAB
+                </a>
+                <a className="nav-link nav-bar-link" href="/gig">
+                  GIG
+                </a>
+              </>
+            )}
+
+            {state.user.type === "venue" && (
+              <>
+                <a className="nav-link nav-bar-link" href="/musicians">
+                  MUSICIANS
+                </a>
+                <a className="nav-link nav-bar-link" href="/bands">
+                  BANDS
+                </a>
+              </>
+            )}
+
             {!state.user && (
               <a className="nav-link nav-bar-link" href="/login">
                 LOGIN
