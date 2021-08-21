@@ -13,6 +13,8 @@ import Inbox from "./pages/Inbox";
 import Login from "./pages/Login/index";
 import MusicianProfile from "./pages/MusicianProfile";
 import SignUp from "./pages/SignUp/index";
+import MusicianSignup from "./pages/MusicianSignup";
+import VenueSignup from "./pages/VenueSignup";
 
 const Routes = () => {
   const { state } = useUserContext();
@@ -23,7 +25,6 @@ const Routes = () => {
         <Assemble />
         {/* {state.user ? <Assemble /> : <Redirect to="/login" />} */}
       </Route>
-
       <Route exact path="/collaborate">
         {state.user ? <Collaborate /> : <Redirect to="/login" />}
       </Route>
@@ -48,6 +49,12 @@ const Routes = () => {
       </Route>
       <Route exact path="/signup">
         {!state.user ? <SignUp /> : <Redirect to="/profile" />}
+      </Route>
+      <Route exact path="/signup/musician">
+        {!state.user ? <MusicianSignup /> : <Redirect to="/profile" />}
+      </Route>
+      <Route exact path="/signup/venue">
+        {!state.user ? <VenueSignup /> : <Redirect to="/profile" />}
       </Route>
       <Route exact path="/profile/:id">
         {state.user ? <MusicianProfile /> : <Redirect to="/login" />}
