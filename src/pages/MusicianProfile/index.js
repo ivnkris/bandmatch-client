@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "react-bootstrap";
+import { useCallback } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -10,23 +11,22 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion";
 
+import { useModal } from "../../contexts/ModalProvider";
+import { CREATE_BAND } from "../../graphql/mutations";
+import {
+  constructGigCards,
+  constructPerformerCards,
+} from "../../utils/constructCards";
+import { useUserContext } from "../../contexts/UserProvider";
+import { GENRESINSTRUMENTS, MUSICIAN_USER } from "../../graphql/queries";
+
+import "./MusicianProfile.css";
 import ProfileInfo from "../../components/ProfileInfo";
 import SoundCloudWidget from "../../components/SoundCloudWidget";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
 import MultiSelectDropDown from "../../components/MultiSelectDropdown";
 import FormInput from "../../components/FormInput";
-
-import { useUserContext } from "../../contexts/UserProvider";
-import { GENRESINSTRUMENTS, MUSICIAN_USER } from "../../graphql/queries";
-import {
-  constructGigCards,
-  constructPerformerCards,
-} from "../../utils/constructCards";
-import "./MusicianProfile.css";
-import { useModal } from "../../contexts/ModalProvider";
-import { useCallback } from "react";
-import { CREATE_BAND } from "../../graphql/mutations";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
@@ -123,8 +123,8 @@ const MusicianProfile = (props) => {
                 <Modal.Body className="solid-background">
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <Accordion preExpanded={["a"]}>
-                      <AccordionItem uuid="a">
-                        <AccordionItemHeading>
+                      <AccordionItem uuid="a" className="accordion-container">
+                        <AccordionItemHeading className="accordion-heading-override">
                           <AccordionItemButton>THE BASICS</AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
@@ -173,7 +173,7 @@ const MusicianProfile = (props) => {
                         </AccordionItemPanel>
                       </AccordionItem>
                       <AccordionItem uuid="b">
-                        <AccordionItemHeading>
+                        <AccordionItemHeading className="accordion-heading-override">
                           <AccordionItemButton>
                             COUPLE SPECIFICS
                           </AccordionItemButton>
@@ -210,14 +210,16 @@ const MusicianProfile = (props) => {
                         </AccordionItemPanel>
                       </AccordionItem>
                       <AccordionItem uuid="c">
-                        <AccordionItemHeading>
+                        <AccordionItemHeading className="accordion-heading-override">
                           <AccordionItemButton>
                             COLLABS AND MEDIA
                           </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
                           <p>FEATURE SONG</p>
-                          <p>Enter the Soundcloud url of your top song</p>
+                          <p className="regular-text small-text">
+                            Enter the Soundcloud url of your top song
+                          </p>
                           <FormInput
                             placeholder="Soundcloud url"
                             error={errors.soundCloudUrl}
@@ -253,7 +255,7 @@ const MusicianProfile = (props) => {
                             </select>
                           </section>
                           <p>LOOKING FOR NEW MEMBERS?</p>
-                          <p>
+                          <p className="regular-text small-text">
                             If you're looking for new members, please select
                             from the options below. Ottherwise, leave the field
                             blank.
