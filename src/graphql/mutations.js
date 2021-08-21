@@ -9,13 +9,6 @@ export const LOGIN = gql`
         email
         firstName
         lastName
-        description
-        experienceLevel
-        imageUrl
-        websiteUrl
-        soundCloudUrl
-        openToCollaboration
-        openToJoiningBand
       }
     }
   }
@@ -30,22 +23,6 @@ export const SIGNUP = gql`
         email
         firstName
         lastName
-        description
-        genre {
-          id
-        }
-        experienceLevel
-        instruments {
-          id
-        }
-        imageUrl
-        websiteUrl
-        soundCloudUrl
-        lookingFor {
-          id
-        }
-        openToCollaboration
-        openToJoiningBand
       }
     }
   }
