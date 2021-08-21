@@ -1,9 +1,3 @@
-import { useState } from "react";
-
-import Button from "../../components/Button";
-import FormContainer from "../../components/FormContainer";
-import Title from "../../components/Title";
-
 import "./SignUp.css";
 
 const SignUp = (props) => {

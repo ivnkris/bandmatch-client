@@ -10,6 +10,7 @@ export const LOGIN = gql`
         firstName
         lastName
       }
+      type
     }
   }
 `;
@@ -24,6 +25,23 @@ export const SIGNUP = gql`
         firstName
         lastName
       }
+      type
+    }
+  }
+`;
+
+export const SIGNUP_VENUE_USER = gql`
+  mutation Mutation($signUpVenueUserInput: SignupVenueInput!) {
+    signUpVenueUser(input: $signUpVenueUserInput) {
+      token
+      user {
+        id
+        firstName
+        email
+        lastName
+        imageUrl
+      }
+      type
     }
   }
 `;

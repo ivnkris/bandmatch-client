@@ -33,6 +33,7 @@ const LoginForm = () => {
         firstName: data.login.user.firstName,
         lastName: data.login.user.lastName,
         id: data.login.user.id,
+        type: data.login.type,
       };
 
       localStorage.setItem("user", JSON.stringify(payload));

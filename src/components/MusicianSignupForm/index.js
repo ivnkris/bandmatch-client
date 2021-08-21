@@ -49,6 +49,7 @@ const MusicianSignupForm = () => {
         firstName: data.signup.user.firstName,
         lastName: data.signup.user.lastName,
         id: data.signup.user.id,
+        type: data.signup.user.type,
       };
 
       localStorage.setItem("user", JSON.stringify(payload));

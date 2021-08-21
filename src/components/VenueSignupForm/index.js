@@ -10,7 +10,7 @@ import Title from "../Title";
 import FormContainer from "../FormContainer";
 import MultiSelectDropDown from "../MultiSelectDropdown";
 import Button from "../Button";
-import { SIGNUP } from "../../graphql/mutations";
+import { SIGNUP, SIGNUP_VENUE_USER } from "../../graphql/mutations";
 import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
 import "./VenueSignupForm.css";
@@ -31,14 +31,15 @@ const VenueSignupForm = () => {
     shouldFocusError: true,
   });
 
-  const [signUp, { loading }] = useMutation(SIGNUP, {
+  const [signUp, { loading }] = useMutation(SIGNUP_VENUE_USER, {
     onCompleted: (data) => {
       const payload = {
-        token: data.signup.token,
-        email: data.signup.user.email,
-        firstName: data.signup.user.firstName,
-        lastName: data.signup.user.lastName,
-        id: data.signup.user.id,
+        token: data.signUpVenueUser.token,
+        email: data.signUpVenueUser.user.email,
+        firstName: data.signUpVenueUser.user.firstName,
+        lastName: data.signUpVenueUser.user.lastName,
+        id: data.signUpVenueUser.user.id,
+        type: data.signUpVenueUser.user.type,
       };
 
       localStorage.setItem("user", JSON.stringify(payload));
