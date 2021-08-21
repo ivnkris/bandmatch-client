@@ -180,7 +180,11 @@ const AssembleCard = (props) => {
 		},
 	});
 
-	const [sendMessageData] = useMutation(CREATE_MESSAGE);
+	const [sendMessageData] = useMutation(CREATE_MESSAGE, {
+		onCompleted: () => {
+			setModalState({ open: false, content: null });
+		},
+	});
 
 	const sendMessage = async (formData) => {
 		const text = formData.text;
@@ -193,7 +197,6 @@ const AssembleCard = (props) => {
 	};
 
 	const showMessageModal = () => {
-		console.log(props);
 		setModalState({
 			open: true,
 			content: (
@@ -202,7 +205,10 @@ const AssembleCard = (props) => {
 						<form onSubmit={handleSubmit(sendMessage)}>
 							<FormInput
 								placeholder="Write your message here..."
-								register={register("text", { required: true })}
+								register={register("text", {
+									required: true,
+									shouldUnregister: true,
+								})}
 							/>
 							<Button
 								type="submit"
