@@ -1,8 +1,9 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "react-bootstrap";
 import { useCallback } from "react";
+import { BsChevronCompactDown } from "react-icons/bs";
 import {
   Accordion,
   AccordionItem,
@@ -33,6 +34,8 @@ const MusicianProfile = (props) => {
   const { id } = useParams();
   const { modalState, setModalState } = useModal();
 
+  let history = useHistory();
+
   const {
     register,
     handleSubmit,
@@ -46,7 +49,12 @@ const MusicianProfile = (props) => {
 
   const [createBand] = useMutation(CREATE_BAND, {
     onCompleted: (data) => {
-      console.log("it's done");
+      const bandId = data.createBand.id;
+
+      history.push(`/bands/${bandId}`);
+    },
+    onError: (error) => {
+      //TO DO: handle error
     },
   });
 
@@ -125,7 +133,9 @@ const MusicianProfile = (props) => {
                     <Accordion preExpanded={["a"]}>
                       <AccordionItem uuid="a" className="accordion-container">
                         <AccordionItemHeading className="accordion-heading-override">
-                          <AccordionItemButton>THE BASICS</AccordionItemButton>
+                          <AccordionItemButton>
+                            THE BASICS <BsChevronCompactDown size={24} />
+                          </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
                           <p>BAND NAME</p>
@@ -175,7 +185,7 @@ const MusicianProfile = (props) => {
                       <AccordionItem uuid="b">
                         <AccordionItemHeading className="accordion-heading-override">
                           <AccordionItemButton>
-                            COUPLE SPECIFICS
+                            COUPLE SPECIFICS <BsChevronCompactDown size={24} />
                           </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
@@ -212,7 +222,7 @@ const MusicianProfile = (props) => {
                       <AccordionItem uuid="c">
                         <AccordionItemHeading className="accordion-heading-override">
                           <AccordionItemButton>
-                            COLLABS AND MEDIA
+                            COLLABS AND MEDIA <BsChevronCompactDown size={24} />
                           </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
