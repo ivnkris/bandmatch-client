@@ -1,8 +1,8 @@
 import "./Title.css";
 import "../../App.css";
 
-const Title = ({ text }) => {
-  return <div className="section-title">{text}</div>;
+const Title = ({ text, type }) => {
+  return <div className={`${type}-title `}>{text}</div>;
 };
 
 export default Title;

@@ -13,7 +13,7 @@ import "./LoginForm.css";
 
 const LoginForm = ({ redirect = "/assemble" }) => {
   let history = useHistory();
-  const {dispatch} = useUserContext();
+  const { dispatch } = useUserContext();
 
   const {
     register,
@@ -32,15 +32,15 @@ const LoginForm = ({ redirect = "/assemble" }) => {
         email: data.login.user.email,
         firstName: data.login.user.firstName,
         lastName: data.login.user.lastName,
-        id: data.login.user.id
-      }
+        id: data.login.user.id,
+      };
 
-      localStorage.setItem("user", JSON.stringify(payload))
+      localStorage.setItem("user", JSON.stringify(payload));
 
       dispatch({
         type: "LOGIN",
-        payload
-      })
+        payload,
+      });
 
       history.push(redirect || "/assemble");
     },
@@ -69,7 +69,7 @@ const LoginForm = ({ redirect = "/assemble" }) => {
     <FormContainer>
       <form onSubmit={handleSubmit(onSubmit)}>
         <section>
-          <Title text="LOGIN" />
+          <Title type="section" text="LOGIN" />
 
           <FormInput
             placeholder="Email"

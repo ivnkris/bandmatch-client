@@ -1,6 +1,9 @@
 import Button from "../Button";
 
 const GigCard = (props) => {
+  const postcode = props.postcode.replace(/[+]/g, " ");
+  const date = new Date(props.dateTime * 1000).toDateString();
+
   return (
     <div className="card-container card-container-shortened">
       <div
@@ -15,9 +18,9 @@ const GigCard = (props) => {
       </div>
       <div>
         <h3 className="title text-limit-one-line"> {props.title} </h3>
-        <p> {props.dateTime} </p>
+        <p> {date} </p>
         <p className="text-limit-two-line">
-          @ {props.venueName} {props.postcode}
+          @ {props.venueName} {postcode}
         </p>
       </div>
       <div id={props.gigId}>

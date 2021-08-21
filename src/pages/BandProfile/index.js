@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 
 import ProfileInfo from "../../components/ProfileInfo";
 import SoundCloudWidget from "../../components/SoundCloudWidget";
-import { BAND } from "../../graphql/queries";
+import Title from "../../components/Title";
+import { BAND, GIGS } from "../../graphql/queries";
 import { constructGigCards } from "../../utils/constructCards";
 import "./BandProfile.css";
 
@@ -18,6 +19,21 @@ const BandProfile = (props) => {
       console.log(error);
     },
   });
+
+  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
+    GIGS,
+    {
+      variables: {
+        gigsFilters: {
+          band: id,
+        },
+      },
+
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
 
   if (loading) {
     return <div>Loading</div>;
@@ -56,13 +72,20 @@ const BandProfile = (props) => {
     return (
       <div className="profile-container">
         <div className="p-2"></div>
+        <div className="see-through-background-90 text-align-center profile-title-div">
+          <Title type="profile" text={name} />
+          <p className="mb-3">{openTo()}</p>
 
+          <p className="p-yellow mt-2 text-limit-one-line">
+            LOOKING FOR:{" "}
+            <span className="looking-for">{lookingFor.join(" | ")}</span>
+          </p>
+        </div>
         <ProfileInfo
           imageUrl={band.imageUrl}
-          name={name}
+          // name={name}
           instruments={instruments}
           genre={genres}
-          openTo={openTo()}
           description={band.description}
           lookingFor={lookingFor}
           soundCloudUrl={band.soundCloudUrl}
@@ -72,7 +95,11 @@ const BandProfile = (props) => {
         <div className="see-through-background-90 text-align-center">
           <p className="title mb-2 pt-2 fs-1">{name}'s GIGS</p>
 
-          {/* <div className="cards-container">{constructGigCards(band.gigs)}</div> */}
+          {gigsData && (
+            <div className="cards-container">
+              {constructGigCards(gigsData.gigs)}
+            </div>
+          )}
         </div>
       </div>
     );
