@@ -36,6 +36,14 @@ const MusicianProfile = (props) => {
 
   let history = useHistory();
 
+  const redirectToBandPage = (url) => {
+    setModalState({
+      open: false,
+    });
+
+    history.push(url);
+  };
+
   const {
     register,
     handleSubmit,
@@ -51,7 +59,23 @@ const MusicianProfile = (props) => {
     onCompleted: (data) => {
       const bandId = data.createBand.id;
 
-      history.push(`/bands/${bandId}`);
+      setModalState({
+        open: true,
+        content: (
+          <>
+            <Modal.Header className="solid-background" closeButton>
+              <Modal.Title>Create a new band</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="solid-background">
+              <p>Band created succcessfully</p>
+            </Modal.Body>
+          </>
+        ),
+      });
+
+      setTimeout(() => {
+        redirectToBandPage(`/bands/${bandId}`);
+      }, 1500);
     },
     onError: (error) => {
       //TO DO: handle error
