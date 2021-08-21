@@ -46,7 +46,7 @@ const NavigationBar = (props) => {
           id="navbarNavAltMarkup"
         >
           <div className="navbar-nav nav-links nav-bar-links-container">
-            {(!state.user || state.user.type !== "venue") && (
+            {!state.user && (
               <>
                 <a className="nav-link nav-bar-link" href="/assemble">
                   ASSEMBLE
@@ -60,7 +60,21 @@ const NavigationBar = (props) => {
               </>
             )}
 
-            {state.user.type === "venue" && (
+            {state.user && state.user.type === "musician" && (
+              <>
+                <a className="nav-link nav-bar-link" href="/assemble">
+                  ASSEMBLE
+                </a>
+                <a className="nav-link nav-bar-link" href="/collaborate">
+                  COLLAB
+                </a>
+                <a className="nav-link nav-bar-link" href="/gig">
+                  GIG
+                </a>
+              </>
+            )}
+
+            {state.user && state.user.type === "venue" && (
               <>
                 <a className="nav-link nav-bar-link" href="/musicians">
                   MUSICIANS

@@ -14,19 +14,28 @@ import { SIGNUP } from "../../graphql/mutations";
 import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
 import "./MusicianSignupForm.css";
+import ImageUpload from "../ImageUpload";
 
 const MusicianSignupForm = () => {
   let history = useHistory();
   const { dispatch } = useUserContext();
 
   const [formStep, setFormStep] = useState(0);
+  const [userEmail, setUserEmail] = useState("");
+  const [imageUrl, setImageUrl] = useState();
 
   const nextFormStep = () => {
+    console.log(imageUrl);
     setFormStep(formStep + 1);
   };
 
   const lastFormStep = () => {
     setFormStep(formStep - 1);
+  };
+
+  const onFirstSubmit = (formData) => {
+    setUserEmail(formData.email);
+    nextFormStep();
   };
 
   const {
@@ -102,8 +111,6 @@ const MusicianSignupForm = () => {
   }
 
   const submitForm = async (formData) => {
-    console.log("4", formData);
-
     if (formData.openToCollaboration === "true") {
       formData.openToCollaboration = true;
     } else {
@@ -207,7 +214,7 @@ const MusicianSignupForm = () => {
   return (
     <FormContainer>
       {formStep === 0 && (
-        <form onSubmit={handleSubmit(nextFormStep)}>
+        <form onSubmit={handleSubmit(onFirstSubmit)}>
           <section>
             <Title type="section" text="REGISTER" />
             <FormInput
@@ -273,10 +280,16 @@ const MusicianSignupForm = () => {
           <section>
             <Title type="section" text="SET UP YOUR PROFILE" />
 
-            <FormInput
+            {/* <FormInput
               placeholder="Profile Image"
               error={errors.imageUrl}
               register={register("imageUrl", { required: true })}
+            /> */}
+
+            <ImageUpload
+              email={userEmail}
+              setImageUrl={setImageUrl}
+              imageUrl={imageUrl}
             />
             <FormInput
               placeholder="Short bio"
