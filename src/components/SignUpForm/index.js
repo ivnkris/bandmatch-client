@@ -15,7 +15,7 @@ import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
 import "./SignUpForm.css";
 
-const SignUpForm = ({ redirect = "/assemble" }) => {
+const SignUpForm = () => {
   let history = useHistory();
   const { dispatch } = useUserContext();
 
@@ -33,7 +33,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isValid },
+    formState: { errors },
     control,
   } = useForm({
     mode: "onBlur",
@@ -41,15 +41,14 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     shouldFocusError: true,
   });
 
-  const [signUp] = useMutation(SIGNUP, {
+  const [signUp, { loading }] = useMutation(SIGNUP, {
     onCompleted: (data) => {
-      console.log(data);
       const payload = {
         token: data.signup.token,
         email: data.signup.user.email,
         firstName: data.signup.user.firstName,
         lastName: data.signup.user.lastName,
-        id: data.login.signup.id,
+        id: data.signup.user.id,
       };
 
       localStorage.setItem("user", JSON.stringify(payload));
@@ -59,9 +58,11 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
         payload,
       });
 
-      history.push(redirect || "/assemble");
+      history.push(`/profile/${data.signup.user.id}`);
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   const {
@@ -191,6 +192,16 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
       );
     }
   };
+
+  if (loading) {
+    return (
+      <div className="pb-5 text-center">
+        <div className="spinner-border " role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <FormContainer>

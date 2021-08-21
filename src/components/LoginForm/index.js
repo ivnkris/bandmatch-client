@@ -11,14 +11,14 @@ import { useUserContext } from "../../contexts/UserProvider";
 
 import "./LoginForm.css";
 
-const LoginForm = ({ redirect = "/assemble" }) => {
+const LoginForm = () => {
   let history = useHistory();
   const { dispatch } = useUserContext();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -42,7 +42,7 @@ const LoginForm = ({ redirect = "/assemble" }) => {
         payload,
       });
 
-      history.push(redirect || "/assemble");
+      history.push(`/profile/${data.login.user.id}`);
     },
     onError: () => {},
   });
