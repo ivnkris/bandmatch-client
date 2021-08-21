@@ -33,13 +33,14 @@ const VenueSignupForm = () => {
 
   const [signUp, { loading }] = useMutation(SIGNUP_VENUE_USER, {
     onCompleted: (data) => {
+      console.log(data);
       const payload = {
-        token: data.signUpVenueUser.token,
-        email: data.signUpVenueUser.user.email,
-        firstName: data.signUpVenueUser.user.firstName,
-        lastName: data.signUpVenueUser.user.lastName,
-        id: data.signUpVenueUser.user.id,
-        type: data.signUpVenueUser.user.type,
+        token: data.signupVenueUser.token,
+        email: data.signupVenueUser.user.email,
+        firstName: data.signupVenueUser.user.firstName,
+        lastName: data.signupVenueUser.user.lastName,
+        id: data.signupVenueUser.user.id,
+        type: data.signupVenueUser.type,
       };
 
       localStorage.setItem("user", JSON.stringify(payload));
@@ -49,7 +50,8 @@ const VenueSignupForm = () => {
         payload,
       });
 
-      history.push(`/profile/${data.signup.user.id}`);
+      // history.push(`/venues/profile/${data.signupVenueUser.user.id}`);
+      history.push("/assemble");
     },
     onError: (error) => {
       console.log(error);
@@ -57,11 +59,17 @@ const VenueSignupForm = () => {
   });
 
   const submitForm = async (formData) => {
-    const newUser = {};
+    const newUser = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      imageUrl: formData.imageUrl,
+    };
 
     await signUp({
       variables: {
-        signupInput: { ...newUser, isPremium: false },
+        signupVenueUserInput: newUser,
       },
     });
   };
