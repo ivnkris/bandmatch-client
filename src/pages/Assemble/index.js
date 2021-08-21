@@ -1,6 +1,5 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./Assemble.css";
 import Header from "../../components/Header";
@@ -27,6 +26,7 @@ const Assemble = (props) => {
   const { data: assembleData, loading, error, fetchMore } = useQuery(ASSEMBLE, {
     variables: {
       assembleFilters: filters,
+      offset: 0,
     },
   });
 
@@ -64,36 +64,33 @@ const Assemble = (props) => {
     assembleCards = renderCards(assembleData.assemble);
   }
 
-  const onLoadMore = () => {
-    fetchMore({
+  const onLoadMore = async () => {
+    console.log("assembleData", assembleData.assemble);
+    await fetchMore({
       variables: {
-        // assembleLimit: 2,
-        assembleOffset: assembleData.assemble.length,
+        offset: 1,
+        // offset: assembleData.assemble.length,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
+        console.log("prev", prev.assemble);
+        console.log("fetchMoreResult", fetchMoreResult.assemble);
+
         if (!fetchMoreResult) return prev;
+
         return Object.assign({}, prev, {
-          assemble: [...prev.assemble, ...fetchMoreResult.assemble],
+          assemble: [
+            ...prev.assemble.bands,
+            ...prev.assemble.musicians,
+            ...fetchMoreResult.assemble.bands,
+            ...fetchMoreResult.assemble.musicians,
+          ],
         });
       },
     });
   };
 
-  const handleScroll = ({ currentTarget }, onLoadMore) => {
-    console.log("hitting handle scroll");
-    if (
-      currentTarget.scrollTop + currentTarget.clientHeight >=
-      currentTarget.scrollHeight
-    ) {
-      onLoadMore();
-    }
-  };
-
   return (
-    <div
-      className="assemble-container"
-      onScroll={(e) => handleScroll(e, onLoadMore)}
-    >
+    <div className="assemble-container">
       <Header className="pt-3" title="Create, complete or join a band" />
       <div className="see-through-background-90 mt-20 ">
         <p className="title gutter">NEW KIDS ON THE BLOCK</p>
@@ -103,7 +100,12 @@ const Assemble = (props) => {
       {/* <Query query={chaptersQuery}> */}
       <div className="see-through-background-90 text-align-center">
         <div className="cards-container">{constructCards(assembleCards)}</div>
-        <Button label="LOAD MORE" size="medium" mode="primary" />
+        <Button
+          label="LOAD MORE"
+          size="medium"
+          mode="primary"
+          onClick={onLoadMore}
+        />
       </div>
       {/* </Query> */}
     </div>

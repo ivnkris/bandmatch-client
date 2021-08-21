@@ -1,16 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const ASSEMBLE = gql`
-  query ExampleQuery(
-    $assembleFilters: Filter
-    $assembleLimit: Int
-    $assembleOffset: Int
-  ) {
-    assemble(
-      filters: $assembleFilters
-      limit: $assembleLimit
-      offset: $assembleOffset
-    ) {
+  query ExampleQuery($assembleFilters: Filter, $offset: Int) {
+    assemble(filters: $assembleFilters, offset: $offset) {
       musicians {
         id
         firstName

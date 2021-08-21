@@ -1,11 +1,12 @@
 import { Modal } from "react-bootstrap";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
-	ApolloClient,
-	ApolloProvider,
-	InMemoryCache,
-	createHttpLink,
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
 } from "@apollo/client";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
 
 import Routes from "./Routes";
@@ -18,53 +19,61 @@ import "./Reset.css";
 import "./App.css";
 
 const httpLink = createHttpLink({
-	uri: process.env.GRAPHQL_URL || "http://localhost:4000/",
+  uri: process.env.GRAPHQL_URL || "http://localhost:4000/",
 });
 
 const authLink = setContext((_, { headers }) => {
-	const user = JSON.parse(localStorage.getItem("user"));
-	return {
-		headers: {
-			...headers,
-			authorization: user ? `Bearer ${user.token}` : "",
-		},
-	};
+  const user = JSON.parse(localStorage.getItem("user"));
+  return {
+    headers: {
+      ...headers,
+      authorization: user ? `Bearer ${user.token}` : "",
+    },
+  };
 });
 
 const client = new ApolloClient({
-	link: authLink.concat(httpLink),
-	cache: new InMemoryCache(),
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          // assemble: offsetLimitPagination(),
+        },
+      },
+    },
+  }),
 });
 
 const AppModal = () => {
-	const { modalState, setModalState } = useModal();
+  const { modalState, setModalState } = useModal();
 
-	return (
-		<Modal
-			size="lg"
-			show={modalState.open}
-			onHide={() => setModalState({ open: false, content: null })}
-			centered
-		>
-			{modalState?.content}
-		</Modal>
-	);
+  return (
+    <Modal
+      size="lg"
+      show={modalState.open}
+      onHide={() => setModalState({ open: false, content: null })}
+      centered
+    >
+      {modalState?.content}
+    </Modal>
+  );
 };
 
 const App = () => {
-	return (
-		<ApolloProvider client={client}>
-			<UserProvider>
-				<ModalProvider>
-					<Router>
-						<NavigationBar />
-						<Routes />
-						<AppModal />
-					</Router>
-				</ModalProvider>
-			</UserProvider>
-		</ApolloProvider>
-	);
+  return (
+    <ApolloProvider client={client}>
+      <UserProvider>
+        <ModalProvider>
+          <Router>
+            <NavigationBar />
+            <Routes />
+            <AppModal />
+          </Router>
+        </ModalProvider>
+      </UserProvider>
+    </ApolloProvider>
+  );
 };
 
 export default App;
