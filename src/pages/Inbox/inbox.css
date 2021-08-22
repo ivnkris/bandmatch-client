@@ -65,8 +65,7 @@
 
 .current-message-list {
   height: 70vh;
-  overflow: auto;
-  scroll-behavior: auto;
+  overflow-y: scroll;
 }
 
 .current-user-message {
