@@ -1,0 +1,74 @@
+.inbox-background-container {
+  background-image: url("https://images.unsplash.com/photo-1517230878791-4d28214057c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* min-height: 80vh; */
+}
+
+.inbox-flex-container {
+  display: flex;
+}
+
+.inbox-side-panel {
+  border: 1px solid white;
+  width: 30%;
+  min-height: 91vh;
+  background-color: black;
+}
+
+.inbox-main-panel {
+  border: 1px solid white;
+  background-color: #131313c5;
+  width: 70%;
+  min-height: 91vh;
+}
+
+.conversations-list {
+  list-style: none;
+  padding: 0;
+}
+
+.conversations-list-item {
+  background-color: transparent;
+  width: 100%;
+  border: 1px white solid;
+  height: 5rem;
+}
+
+.conversations-list-item:hover {
+  background-color: darkgray;
+  color: black;
+}
+
+.conversations-list-item li {
+  display: flex;
+  align-content: center;
+}
+
+.profile-inbox-image {
+  display: inline-block;
+  position: relative;
+  height: 4rem;
+  border-radius: 50%;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+}
+
+.profile-inbox-image img {
+  width: 4rem;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.current-user-message {
+  background-color: darkgray;
+  width: 40%;
+  height: 3rem;
+}
+
+.other-user-message {
+  background-color: yellow;
+  width: 40%;
+  height: 3rem;
+}

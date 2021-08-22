@@ -157,6 +157,24 @@ p {
   justify-content: space-around;
 }
 
+.messaging-modal {
+  height: 60vh;
+}
+
+.message-text-area {
+  margin: auto;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 5%;
+  height: 8rem;
+  background: rgb(56, 55, 55);
+  box-shadow: 1px 0px 10px -1px rgba(255, 255, 255, 0.49);
+}
+
+.message-text-area::placeholder {
+  color: #aaaaaa;
+}
+
 @media screen and (max-width: 500px) {
   .gutter {
     margin-left: 10px;
