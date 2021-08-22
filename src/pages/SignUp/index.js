@@ -2,7 +2,7 @@ import "./SignUp.css";
 
 const SignUp = (props) => {
   return (
-    <div className="signup-container">
+    <div className="signup-choice-container">
       <div className="form-div">
         <div className="select-user-type-form">
           <div className="text-center user-signup-title">
