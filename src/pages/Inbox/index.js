@@ -1,10 +1,18 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import Button from "../../components/Button";
 import Title from "../../components/Title";
 import { useUserContext } from "../../contexts/UserProvider";
+import { CREATE_MESSAGE } from "../../graphql/mutations";
 import { CONVERSATION, CONVERSATIONS } from "../../graphql/queries";
-import "./inbox.css";
+import "./Inbox.css";
 
 const Inbox = (props) => {
+  const [selectedConversation, setSelectedConversation] = useState(null);
+
+  const { register, handleSubmit } = useForm();
+
   const { state } = useUserContext();
 
   const { data, loading, error } = useQuery(CONVERSATIONS, {
@@ -33,33 +41,45 @@ const Inbox = (props) => {
     chats = renderChats();
   }
 
-  const [getMessages] = useLazyQuery(CONVERSATION, {
-    onCompleted: (data) => {
-      console.log(data);
+  const [
+    getMessages,
+    {
+      data: conversationData,
+      loading: conversationLoading,
+      error: conversationError,
     },
+  ] = useLazyQuery(CONVERSATION, {
+    onCompleted: (data) => {
+      setSelectedConversation(conversationData);
+    },
+    pollInterval: 500,
     onError: (error) => {
       console.log(error);
     },
   });
 
-  // const getMessages = (event) => {
-  //   const chatId = event.currentTarget.id;
+  const [sendMessageData] = useMutation(CREATE_MESSAGE);
 
-  //   const {
-  //     data: conversationData,
-  //     loading: conversationLoading,
-  //     error: conversationError,
-  //   } = useQuery(CONVERSATION);
+  const sendMessage = async (formData) => {
+    const text = formData.text;
+    const senderId = state.user.id;
+    const conversation = selectedConversation.conversation;
 
-  // return selectedChat.messages.map((message) => {
-  //   console.log(message);
-  //   if (message.senderId === state.user.id) {
-  //     return <div className="current-user-message">{message.text}</div>;
-  //   } else {
-  //     return <div className="other-user-message">{message.text}</div>;
-  //   }
-  // });
-  // };
+    const recipientId = conversation.participants.find(
+      (participant) => participant.id !== state.user.id
+    );
+
+    await sendMessageData({
+      variables: {
+        createMessageInput: { text, senderId, recipientId: recipientId.id },
+      },
+    });
+  };
+
+  let messages;
+  if (conversationData) {
+    messages = conversationData.conversation.messages;
+  }
 
   return (
     <div className="inbox-background-container">
@@ -86,7 +106,10 @@ const Inbox = (props) => {
                         />
                       </div>
                       <div className="ms-5 mt-4 chat-user-name">
-                        {chat.user.firstName} {chat.user.lastName}
+                        {chat.user.firstName.charAt(0).toUpperCase() +
+                          chat.user.firstName.slice(1)}{" "}
+                        {chat.user.lastName.charAt(0).toUpperCase() +
+                          chat.user.lastName.slice(1)}
                       </div>
                     </li>
                   </button>
@@ -96,7 +119,58 @@ const Inbox = (props) => {
             {loading && <div>Loading...</div>}
           </ul>
         </div>
-        <div className="inbox-main-panel"></div>
+        <div className="inbox-main-panel">
+          <div className="current-message-list pt-3">
+            {conversationData &&
+              messages.map((message) => {
+                if (message.senderId === state.user.id) {
+                  return (
+                    <div
+                      key={message.id}
+                      className="current-user-message text-center"
+                    >
+                      {message.text}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div
+                      key={message.id}
+                      className="other-user-message text-center"
+                    >
+                      {message.text}
+                    </div>
+                  );
+                }
+              })}
+          </div>
+          {selectedConversation && (
+            <div className="message-input-area">
+              <form
+                className="px-5 pt-4 inbox-input-form"
+                onSubmit={handleSubmit(sendMessage)}
+              >
+                <textarea
+                  className="inbox-text-area"
+                  name="text"
+                  {...register("text", {
+                    required: true,
+                    shouldUnregister: true,
+                  })}
+                  placeholder="Write your message here..."
+                ></textarea>
+                <div className="text-center">
+                  <Button
+                    type="submit"
+                    label="SEND"
+                    size="medium"
+                    mode="primary"
+                  />
+                </div>
+              </form>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
