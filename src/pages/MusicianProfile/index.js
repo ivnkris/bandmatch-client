@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "react-bootstrap";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { BsChevronCompactDown } from "react-icons/bs";
 import {
   Accordion,
@@ -41,6 +41,7 @@ const MusicianProfile = (props) => {
   let history = useHistory();
 
   const { id: musicianId } = useParams();
+  const [validBandMembers, setValidBandMembers] = useState([musicianId]);
 
   const myProfile = musicianId === state.user.id;
 
@@ -324,6 +325,21 @@ const MusicianProfile = (props) => {
         console.log("found invalid users", invalidUsers);
         $("#membersInput").append(<h1> people are missing </h1>);
       }
+
+      const validUsers = checkIfMusicianExists
+        .filter((musician) => musician.exists)
+        .map((musician) => {
+          console.log(musician);
+          return musician.id;
+        });
+
+      console.log("valid users after filter", validUsers);
+
+      if (validUsers) {
+        setValidBandMembers([...validBandMembers, ...validUsers]);
+        console.log("valid users after filter", validBandMembers);
+      }
+
       console.log("all good");
       return;
     },
@@ -379,11 +395,15 @@ const MusicianProfile = (props) => {
         ? true
         : false;
       const openToMembers = formData.lookingFor.length > 0 ? true : false;
-      console.log(formData, openToMembers);
+      console.log("these are the valid band members", validBandMembers);
 
       createBand({
         variables: {
-          createBandInput: { ...formData, openToMembers: openToMembers },
+          createBandInput: {
+            ...formData,
+            openToMembers: openToMembers,
+            members: validBandMembers,
+          },
         },
       });
       setModalState({
