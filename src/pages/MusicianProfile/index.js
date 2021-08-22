@@ -391,31 +391,24 @@ const MusicianProfile = (props) => {
     },
   });
 
-  const onSubmit = useCallback(
-    (formData) => {
-      formData.numberOfMembers = parseFloat(formData.numberOfMembers);
-      formData.openToCollaboration = formData.openToCollaboration = "true"
-        ? true
-        : false;
-      const openToMembers = formData.lookingFor.length > 0 ? true : false;
-      console.log("these are the valid band members", validBandMembers);
+  const onSubmit = useCallback((formData) => {
+    formData.numberOfMembers = parseFloat(formData.numberOfMembers);
+    formData.openToCollaboration = formData.openToCollaboration = "true"
+      ? true
+      : false;
+    const openToMembers = formData.lookingFor.length > 0 ? true : false;
+    console.log("these are the valid band members", validBandMembers);
 
-      createBand({
-        variables: {
-          createBandInput: {
-            ...formData,
-            openToMembers: openToMembers,
-            members: validBandMembers,
-          },
+    createBand({
+      variables: {
+        createBandInput: {
+          ...formData,
+          openToMembers: openToMembers,
+          members: validBandMembers,
         },
-      });
-      setModalState({
-        open: false,
-        content: null,
-      });
-    },
-    [setModalState]
-  );
+      },
+    });
+  });
 
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
     variables: {
