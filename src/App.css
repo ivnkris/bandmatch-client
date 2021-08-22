@@ -51,6 +51,10 @@ p {
   text-transform: none;
 }
 
+.small-text {
+  font-size: 14px;
+}
+
 .solid-background {
   background-color: #131313;
 }
