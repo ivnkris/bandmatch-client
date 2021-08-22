@@ -1,65 +1,59 @@
 import { gql } from "@apollo/client";
 
 export const LOGIN = gql`
-	mutation Mutation($loginInput: LoginInput!) {
-		login(input: $loginInput) {
-			token
-			user {
-				id
-				firstName
-				lastName
-				description
-				experienceLevel
-				imageUrl
-				websiteUrl
-				soundCloudUrl
-				openToCollaboration
-				openToJoiningBand
-			}
-		}
-	}
+  mutation Mutation($loginInput: LoginInput!) {
+    login(input: $loginInput) {
+      token
+      user {
+        id
+        email
+        firstName
+        lastName
+      }
+      type
+    }
+  }
 `;
 
 export const SIGNUP = gql`
-	mutation Mutation($signupInput: SignupInput!) {
-		signup(input: $signupInput) {
-			token
-			user {
-				id
-				firstName
-				lastName
-				description
-				genre {
-					id
-				}
-				experienceLevel
-				instruments {
-					id
-				}
-				imageUrl
-				websiteUrl
-				soundCloudUrl
-				lookingFor {
-					id
-				}
-				openToCollaboration
-				openToJoiningBand
-				band
-				bandName
-				bandImage
-			}
-		}
-	}
+  mutation Mutation($signupInput: SignupInput!) {
+    signup(input: $signupInput) {
+      token
+      user {
+        id
+        email
+        firstName
+        lastName
+      }
+      type
+    }
+  }
+`;
+
+export const SIGNUP_VENUE_USER = gql`
+  mutation Mutation($signupVenueUserInput: SignupVenueInput!) {
+    signupVenueUser(input: $signupVenueUserInput) {
+      token
+      user {
+        id
+        firstName
+        email
+        lastName
+        imageUrl
+      }
+      type
+    }
+  }
 `;
 
 export const CREATE_MESSAGE = gql`
-	mutation Mutation($createMessageInput: MessageInput!) {
-		createMessage(input: $createMessageInput) {
-			id
-			senderId
-			text
-		}
-	}
+  mutation Mutation($createMessageInput: MessageInput!) {
+    createMessage(input: $createMessageInput) {
+      id
+      senderId
+      text
+    }
+  }
 `;
 
 export const CREATE_BAND = gql`

@@ -1,6 +1,5 @@
 import Select from "react-select";
 import { Controller } from "react-hook-form";
-// import chroma from "chroma-js";
 
 import "./MultiSelectDropdown.css";
 
@@ -53,6 +52,7 @@ const MultiSelectDropDown = ({
   defaultValue,
   control,
   label,
+  required,
 }) => {
   return (
     <div className="multiSelect">
@@ -73,11 +73,13 @@ const MultiSelectDropDown = ({
               options={options}
               isMulti={isMulti}
               placeholder={placeholder}
+              required={required}
             />
           )}
           name={name}
           defaultValue={defaultValue || ""}
           control={control}
+          rules={{ required }}
         />
       </div>
     </div>
