@@ -384,3 +384,12 @@ export const CONVERSATIONS = gql`
 		}
 	}
 `;
+
+export const VALIDATE_BAND_MEMBERS = gql`
+  query Query($checkIfMusicianExistsInput: checkMusicianInput!) {
+    checkIfMusicianExists(input: $checkIfMusicianExistsInput) {
+      email
+      exists
+    }
+  }
+`;
