@@ -357,7 +357,7 @@ const MusicianProfile = (props) => {
               <Modal.Title>Create a new band</Modal.Title>
             </Modal.Header>
             <Modal.Body className="solid-background">
-              <p>Band created succcessfully</p>
+              <p>Band created successfully</p>
             </Modal.Body>
           </>
         ),
