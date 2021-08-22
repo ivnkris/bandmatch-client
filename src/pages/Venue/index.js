@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useModal } from "../../contexts/ModalProvider";
 import { Modal } from "react-bootstrap";
@@ -18,6 +18,7 @@ import { GENRESINSTRUMENTS } from "../../graphql/queries";
 import Button from "../../components/Button";
 import MultiSelectDropDown from "../../components/MultiSelectDropdown";
 import FormInput from "../../components/FormInput";
+import { CREATE_GIG } from "../../graphql/mutations";
 
 const Venue = () => {
   const { id: venueId } = useParams();
@@ -33,8 +34,42 @@ const Venue = () => {
     shouldFocusError: true,
   });
 
+  const [createGig] = useMutation(CREATE_GIG, {
+    onCompleted: (data) => {
+      setModalState({
+        open: true,
+        content: (
+          <>
+            <Modal.Header className="solid-background" closeButton>
+              <Modal.Title>Create a new gig</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="solid-background">
+              <p>Gig created successfully</p>
+            </Modal.Body>
+          </>
+        ),
+      });
+
+      setTimeout(() => {
+        window.reload();
+      }, 1500);
+    },
+    onError: (error) => {
+      //TO DO: handle error
+    },
+  });
+
   const onSubmit = useCallback((formData) => {
-    console.log("submit");
+    console.log("submit", formData);
+    formData.fee = parseFloat(formData.fee);
+    createGig({
+      variables: {
+        createGigInput: {
+          ...formData,
+          venue: venueId,
+        },
+      },
+    });
   });
 
   const [renderCreateGigModal] = useLazyQuery(GENRESINSTRUMENTS, {
