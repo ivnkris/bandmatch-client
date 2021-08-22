@@ -5,7 +5,6 @@ import Assemble from "./pages/Assemble";
 import BandProfile from "./pages/BandProfile/index.js";
 import Collaborate from "./pages/Collaborate";
 import Gig from "./pages/Gig";
-import CreateBand from "./pages/CreateBand";
 import EditBand from "./pages/EditBand";
 import EditProfile from "./pages/EditProfile";
 import Home from "./pages/Home";
@@ -15,6 +14,7 @@ import MusicianProfile from "./pages/MusicianProfile";
 import SignUp from "./pages/SignUp/index";
 import MusicianSignup from "./pages/MusicianSignup";
 import VenueSignup from "./pages/VenueSignup";
+import Venue from "./pages/Venue";
 
 const Routes = () => {
   const { state } = useUserContext();
@@ -58,6 +58,9 @@ const Routes = () => {
       </Route>
       <Route exact path="/bands/:id">
         {state.user ? <BandProfile /> : <Redirect to="/login" />}
+      </Route>
+      <Route exact path="/venues/:id">
+        {state.user ? <Venue /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/">
         <Home />
