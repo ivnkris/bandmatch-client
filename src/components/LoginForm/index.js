@@ -11,14 +11,14 @@ import { useUserContext } from "../../contexts/UserProvider";
 
 import "./LoginForm.css";
 
-const LoginForm = ({ redirect = "/assemble" }) => {
+const LoginForm = () => {
   let history = useHistory();
   const { dispatch } = useUserContext();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -33,6 +33,7 @@ const LoginForm = ({ redirect = "/assemble" }) => {
         firstName: data.login.user.firstName,
         lastName: data.login.user.lastName,
         id: data.login.user.id,
+        type: data.login.type,
       };
 
       localStorage.setItem("user", JSON.stringify(payload));
@@ -42,7 +43,7 @@ const LoginForm = ({ redirect = "/assemble" }) => {
         payload,
       });
 
-      history.push(redirect || "/assemble");
+      history.push(`/profile/${data.login.user.id}`);
     },
     onError: () => {},
   });
@@ -86,7 +87,6 @@ const LoginForm = ({ redirect = "/assemble" }) => {
         <div className="button-block py-3">
           <Button
             label="LOGIN"
-            disabled={!isValid}
             mode="primary"
             size="medium"
             type="submit"
