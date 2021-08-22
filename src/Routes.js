@@ -9,7 +9,7 @@ import CreateBand from "./pages/CreateBand";
 import EditBand from "./pages/EditBand";
 import EditProfile from "./pages/EditProfile";
 import Home from "./pages/Home";
-import Inbox from "./pages/Inbox";
+import Inbox from "./pages/Inbox/index";
 import Login from "./pages/Login/index";
 import MusicianProfile from "./pages/MusicianProfile";
 import SignUp from "./pages/SignUp/index";
