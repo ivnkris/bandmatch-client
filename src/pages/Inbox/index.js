@@ -1,7 +1,7 @@
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import Title from "../../components/Title";
 import { useUserContext } from "../../contexts/UserProvider";
-import { CONVERSATIONS } from "../../graphql/queries";
+import { CONVERSATION, CONVERSATIONS } from "../../graphql/queries";
 import "./inbox.css";
 
 const Inbox = (props) => {
@@ -33,18 +33,33 @@ const Inbox = (props) => {
     chats = renderChats();
   }
 
-  const getMessages = (event) => {
-    const chatId = event.currentTarget.id;
-    const selectedChat = chats.find((chat) => chat.id === chatId);
-    return selectedChat.messages.map((message) => {
-      console.log(message);
-      if (message.senderId === state.user.id) {
-        return <div className="current-user-message">{message.text}</div>;
-      } else {
-        return <div className="other-user-message">{message.text}</div>;
-      }
-    });
-  };
+  const [getMessages] = useLazyQuery(CONVERSATION, {
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  // const getMessages = (event) => {
+  //   const chatId = event.currentTarget.id;
+
+  //   const {
+  //     data: conversationData,
+  //     loading: conversationLoading,
+  //     error: conversationError,
+  //   } = useQuery(CONVERSATION);
+
+  // return selectedChat.messages.map((message) => {
+  //   console.log(message);
+  //   if (message.senderId === state.user.id) {
+  //     return <div className="current-user-message">{message.text}</div>;
+  //   } else {
+  //     return <div className="other-user-message">{message.text}</div>;
+  //   }
+  // });
+  // };
 
   return (
     <div className="inbox-background-container">
@@ -56,9 +71,12 @@ const Inbox = (props) => {
               chats.map((chat) => {
                 return (
                   <button
-                    onClick={getMessages}
+                    onClick={() =>
+                      getMessages({ variables: { conversationId: chat.id } })
+                    }
                     id={chat.id}
                     className="conversations-list-item"
+                    key={chat.id}
                   >
                     <li>
                       <div className="profile-inbox-image">
