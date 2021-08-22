@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
@@ -76,6 +76,12 @@ const Inbox = (props) => {
     });
   };
 
+  const AlwaysScrollToBottom = () => {
+    const elementRef = useRef();
+    useEffect(() => elementRef.current.scrollIntoView());
+    return <div ref={elementRef} />;
+  };
+
   let messages;
   if (conversationData) {
     messages = conversationData.conversation.messages;
@@ -143,6 +149,7 @@ const Inbox = (props) => {
                   );
                 }
               })}
+            <AlwaysScrollToBottom />
           </div>
           {selectedConversation && (
             <div className="message-input-area">
