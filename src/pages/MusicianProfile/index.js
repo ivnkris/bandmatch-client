@@ -22,10 +22,7 @@ import {
   MUSICIAN_USER,
   VALIDATE_BAND_MEMBERS,
 } from "../../graphql/queries";
-import {
-  constructGigCards,
-  constructPerformerCards,
-} from "../../utils/constructCards";
+import { constructGigCards } from "../../utils/constructCards";
 
 import "./MusicianProfile.css";
 import ProfileInfo from "../../components/ProfileInfo";
@@ -104,7 +101,6 @@ const MusicianProfile = (props) => {
           });
 
           const members = register("members", { required: true });
-          members.onBlur = validateMembers();
 
           setModalState({
             open: true,
@@ -200,6 +196,10 @@ const MusicianProfile = (props) => {
                             required={true}
                           />
                           <p>MEMBERS</p>
+                          <p className="small-text regular-text">
+                            Enter the email address of members with a Bandmatch
+                            account. Separate each with a comma.
+                          </p>
                           <FormInput
                             register={register("members", {
                               required: true,
