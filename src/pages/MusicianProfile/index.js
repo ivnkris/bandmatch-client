@@ -351,7 +351,10 @@ const MusicianProfile = (props) => {
     if (!membersInput) {
       return;
     }
-    const formattedMembers = membersInput.split(" ");
+    const formattedMembers = membersInput.split(",").map((member) => {
+      return member.trim();
+    });
+
     console.log("validating members", formattedMembers);
 
     validateBandMembers({
