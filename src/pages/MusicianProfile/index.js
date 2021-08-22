@@ -40,7 +40,7 @@ const MusicianProfile = (props) => {
   const { modalState, setModalState } = useModal();
   let history = useHistory();
 
-  const { id } = useParams();
+  const { id: musicianId } = useParams();
 
   const myProfile = musicianId === state.user.id;
 
