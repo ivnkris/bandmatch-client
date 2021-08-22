@@ -127,6 +127,7 @@ const Inbox = (props) => {
         </div>
         <div className="inbox-main-panel">
           <div className="current-message-list pt-3">
+            {conversationData && <div></div>}
             {conversationData &&
               messages.map((message) => {
                 if (message.senderId === state.user.id) {
