@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 
 import "./Assemble.css";
@@ -16,6 +16,8 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 const Assemble = (props) => {
   const { state } = useUserContext();
 
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+
   const filters = {
     genre: state.userFilters.genre,
     instruments: state.userFilters.instruments,
@@ -24,17 +26,21 @@ const Assemble = (props) => {
     userType: state.userFilters.userType,
   };
 
-  const { data: assembleData, loading: assembleLoading, error } = useQuery(
-    ASSEMBLE,
-    {
-      variables: {
-        assembleFilters: filters,
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    }
-  );
+  const {
+    data: assembleData,
+    loading: assembleLoading,
+    error,
+    fetchMore,
+  } = useQuery(ASSEMBLE, {
+    variables: {
+      assembleFilters: filters,
+      bandsOffset: 0,
+      musiciansOffset: 0,
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const {
     data: carouselData,
@@ -62,6 +68,37 @@ const Assemble = (props) => {
     assembleCards = renderCards(assembleData.assemble);
   }
 
+  const onLoadMore = async () => {
+    await fetchMore({
+      variables: {
+        bandsOffset: assembleData.assemble.bands.length,
+        musiciansOffset: assembleData.assemble.musicians.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+
+        if (
+          fetchMoreResult.assemble.bands.length < 2 &&
+          fetchMoreResult.assemble.musicians.length < 2
+        ) {
+          setHasMoreItems(false);
+        }
+
+        const result = {
+          assemble: {
+            bands: [...prev.assemble.bands, ...fetchMoreResult.assemble.bands],
+            musicians: [
+              ...prev.assemble.musicians,
+              ...fetchMoreResult.assemble.musicians,
+            ],
+          },
+        };
+
+        return result;
+      },
+    });
+  };
+
   return (
     <div className="results-page-container">
       <Header className="pt-3" title="Create, complete or join a band" />
@@ -78,7 +115,14 @@ const Assemble = (props) => {
             {constructPerformerCards(assembleCards)}
           </div>
         )}
-        <Button label="LOAD MORE" size="medium" mode="primary" />
+        {hasMoreItems && (
+          <Button
+            label="LOAD MORE"
+            size="medium"
+            mode="primary"
+            onClick={onLoadMore}
+          />
+        )}
       </div>
     </div>
   );
