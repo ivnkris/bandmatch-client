@@ -258,9 +258,11 @@ const AssembleCard = (props) => {
 
   return (
     <div
-      className={[`card-container-${props.version}`, `card-container`].join(
-        " "
-      )}
+      className={[
+        `card-container-${props.version}`,
+        `card-container`,
+        `mx-4`,
+      ].join(" ")}
     >
       <div
         className="card-image"

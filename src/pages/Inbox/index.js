@@ -7,7 +7,7 @@ import Title from "../../components/Title";
 import { useUserContext } from "../../contexts/UserProvider";
 import { CREATE_MESSAGE } from "../../graphql/mutations";
 import { CONVERSATION, CONVERSATIONS } from "../../graphql/queries";
-import "./Inbox.css";
+import "./inbox.css";
 
 const Inbox = (props) => {
   const [isSideDrawer, setIsSideDrawer] = useState(false);
