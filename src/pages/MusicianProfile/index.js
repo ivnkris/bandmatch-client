@@ -100,8 +100,6 @@ const MusicianProfile = (props) => {
             };
           });
 
-          const members = register("members", { required: true });
-
           setModalState({
             open: true,
             content: (
