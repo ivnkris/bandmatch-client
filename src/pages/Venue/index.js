@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useModal } from "../../contexts/ModalProvider";
@@ -19,10 +19,12 @@ import Button from "../../components/Button";
 import MultiSelectDropDown from "../../components/MultiSelectDropdown";
 import FormInput from "../../components/FormInput";
 import { CREATE_GIG } from "../../graphql/mutations";
+import formatToTwoDecimals from "../../utils/formatToTwoDecimals";
 
 const Venue = () => {
   const { id: venueId } = useParams();
   const { modalState, setModalState } = useModal();
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -34,8 +36,16 @@ const Venue = () => {
     shouldFocusError: true,
   });
 
+  const refreshPage = () => {
+    setModalState({
+      open: false,
+    });
+
+    history.go(0);
+  };
+
   const [createGig] = useMutation(CREATE_GIG, {
-    onCompleted: (data) => {
+    onCompleted: () => {
       setModalState({
         open: true,
         content: (
@@ -51,17 +61,34 @@ const Venue = () => {
       });
 
       setTimeout(() => {
-        window.reload();
+        refreshPage();
       }, 1500);
     },
     onError: (error) => {
-      //TO DO: handle error
+      console.log(error);
+      setModalState({
+        open: true,
+        content: (
+          <>
+            <Modal.Header className="solid-background" closeButton>
+              <Modal.Title>Create a new gig</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="solid-background">
+              <p>Sorry, we could not create a new gig at this time.</p>
+              <p>Please try again later.</p>
+            </Modal.Body>
+          </>
+        ),
+      });
     },
   });
 
   const onSubmit = useCallback((formData) => {
     console.log("submit", formData);
+    formData.fee = formatToTwoDecimals(formData.fee);
     formData.fee = parseFloat(formData.fee);
+    console.log(formData);
+
     createGig({
       variables: {
         createGigInput: {
