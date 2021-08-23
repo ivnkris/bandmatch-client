@@ -5,7 +5,10 @@ import ProfileInfo from "../../components/ProfileInfo";
 import SoundCloudWidget from "../../components/SoundCloudWidget";
 import Title from "../../components/Title";
 import { BAND, GIGS } from "../../graphql/queries";
-import { constructGigCards } from "../../utils/constructCards";
+import {
+  constructGigCards,
+  constructPerformerCards,
+} from "../../utils/constructCards";
 import "./BandProfile.css";
 
 const BandProfile = (props) => {
@@ -45,6 +48,7 @@ const BandProfile = (props) => {
 
   if (bandData) {
     const band = bandData.band;
+    console.log(band);
     const name = band.name;
     const openTo = () => {
       if (band.openToCollaboration && band.openToMembers) {
@@ -100,6 +104,18 @@ const BandProfile = (props) => {
               {constructGigCards(gigsData.gigs)}
             </div>
           )}
+        </div>
+
+        <div className="see-through-background-90 text-align-center">
+          <p className="title mb-2 pt-2 fs-1">{band.name}'s BANDS</p>
+
+          <div className="cards-container">
+            {bandData && (
+              <div className="cards-container">
+                {constructPerformerCards(band.musicians, "shortened")}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

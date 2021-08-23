@@ -318,8 +318,8 @@ export const BAND = gql`
       experienceLevel
       numberOfMembers
       instruments {
-        id
         name
+        id
       }
       imageUrl
       websiteUrl
@@ -332,8 +332,20 @@ export const BAND = gql`
       openToMembers
       musicians {
         id
+        email
         firstName
         lastName
+        description
+        postcode
+
+        experienceLevel
+
+        imageUrl
+        websiteUrl
+        soundCloudUrl
+
+        openToJoiningBand
+        openToCollaboration
       }
     }
   }
@@ -428,6 +440,41 @@ export const CONVERSATION = gql`
         senderId
         id
       }
+    }
+  }
+`;
+
+export const BANDS = gql`
+  query Query($bandsFilters: Filter) {
+    bands(filters: $bandsFilters) {
+      id
+      name
+      musicians {
+        lastName
+        firstName
+        id
+      }
+      genre {
+        id
+        name
+      }
+      description
+      location
+      experienceLevel
+      numberOfMembers
+      instruments {
+        id
+        name
+      }
+      imageUrl
+      websiteUrl
+      soundCloudUrl
+      lookingFor {
+        id
+        role
+      }
+      openToCollaboration
+      openToMembers
     }
   }
 `;
