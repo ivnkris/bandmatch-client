@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { useModal } from "../../contexts/ModalProvider";
 import { Modal } from "react-bootstrap";
 import { BsChevronCompactDown } from "react-icons/bs";
+import Datetime from "react-datetime";
+import moment from "moment";
+import "react-datetime/css/react-datetime.css";
 import {
   Accordion,
   AccordionItem,
@@ -12,10 +15,13 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from "react-accessible-accordion";
+import $ from "jquery";
 
 import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
+import "./Venue.css";
 import Button from "../../components/Button";
+import validateFutureDates from "../../utils/validateFutureDates";
 import MultiSelectDropDown from "../../components/MultiSelectDropdown";
 import FormInput from "../../components/FormInput";
 import { CREATE_GIG } from "../../graphql/mutations";
@@ -84,16 +90,16 @@ const Venue = () => {
   });
 
   const onSubmit = useCallback((formData) => {
-    console.log("submit", formData);
     formData.fee = formatToTwoDecimals(formData.fee);
-    formData.fee = parseFloat(formData.fee);
-    console.log(formData);
+    const dateTimeUnformatted = $(".form-control").attr("value");
+    const dateTime = moment.utc(dateTimeUnformatted);
 
     createGig({
       variables: {
         createGigInput: {
           ...formData,
           venue: venueId,
+          dateTime,
         },
       },
     });
@@ -150,7 +156,11 @@ const Venue = () => {
                             register={register("description")}
                           />
                           <p>DATE AND TIME</p>
-                          <h2> Calendar</h2>
+                          <Datetime
+                            isValidDate={validateFutureDates}
+                            dateFormat="DD-MM-YYYY"
+                            className="solid-background"
+                          />
                           <p>PAY RATE (£)</p>
                           <FormInput
                             placeholder="Reward for performer"
