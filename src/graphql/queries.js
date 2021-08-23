@@ -120,8 +120,16 @@ export const ASSEMBLE_CAROUSEL = gql`
 `;
 
 export const COLLABORATE = gql`
-  query Query($collaborateFilters: Filter) {
-    collaborate(filters: $collaborateFilters) {
+  query Query(
+    $collaborateFilters: Filter
+    $musiciansOffset: Int
+    $bandsOffset: Int
+  ) {
+    collaborate(
+      filters: $collaborateFilters
+      musiciansOffset: $musiciansOffset
+      bandsOffset: $bandsOffset
+    ) {
       bands {
         name
         id

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 
 import "./Assemble.css";
@@ -15,6 +15,8 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Assemble = (props) => {
   const { state } = useUserContext();
+
+  const [hasMoreItems, setHasMoreItems] = useState(true);
 
   const filters = {
     genre: state.userFilters.genre,
@@ -73,9 +75,14 @@ const Assemble = (props) => {
         musiciansOffset: assembleData.assemble.musicians.length,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        console.log("prev", prev);
-        console.log("fetchMoreResult", fetchMoreResult);
         if (!fetchMoreResult) return prev;
+
+        if (
+          fetchMoreResult.assemble.bands.length < 2 &&
+          fetchMoreResult.assemble.musicians.length < 2
+        ) {
+          setHasMoreItems(false);
+        }
 
         const result = {
           assemble: {
@@ -86,7 +93,6 @@ const Assemble = (props) => {
             ],
           },
         };
-        console.log("result", result);
 
         return result;
       },
@@ -109,12 +115,14 @@ const Assemble = (props) => {
             {constructPerformerCards(assembleCards)}
           </div>
         )}
-        <Button
-          label="LOAD MORE"
-          size="medium"
-          mode="primary"
-          onClick={onLoadMore}
-        />
+        {hasMoreItems && (
+          <Button
+            label="LOAD MORE"
+            size="medium"
+            mode="primary"
+            onClick={onLoadMore}
+          />
+        )}
       </div>
     </div>
   );

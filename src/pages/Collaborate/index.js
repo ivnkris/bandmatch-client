@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 
 import "./Collaborate.css";
@@ -16,6 +16,8 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 const Collaborate = (props) => {
   const { state } = useUserContext();
 
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+
   const filters = {
     genre: state.userFilters.genre,
     instruments: state.userFilters.instruments,
@@ -28,9 +30,12 @@ const Collaborate = (props) => {
     data: collaborateData,
     loading: collaborateLoading,
     error: collaborateError,
+    fetchMore,
   } = useQuery(COLLABORATE, {
     variables: {
       collaborateFilters: filters,
+      bandsOffset: 0,
+      musiciansOffset: 0,
     },
   });
 
@@ -60,6 +65,40 @@ const Collaborate = (props) => {
     collaborateCards = renderCards(collaborateData.collaborate);
   }
 
+  const onLoadMore = async () => {
+    await fetchMore({
+      variables: {
+        bandsOffset: collaborateData.collaborate.bands.length,
+        musiciansOffset: collaborateData.collaborate.musicians.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+
+        if (
+          fetchMoreResult.collaborate.bands.length < 2 &&
+          fetchMoreResult.collaborate.musicians.length
+        ) {
+          setHasMoreItems(false);
+        }
+
+        const result = {
+          collaborate: {
+            bands: [
+              ...prev.collaborate.bands,
+              ...fetchMoreResult.collaborate.bands,
+            ],
+            musicians: [
+              ...prev.collaborate.musicians,
+              ...fetchMoreResult.collaborate.musicians,
+            ],
+          },
+        };
+
+        return result;
+      },
+    });
+  };
+
   return (
     <div className="results-page-container">
       <Header className="pt-3" title="Collaborate with other musicians" />
@@ -77,7 +116,14 @@ const Collaborate = (props) => {
           </div>
         )}
 
-        <Button label="LOAD MORE" size="medium" mode="primary" />
+        {hasMoreItems && (
+          <Button
+            label="LOAD MORE"
+            size="medium"
+            mode="primary"
+            onClick={onLoadMore}
+          />
+        )}
       </div>
     </div>
   );
