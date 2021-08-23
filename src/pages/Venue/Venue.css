@@ -1,0 +1,34 @@
+.form-control {
+  background-color: rgb(56, 55, 55) !important;
+  color: white !important;
+}
+
+.rdtPicker {
+  background-color: rgb(56, 55, 55);
+  box-shadow: 1px 0px 10px -1px rgba(255, 255, 255, 0.49);
+}
+
+td.rdtActive {
+  background-color: #ffd324 !important;
+  color: rgb(56, 55, 55) !important;
+}
+
+.rdtPicker td:hover {
+  background-color: rgb(179, 179, 179);
+  color: rgb(56, 55, 55);
+}
+
+.rdtTime td:hover {
+  background-color: rgb(56, 55, 55) !important;
+  color: white !important;
+}
+
+.rdtBtn:hover {
+  background-color: rgb(56, 55, 55) !important;
+  color: white !important;
+}
+
+td.rdtActive:hover {
+  background-color: #ffd324 !important;
+  color: rgb(0, 0, 0) !important;
+}
