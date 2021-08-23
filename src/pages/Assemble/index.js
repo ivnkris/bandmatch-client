@@ -108,7 +108,7 @@ const Assemble = (props) => {
         {carouselData && <CardsCarousel cards={carouselCards} />}
       </div>
       <FilterStrip title="FIND YOUR MATCH" />
-      <div className="see-through-background-90 text-align-center">
+      <div className="see-through-background-90 text-align-center main-cards-container">
         {assembleLoading && <LoadingSpinner />}
         {assembleData && (
           <div className="cards-container">
