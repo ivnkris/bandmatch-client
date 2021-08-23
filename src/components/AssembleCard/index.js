@@ -151,7 +151,7 @@ const AssembleCard = (props) => {
                   >
                     <Button
                       label="MESSAGE"
-                      onClick={() => console.log("msg")}
+                      onClick={showMessageModal}
                       size="medium"
                       mode="primary"
                     />
@@ -206,7 +206,11 @@ const AssembleCard = (props) => {
             <Title text="MESSAGES" type="profile" />
             <form className="px-5" onSubmit={handleSubmit(sendMessage)}>
               <div className="py-3">
-                To: {props.firstName} {props.lastName}
+                To:{" "}
+                {props.firstName.charAt(0).toUpperCase() +
+                  props.firstName.slice(1)}{" "}
+                {props.lastName.charAt(0).toUpperCase() +
+                  props.lastName.slice(1)}
               </div>
               <textarea
                 className="message-text-area"
