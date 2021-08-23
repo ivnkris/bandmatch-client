@@ -396,6 +396,7 @@ export const CONVERSATIONS = gql`
         id
         firstName
         lastName
+        imageUrl
       }
     }
   }
@@ -407,6 +408,26 @@ export const VALIDATE_BAND_MEMBERS = gql`
       email
       exists
       id
+    }
+  }
+`;
+
+export const CONVERSATION = gql`
+  query Query($conversationId: ID!) {
+    conversation(id: $conversationId) {
+      id
+      participants {
+        id
+        email
+        firstName
+        lastName
+        imageUrl
+      }
+      messages {
+        text
+        senderId
+        id
+      }
     }
   }
 `;
