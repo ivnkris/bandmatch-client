@@ -89,17 +89,23 @@ const Venue = () => {
     },
   });
 
-  const onSubmit = useCallback((formData) => {
+  const onSubmit = useCallback(async (formData) => {
+    console.log(formData);
     formData.fee = formatToTwoDecimals(formData.fee);
     const dateTimeUnformatted = $(".form-control").attr("value");
-    const dateTime = moment.utc(dateTimeUnformatted);
+
+    // Needs fixing
+    console.log("unformatted date", dateTimeUnformatted);
+    const dateTimeFormatted = moment.utc(dateTimeUnformatted).format();
+
+    console.log(dateTimeFormatted);
 
     createGig({
       variables: {
         createGigInput: {
           ...formData,
           venue: venueId,
-          dateTime,
+          dateTime: dateTimeFormatted,
         },
       },
     });
@@ -189,10 +195,10 @@ const Venue = () => {
                           <section className="dropdown-div">
                             <select
                               className="select-dropdown"
-                              id="experienceLevel"
-                              name="experienceLevel"
-                              placeholder="Select your experience level"
-                              {...register("experienceLevel", {
+                              id="genre"
+                              name="genre"
+                              placeholder="Select your genre"
+                              {...register("genre", {
                                 required: true,
                               })}
                             >
