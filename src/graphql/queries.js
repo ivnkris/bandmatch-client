@@ -382,3 +382,31 @@ export const MUSICIAN_PREVIEW = gql`
     }
   }
 `;
+
+export const CONVERSATIONS = gql`
+  query Query($conversationsId: ID!) {
+    conversations(id: $conversationsId) {
+      id
+      messages {
+        id
+        senderId
+        text
+      }
+      participants {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const VALIDATE_BAND_MEMBERS = gql`
+  query Query($checkIfMusicianExistsInput: checkMusicianInput!) {
+    checkIfMusicianExists(input: $checkIfMusicianExistsInput) {
+      email
+      exists
+      id
+    }
+  }
+`;

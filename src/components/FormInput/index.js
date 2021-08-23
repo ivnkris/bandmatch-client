@@ -9,6 +9,8 @@ const FormInput = ({
   error,
   register,
   required,
+  onBlur,
+  id,
 }) => {
   return (
     <div className="form-element">
@@ -21,6 +23,8 @@ const FormInput = ({
         placeholder={placeholder}
         {...register}
         required={required}
+        onBlur={onBlur}
+        id={id}
       />
     </div>
   );

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 
+import { useUserContext } from "../../contexts/UserProvider";
+
 import FormInput from "../FormInput";
 import Title from "../Title";
 import FormContainer from "../FormContainer";
@@ -11,11 +13,16 @@ import Button from "../Button";
 import { SIGNUP } from "../../graphql/mutations";
 import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
-import "./SignUpForm.css";
-const SignUpForm = ({ redirect = "/assemble" }) => {
-  const history = useHistory();
+import "./MusicianSignupForm.css";
+import ImageUpload from "../ImageUpload";
+
+const MusicianSignupForm = () => {
+  let history = useHistory();
+  const { dispatch } = useUserContext();
 
   const [formStep, setFormStep] = useState(0);
+  const [userEmail, setUserEmail] = useState("");
+  const [imageUrl, setImageUrl] = useState();
 
   const nextFormStep = () => {
     setFormStep(formStep + 1);
@@ -25,10 +32,16 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     setFormStep(formStep - 1);
   };
 
+  const onFirstSubmit = (formData) => {
+    setUserEmail(formData.email);
+    nextFormStep();
+  };
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    watch,
+    formState: { errors },
     control,
   } = useForm({
     mode: "onBlur",
@@ -37,10 +50,28 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
   });
 
   const [signUp, { loading }] = useMutation(SIGNUP, {
-    onCompleted: () => {
-      history.push(redirect);
+    onCompleted: (data) => {
+      const payload = {
+        token: data.signup.token,
+        email: data.signup.user.email,
+        firstName: data.signup.user.firstName,
+        lastName: data.signup.user.lastName,
+        id: data.signup.user.id,
+        type: data.signup.type,
+      };
+
+      localStorage.setItem("user", JSON.stringify(payload));
+
+      dispatch({
+        type: "LOGIN",
+        payload,
+      });
+
+      history.push(`/profile/${data.signup.user.id}`);
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   const {
@@ -78,7 +109,7 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
     });
   }
 
-  const onSubmit = async (formData) => {
+  const submitForm = async (formData) => {
     if (formData.openToCollaboration === "true") {
       formData.openToCollaboration = true;
     } else {
@@ -91,9 +122,27 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
       formData.openToJoiningBand = false;
     }
 
+    const newUser = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      imageUrl,
+      description: formData.description,
+      postcode: formData.postcode,
+      websiteUrl: formData.websiteUrl,
+      soundCloudUrl: formData.soundCloudUrl,
+      genre: formData.genre,
+      instruments: formData.instruments,
+      experienceLevel: formData.experienceLevel,
+      lookingFor: formData.lookingFor,
+      openToCollaboration: formData.openToCollaboration,
+      openToJoiningBand: formData.openToJoiningBand,
+    };
+
     await signUp({
       variables: {
-        signupInput: { ...formData, isPremium: false },
+        signupInput: { ...newUser, isPremium: false },
       },
     });
   };
@@ -113,7 +162,6 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
           ></Button>
           <Button
             label="CREATE ACCOUNT"
-            disabled={!isValid}
             mode="primary"
             size="medium"
             type="submit"
@@ -125,11 +173,9 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
         <div className="button-block py-3">
           <Button
             label="NEXT STEP"
-            disabled={!isValid}
             mode="primary"
             size="medium"
-            type="button"
-            onClick={nextFormStep}
+            type="submit"
           ></Button>
         </div>
       );
@@ -145,21 +191,29 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
           ></Button>
           <Button
             label="NEXT STEP"
-            disabled={!isValid}
             mode="primary"
             size="medium"
-            type="button"
-            onClick={nextFormStep}
+            type="submit"
           ></Button>
         </div>
       );
     }
   };
 
+  if (loading) {
+    return (
+      <div className="pb-5 text-center">
+        <div className="spinner-border " role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <FormContainer>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {formStep === 0 && (
+      {formStep === 0 && (
+        <form onSubmit={handleSubmit(onFirstSubmit)}>
           <section>
             <Title type="section" text="REGISTER" />
             <FormInput
@@ -176,37 +230,65 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               placeholder="Email"
               type="email"
               error={errors.email}
-              register={register(
-                "email",
-                { required: true },
-                {
-                  pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                }
-              )}
+              register={register("email", {
+                required: true,
+                pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              })}
               required={true}
             />
             <FormInput
               type="password"
               placeholder="Password"
               error={errors.password}
-              register={register("password", { required: true })}
+              register={register("password", {
+                required: true,
+                pattern: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+              })}
             />
+
             <FormInput
               type="password"
               placeholder="Confirm Password"
-              error={errors.password}
+              error={errors.confirmPassword}
+              register={register("confirmPassword", {
+                required: true,
+                validate: (value) =>
+                  value === watch("password") ||
+                  "Make sure your passwords match.",
+                shouldUnregister: true,
+              })}
             />
+            {errors.confirmPassword && (
+              <div className="error-message">
+                Make sure your passwords match.
+              </div>
+            )}
           </section>
-        )}
+          {errors.password && (
+            <div className="error-message">
+              Your password must contain at least 8 characters, with at least
+              one letter, one number and one special character.
+            </div>
+          )}
+          {renderButton()}
+        </form>
+      )}
 
-        {formStep === 1 && (
+      {formStep === 1 && (
+        <form onSubmit={handleSubmit(nextFormStep)}>
           <section>
             <Title type="section" text="SET UP YOUR PROFILE" />
 
-            <FormInput
+            {/* <FormInput
               placeholder="Profile Image"
               error={errors.imageUrl}
-              register={register("imageUrl", { required: false })}
+              register={register("imageUrl", { required: true })}
+            /> */}
+
+            <ImageUpload
+              email={userEmail}
+              setImageUrl={setImageUrl}
+              imageUrl={imageUrl}
             />
             <FormInput
               placeholder="Short bio"
@@ -230,9 +312,12 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               register={register("soundCloudUrl", { required: false })}
             />
           </section>
-        )}
+          {renderButton()}
+        </form>
+      )}
 
-        {formStep === 2 && (
+      {formStep === 2 && (
+        <form onSubmit={handleSubmit(nextFormStep)}>
           <section>
             <Title type="section" text="YOUR MUSIC" />
 
@@ -243,7 +328,9 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               name="genre"
               control={control}
               label="What genre(s) do you play?"
+              required={true}
             />
+            {errors.genre && <div className="error-message">* Required</div>}
 
             <MultiSelectDropDown
               options={instrumentOptions}
@@ -252,7 +339,11 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               name="instruments"
               control={control}
               label="What instrument(s) do you play?"
+              required={true}
             />
+            {errors.instruments && (
+              <div className="error-message">* Required</div>
+            )}
 
             <section className="dropdown-div">
               <div className="select-label">What level are you?</div>
@@ -275,9 +366,12 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               </select>
             </section>
           </section>
-        )}
+          {renderButton()}
+        </form>
+      )}
 
-        {formStep === 3 && (
+      {formStep === 3 && (
+        <form onSubmit={handleSubmit(submitForm)}>
           <section>
             <Title type="section" text="YOUR GOALS" />
 
@@ -288,7 +382,11 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               name="lookingFor"
               control={control}
               label="Who do you want to work with?"
+              required={true}
             />
+            {errors.lookingFor && (
+              <div className="error-message">* Required</div>
+            )}
 
             <section className="dropdown-div">
               <div className="select-label">Interested in collaborations?</div>
@@ -326,19 +424,18 @@ const SignUpForm = ({ redirect = "/assemble" }) => {
               </select>
             </section>
           </section>
-        )}
+          {renderButton()}
+        </form>
+      )}
 
-        {renderButton()}
-
-        <div className="text-center my-2">
-          Already have an account?{" "}
-          <a className="signup-link" href="/login">
-            Login
-          </a>
-        </div>
-      </form>
+      <div className="text-center my-2">
+        Already have an account?{" "}
+        <a className="signup-link" href="/login">
+          Login
+        </a>
+      </div>
     </FormContainer>
   );
 };
 
-export default SignUpForm;
+export default MusicianSignupForm;

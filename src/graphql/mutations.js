@@ -6,16 +6,11 @@ export const LOGIN = gql`
       token
       user {
         id
+        email
         firstName
         lastName
-        description
-        experienceLevel
-        imageUrl
-        websiteUrl
-        soundCloudUrl
-        openToCollaboration
-        openToJoiningBand
       }
+      type
     }
   }
 `;
@@ -26,28 +21,53 @@ export const SIGNUP = gql`
       token
       user {
         id
+        email
         firstName
         lastName
-        description
-        genre {
-          id
-        }
-        experienceLevel
-        instruments {
-          id
-        }
-        imageUrl
-        websiteUrl
-        soundCloudUrl
-        lookingFor {
-          id
-        }
-        openToCollaboration
-        openToJoiningBand
-        band
-        bandName
-        bandImage
       }
+      type
+    }
+  }
+`;
+
+export const SIGNUP_VENUE_USER = gql`
+  mutation Mutation($signupVenueUserInput: SignupVenueInput!) {
+    signupVenueUser(input: $signupVenueUserInput) {
+      token
+      user {
+        id
+        firstName
+        email
+        lastName
+        imageUrl
+      }
+      type
+    }
+  }
+`;
+
+export const CREATE_MESSAGE = gql`
+  mutation Mutation($createMessageInput: MessageInput!) {
+    createMessage(input: $createMessageInput) {
+      id
+      senderId
+      text
+    }
+  }
+`;
+
+export const CREATE_BAND = gql`
+  mutation CreateBandMutation($createBandInput: BandInput!) {
+    createBand(input: $createBandInput) {
+      id
+    }
+  }
+`;
+
+export const CREATE_GIG = gql`
+  mutation CreateGigMutation($createGigInput: GigInput) {
+    createGig(input: $createGigInput) {
+      id
     }
   }
 `;
