@@ -1,8 +1,16 @@
 import { gql } from "@apollo/client";
 
 export const ASSEMBLE = gql`
-  query Query($assembleFilters: Filter) {
-    assemble(filters: $assembleFilters) {
+  query ExampleQuery(
+    $assembleFilters: Filter
+    $musiciansOffset: Int
+    $bandsOffset: Int
+  ) {
+    assemble(
+      filters: $assembleFilters
+      musiciansOffset: $musiciansOffset
+      bandsOffset: $bandsOffset
+    ) {
       musicians {
         id
         firstName
@@ -112,8 +120,16 @@ export const ASSEMBLE_CAROUSEL = gql`
 `;
 
 export const COLLABORATE = gql`
-  query Query($collaborateFilters: Filter) {
-    collaborate(filters: $collaborateFilters) {
+  query Query(
+    $collaborateFilters: Filter
+    $musiciansOffset: Int
+    $bandsOffset: Int
+  ) {
+    collaborate(
+      filters: $collaborateFilters
+      musiciansOffset: $musiciansOffset
+      bandsOffset: $bandsOffset
+    ) {
       bands {
         name
         id
@@ -380,6 +396,7 @@ export const CONVERSATIONS = gql`
         id
         firstName
         lastName
+        imageUrl
       }
     }
   }
@@ -391,6 +408,26 @@ export const VALIDATE_BAND_MEMBERS = gql`
       email
       exists
       id
+    }
+  }
+`;
+
+export const CONVERSATION = gql`
+  query Query($conversationId: ID!) {
+    conversation(id: $conversationId) {
+      id
+      participants {
+        id
+        email
+        firstName
+        lastName
+        imageUrl
+      }
+      messages {
+        text
+        senderId
+        id
+      }
     }
   }
 `;
