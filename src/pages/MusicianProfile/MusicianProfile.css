@@ -9,6 +9,7 @@
 .profile-title-div {
   position: relative;
   margin-bottom: 2rem;
+  padding: 0.5rem 0;
 }
 
 .create-band-button {
@@ -16,6 +17,7 @@
   top: 0;
   right: 0;
   padding-right: 3rem;
+  padding-top: 1rem;
 }
 
 .accordion-heading-override {
@@ -27,4 +29,11 @@
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
+}
+
+@media screen and (max-width: 911px) {
+  .create-band-button {
+    position: relative;
+    padding: unset;
+  }
 }
