@@ -7,7 +7,7 @@
 
 .inbox-flex-container {
   display: flex;
-  min-height: 94vh;
+  max-height: 91vh;
 }
 
 .inbox-side-panel {
@@ -23,6 +23,7 @@
   min-height: 91vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .conversations-list {
@@ -64,14 +65,12 @@
 }
 
 .current-message-list {
-  height: 70vh;
   overflow-y: auto;
 }
 
 .current-user-message {
   background-color: darkgray;
   width: 40%;
-
   border-radius: 1rem;
   color: black;
   position: relative;
@@ -81,7 +80,7 @@
 }
 
 .other-user-message {
-  background-color: yellow;
+  background-color: #ffd324;
   width: 40%;
   border-radius: 1rem;
   color: black;
@@ -91,6 +90,7 @@
 
 .inbox-input-form {
   display: flex;
+  padding: 1rem 2rem;
 }
 
 .inbox-text-area {
@@ -105,4 +105,59 @@
 
 .inbox-text-area::placeholder {
   color: #aaaaaa;
+}
+.mobile-chat-nav {
+  width: 100%;
+  height: 4rem;
+  background-color: #ffd324;
+}
+
+.mobile-chat-toggle {
+  width: 25%;
+  font-size: 14px;
+  padding: 8px;
+  margin: 15px;
+  background: linear-gradient(#424141, #000000);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 2px 2px 2px #a5a4a4;
+  letter-spacing: 1.5px;
+}
+
+@media screen and (min-height: 635px) {
+  .inbox-flex-container {
+    min-height: 94vh;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .inbox-side-panel {
+    display: none;
+  }
+
+  .inbox-main-panel {
+    width: 100%;
+    min-height: unset;
+  }
+
+  .inbox-input-form {
+    padding: 1rem 2rem;
+  }
+}
+
+@media screen and (max-width: 526px) {
+  .mobile-chat-toggle {
+    width: 40%;
+    font-size: 14px;
+    padding: 8px;
+    margin: 15px;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .mobile-chat-nav {
+    display: none;
+  }
 }
