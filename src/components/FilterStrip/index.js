@@ -196,8 +196,8 @@ const FilterStrip = (props) => {
         <p className="title">{props.title}</p>
         <Button
           label="FILTER"
-          size="small"
-          mode="secondary"
+          size="medium"
+          mode="primary"
           onClick={() => {
             getFilterOptions();
           }}

@@ -279,12 +279,6 @@ const MusicianSignupForm = () => {
           <section>
             <Title type="section" text="SET UP YOUR PROFILE" />
 
-            {/* <FormInput
-              placeholder="Profile Image"
-              error={errors.imageUrl}
-              register={register("imageUrl", { required: true })}
-            /> */}
-
             <ImageUpload
               email={userEmail}
               setImageUrl={setImageUrl}
