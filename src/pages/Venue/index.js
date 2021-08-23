@@ -18,14 +18,14 @@ import {
 import $ from "jquery";
 
 import { GENRESINSTRUMENTS } from "../../graphql/queries";
+import { CREATE_GIG } from "../../graphql/mutations";
+import formatToTwoDecimals from "../../utils/formatToTwoDecimals";
+import generateDropdownOptions from "../../utils/generateDropdownOptions";
+import validateFutureDates from "../../utils/validateFutureDates";
 
 import "./Venue.css";
 import Button from "../../components/Button";
-import validateFutureDates from "../../utils/validateFutureDates";
-import MultiSelectDropDown from "../../components/MultiSelectDropdown";
 import FormInput from "../../components/FormInput";
-import { CREATE_GIG } from "../../graphql/mutations";
-import formatToTwoDecimals from "../../utils/formatToTwoDecimals";
 
 const Venue = () => {
   const { id: venueId } = useParams();
@@ -126,6 +126,8 @@ const Venue = () => {
             };
           });
 
+          const genres = generateDropdownOptions(serverGenres);
+
           setModalState({
             open: true,
             content: (
@@ -184,13 +186,19 @@ const Venue = () => {
                         </AccordionItemHeading>
                         <AccordionItemPanel>
                           <p>MUSIC GENRE</p>
-                          <MultiSelectDropDown
-                            options={serverGenres}
-                            placeholder="Music genres"
-                            isMulti={true}
-                            name="genre"
-                            control={control}
-                          />
+                          <section className="dropdown-div">
+                            <select
+                              className="select-dropdown"
+                              id="experienceLevel"
+                              name="experienceLevel"
+                              placeholder="Select your experience level"
+                              {...register("experienceLevel", {
+                                required: true,
+                              })}
+                            >
+                              {[...genres]}
+                            </select>
+                          </section>
                           <p>VENUE PIC</p>
                           <FormInput
                             placeholder="Snap of the venue"
