@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "react-bootstrap";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { BsChevronCompactDown } from "react-icons/bs";
 import {
   Accordion,
@@ -22,10 +22,7 @@ import {
   MUSICIAN_USER,
   VALIDATE_BAND_MEMBERS,
 } from "../../graphql/queries";
-import {
-  constructGigCards,
-  constructPerformerCards,
-} from "../../utils/constructCards";
+import { constructGigCards } from "../../utils/constructCards";
 
 import "./MusicianProfile.css";
 import ProfileInfo from "../../components/ProfileInfo";
@@ -41,6 +38,7 @@ const MusicianProfile = (props) => {
   let history = useHistory();
 
   const { id: musicianId } = useParams();
+  const [validBandMembers, setValidBandMembers] = useState([musicianId]);
 
   const myProfile = musicianId === state.user.id;
 
@@ -101,9 +99,6 @@ const MusicianProfile = (props) => {
                 instrument.role.slice(1),
             };
           });
-
-          const members = register("members", { required: true });
-          members.onBlur = validateMembers();
 
           setModalState({
             open: true,
@@ -199,6 +194,10 @@ const MusicianProfile = (props) => {
                             required={true}
                           />
                           <p>MEMBERS</p>
+                          <p className="small-text regular-text">
+                            Enter the email address of members with a Bandmatch
+                            account. Separate each with a comma.
+                          </p>
                           <FormInput
                             register={register("members", {
                               required: true,
@@ -324,6 +323,21 @@ const MusicianProfile = (props) => {
         console.log("found invalid users", invalidUsers);
         $("#membersInput").append(<h1> people are missing </h1>);
       }
+
+      const validUsers = checkIfMusicianExists
+        .filter((musician) => musician.exists)
+        .map((musician) => {
+          console.log(musician);
+          return musician.id;
+        });
+
+      console.log("valid users after filter", validUsers);
+
+      if (validUsers) {
+        setValidBandMembers([...validBandMembers, ...validUsers]);
+        console.log("valid users after filter", validBandMembers);
+      }
+
       console.log("all good");
       return;
     },
@@ -335,7 +349,10 @@ const MusicianProfile = (props) => {
     if (!membersInput) {
       return;
     }
-    const formattedMembers = membersInput.split(" ");
+    const formattedMembers = membersInput.split(",").map((member) => {
+      return member.trim();
+    });
+
     console.log("validating members", formattedMembers);
 
     validateBandMembers({
@@ -372,27 +389,24 @@ const MusicianProfile = (props) => {
     },
   });
 
-  const onSubmit = useCallback(
-    (formData) => {
-      formData.numberOfMembers = parseFloat(formData.numberOfMembers);
-      formData.openToCollaboration = formData.openToCollaboration = "true"
-        ? true
-        : false;
-      const openToMembers = formData.lookingFor.length > 0 ? true : false;
-      console.log(formData, openToMembers);
+  const onSubmit = useCallback((formData) => {
+    formData.numberOfMembers = parseFloat(formData.numberOfMembers);
+    formData.openToCollaboration = formData.openToCollaboration = "true"
+      ? true
+      : false;
+    const openToMembers = formData.lookingFor.length > 0 ? true : false;
+    console.log("these are the valid band members", validBandMembers);
 
-      createBand({
-        variables: {
-          createBandInput: { ...formData, openToMembers: openToMembers },
+    createBand({
+      variables: {
+        createBandInput: {
+          ...formData,
+          openToMembers: openToMembers,
+          members: validBandMembers,
         },
-      });
-      setModalState({
-        open: false,
-        content: null,
-      });
-    },
-    [setModalState]
-  );
+      },
+    });
+  });
 
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
     variables: {

@@ -63,3 +63,11 @@ export const CREATE_BAND = gql`
     }
   }
 `;
+
+export const CREATE_GIG = gql`
+  mutation CreateGigMutation($createGigInput: GigInput) {
+    createGig(input: $createGigInput) {
+      id
+    }
+  }
+`;

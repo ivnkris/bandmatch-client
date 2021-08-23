@@ -1,7 +1,7 @@
-import shuffleArray from "./shuffleArray";
-
 const renderCards = (data) => {
-  let bands = {};
+  const { musicians } = data;
+
+  let bands = [];
 
   if (data.bands) {
     bands = data.bands.map((band) => {
@@ -11,7 +11,23 @@ const renderCards = (data) => {
       };
     });
   }
-  const newCards = [...data.musicians, ...bands];
+
+  // takes whichever array is larger to not limit cards rendered
+  const cardsLength =
+    musicians.length > bands.length ? musicians.length : bands.length;
+
+  const newCards = [];
+
+  // for cards length pushes bands first then musicians until the shorter one runs out
+  for (let index = 0; index < cardsLength; index++) {
+    if (bands[index]) {
+      newCards.push(bands[index]);
+    }
+
+    if (musicians[index]) {
+      newCards.push(musicians[index]);
+    }
+  }
 
   const cards = newCards.map((card) => {
     let genres = [];
@@ -37,7 +53,7 @@ const renderCards = (data) => {
     };
   });
 
-  return shuffleArray(cards);
+  return cards;
 };
 
 export default renderCards;
