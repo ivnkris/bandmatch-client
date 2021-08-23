@@ -17,3 +17,14 @@
   right: 0;
   padding-right: 3rem;
 }
+
+.accordion-heading-override {
+  padding: 5px;
+  border-bottom: #ffd324;
+  border-bottom-style: solid;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -1,0 +1,54 @@
+.input-card {
+  max-width: 320;
+}
+
+.upload-btn {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
+  margin-left: 2rem;
+  background-color: #ffd324;
+  color: #131313;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px #a5a4a4;
+  letter-spacing: 1px;
+}
+
+.upload-btn:hover {
+  transform: scale(1.02);
+}
+
+.logo-button {
+  background-color: transparent;
+  border: none;
+}
+
+.upload-logo {
+  padding: 0.5rem;
+}
+.previews {
+  background-color: darkgray;
+  padding-top: 1rem;
+  margin: 0 2rem;
+  border-radius: 8px;
+  box-shadow: 1px 2px 15px white;
+}
+
+.preview-image {
+  height: 8rem;
+}
+
+.preview-title {
+  font-size: 1rem;
+}
+
+.card-action-area {
+  display: flex;
+  justify-content: center;
+}
+
+.uploaded-image-div {
+  margin: 1rem;
+  margin-left: 2rem;
+}

@@ -33,11 +33,6 @@
   letter-spacing: 1px;
 }
 
-.button--primary:hover {
-  transform: scale(1.02);
-  /* box-shadow: 0 0 1.5rem 0.3rem rgba(255, 255, 255, 0.49); */
-}
-
 .button--secondary {
   background: linear-gradient(#424141, #000000);
   color: white;
