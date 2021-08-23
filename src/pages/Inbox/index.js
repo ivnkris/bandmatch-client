@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../components/Button";
+import ChatSideBar from "../../components/ChatSideBar";
 import Title from "../../components/Title";
 import { useUserContext } from "../../contexts/UserProvider";
 import { CREATE_MESSAGE } from "../../graphql/mutations";
@@ -9,7 +10,16 @@ import { CONVERSATION, CONVERSATIONS } from "../../graphql/queries";
 import "./Inbox.css";
 
 const Inbox = (props) => {
+  const [isSideDrawer, setIsSideDrawer] = useState(false);
   const [selectedConversation, setSelectedConversation] = useState(null);
+
+  const drawerToggleClickHandler = () => {
+    if (isSideDrawer) {
+      return setIsSideDrawer(false);
+    } else {
+      return setIsSideDrawer(true);
+    }
+  };
 
   const { register, handleSubmit } = useForm();
 
@@ -22,6 +32,7 @@ const Inbox = (props) => {
     onError: (error) => {
       console.log(error);
     },
+    pollInterval: 500,
   });
 
   let chats;
@@ -51,6 +62,7 @@ const Inbox = (props) => {
   ] = useLazyQuery(CONVERSATION, {
     onCompleted: (data) => {
       setSelectedConversation(conversationData);
+      setIsSideDrawer(false);
     },
     pollInterval: 500,
     onError: (error) => {
@@ -89,6 +101,23 @@ const Inbox = (props) => {
 
   return (
     <div className="inbox-background-container">
+      {data && (
+        <ChatSideBar
+          chats={chats}
+          loading={loading}
+          show={isSideDrawer}
+          setShow={setIsSideDrawer}
+          getMessages={getMessages}
+        />
+      )}
+      <div className="mobile-chat-nav">
+        <button
+          className="mobile-chat-toggle"
+          onClick={drawerToggleClickHandler}
+        >
+          VIEW CHATS
+        </button>
+      </div>
       <div className="inbox-flex-container">
         <div className="inbox-side-panel">
           <Title text="CHATS" type="profile" />
@@ -153,9 +182,9 @@ const Inbox = (props) => {
             <AlwaysScrollToBottom />
           </div>
           {selectedConversation && (
-            <div className="message-input-area">
+            <div className="message-input-area pb-3">
               <form
-                className="px-5 pt-4 inbox-input-form"
+                className="inbox-input-form"
                 onSubmit={handleSubmit(sendMessage)}
               >
                 <textarea
