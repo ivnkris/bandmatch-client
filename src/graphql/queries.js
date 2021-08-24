@@ -300,6 +300,44 @@ export const MUSICIAN_USER = gql`
       }
       openToCollaboration
       openToJoiningBand
+      email
+    }
+  }
+`;
+
+export const MUSICIAN_USER_EXTENDED = gql`
+  query Query($musicianUserId: ID!) {
+    musicianUser(id: $musicianUserId) {
+      openToJoiningBand
+      openToCollaboration
+      lookingFor {
+        id
+      }
+      soundCloudUrl
+      websiteUrl
+      imageUrl
+      instruments {
+        id
+      }
+      experienceLevel
+      genre {
+        id
+      }
+      postcode
+      description
+      lastName
+      firstName
+      email
+      id
+    }
+    genres {
+      id
+      name
+    }
+    instruments {
+      id
+      name
+      role
     }
   }
 `;
