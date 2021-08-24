@@ -90,15 +90,9 @@ const Venue = () => {
   });
 
   const onSubmit = useCallback(async (formData) => {
-    console.log(formData);
     formData.fee = formatToTwoDecimals(formData.fee);
     const dateTimeUnformatted = $(".form-control").attr("value");
-
-    // Needs fixing
-    console.log("unformatted date", dateTimeUnformatted);
     const dateTimeFormatted = moment.utc(dateTimeUnformatted).format();
-
-    console.log(dateTimeFormatted);
 
     createGig({
       variables: {
@@ -166,8 +160,9 @@ const Venue = () => {
                           <p>DATE AND TIME</p>
                           <Datetime
                             isValidDate={validateFutureDates}
-                            dateFormat="DD-MM-YYYY"
-                            className="solid-background"
+                            closeOnSelect={true}
+                            // dateFormat="DD-MM-YYYY"
+                            className="form-control-override"
                           />
                           <p>PAY RATE (£)</p>
                           <FormInput
