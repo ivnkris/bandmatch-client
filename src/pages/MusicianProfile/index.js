@@ -14,7 +14,7 @@ import {
 import $ from "jquery";
 
 import { useModal } from "../../contexts/ModalProvider";
-import { CREATE_BAND } from "../../graphql/mutations";
+import { CREATE_BAND, UPDATE_MUSICIAN } from "../../graphql/mutations";
 import { useUserContext } from "../../contexts/UserProvider";
 import {
   BANDS,
@@ -63,26 +63,84 @@ const MusicianProfile = (props) => {
 
   const myProfile = musicianId === state.user.id;
 
+  const refreshPage = () => {
+    setModalState({
+      open: false,
+    });
+
+    history.go(0);
+  };
+
+  const redirectToPage = (url) => {
+    setModalState({
+      open: false,
+    });
+
+    history.push(url);
+  };
+
+  const [submitEditProfileInfo] = useMutation(UPDATE_MUSICIAN, {
+    onCompleted: (data) => {
+      console.log("I've done it!", data);
+      setModalState({
+        open: true,
+        content: (
+          <>
+            <Modal.Header className="solid-background" closeButton>
+              <Modal.Title>Edit Profile</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="solid-background">
+              <p>Information updated successfully</p>
+            </Modal.Body>
+          </>
+        ),
+      });
+
+      setTimeout(() => {
+        refreshPage();
+      }, 1500);
+    },
+    onError: (error) => {
+      console.log(error);
+      setModalState({
+        open: true,
+        content: (
+          <Modal.Body className="solid-background">
+            <p>Sorry, we couldn't update your page at the moment.</p>
+          </Modal.Body>
+        ),
+      });
+    },
+  });
+
   const onSubmitEditProfile = useCallback(async (formData) => {
-    console.log(formData);
-    // formData.fee = formatToTwoDecimals(formData.fee);
-    // const dateTimeUnformatted = $(".form-control").attr("value");
+    if (formData.openToCollaboration === "true") {
+      formData.openToCollaboration = true;
+    } else {
+      formData.openToCollaboration = false;
+    }
 
-    // // Needs fixing
-    // console.log("unformatted date", dateTimeUnformatted);
-    // const dateTimeFormatted = moment.utc(dateTimeUnformatted).format();
+    if (formData.openToJoiningBand === "true") {
+      formData.openToJoiningBand = true;
+    } else {
+      formData.openToJoiningBand = false;
+    }
 
-    // console.log(dateTimeFormatted);
+    console.log(
+      "this is the form data",
+      formData,
+      "and this the id",
+      musicianId
+    );
 
-    // createGig({
-    //   variables: {
-    //     createGigInput: {
-    //       ...formData,
-    //       venue: venueId,
-    //       dateTime: dateTimeFormatted,
-    //     },
-    //   },
-    // });
+    submitEditProfileInfo({
+      variables: {
+        updateMusicianUserInput: {
+          musicianInfo: formData,
+          musicianId: musicianId,
+        },
+      },
+    });
   });
 
   const [editProfileModal] = useLazyQuery(MUSICIAN_USER_EXTENDED, {
@@ -112,7 +170,7 @@ const MusicianProfile = (props) => {
             content: (
               <>
                 <Modal.Header className="solid-background" closeButton>
-                  <Modal.Title>Create a new band</Modal.Title>
+                  <Modal.Title>Edit Profile</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="solid-background">
                   <form onSubmit={handleSubmit(onSubmitEditProfile)}>
@@ -214,9 +272,7 @@ const MusicianProfile = (props) => {
                             control={control}
                           />
                           <section className="dropdown-div">
-                            <div className="select-label">
-                              What level are you?
-                            </div>
+                            <div className="select-label">EXPERIENCE</div>
                             <select
                               className="select-dropdown"
                               id="experienceLevel"
@@ -237,6 +293,54 @@ const MusicianProfile = (props) => {
                                 Expert
                               </option>
                             </select>
+                          </section>
+                          <section className="dropdown-div">
+                            <div className="select-label">
+                              ARE YOU OPEN TO COLLABS?
+                            </div>
+                            <section>
+                              <select
+                                className="select-dropdown"
+                                id="openToCollaboration"
+                                name="openToCollaboration"
+                                placeholder="Select..."
+                                defaultValue={musician.openToCollaboration}
+                                {...register("openToCollaboration", {
+                                  required: true,
+                                })}
+                              >
+                                <option className="option-text" value="true">
+                                  Yes
+                                </option>
+                                <option className="option-text" value="false">
+                                  No
+                                </option>
+                              </select>
+                            </section>
+                          </section>
+                          <section className="dropdown-div">
+                            <div className="select-label">
+                              INTERESTED IN JOINING A BAND?
+                            </div>
+                            <section>
+                              <select
+                                className="select-dropdown"
+                                id="openToJoiningBand"
+                                name="openToJoiningBand"
+                                placeholder="Select..."
+                                defaultValue={musician.openToJoiningBand}
+                                {...register("openToJoiningBand", {
+                                  required: true,
+                                })}
+                              >
+                                <option className="option-text" value="true">
+                                  Yes
+                                </option>
+                                <option className="option-text" value="false">
+                                  No
+                                </option>
+                              </select>
+                            </section>
                           </section>
                         </AccordionItemPanel>
                       </AccordionItem>
@@ -266,14 +370,6 @@ const MusicianProfile = (props) => {
   };
 
   // band page creation logic
-  const redirectToBandPage = (url) => {
-    setModalState({
-      open: false,
-    });
-
-    history.push(url);
-  };
-
   const [renderCreateBandModal] = useLazyQuery(GENRESINSTRUMENTS, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
@@ -594,7 +690,7 @@ const MusicianProfile = (props) => {
       });
 
       setTimeout(() => {
-        redirectToBandPage(`/bands/${bandId}`);
+        redirectToPage(`/bands/${bandId}`);
       }, 1500);
     },
     onError: (error) => {
