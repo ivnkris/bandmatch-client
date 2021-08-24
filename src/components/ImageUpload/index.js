@@ -82,12 +82,6 @@ const ImageUpload = ({ email, setImageUrl, imageUrl }) => {
                   size="medium"
                   onClick={onUpload}
                 />
-                {/* <Button
-                    mode="primary"
-                    label="REMOVE"
-                    size="medium"
-                    onClick={onImageRemoveAll}
-                  /> */}
               </div>
             )}
 
@@ -95,7 +89,7 @@ const ImageUpload = ({ email, setImageUrl, imageUrl }) => {
               {imageList.length === 0 && (
                 <button className="upload-btn" onClick={onImageUpload}>
                   <span className="upload-logo">
-                    <AiFillCamera size="1.5rem" />
+                    <AiFillCamera size="1.5rem" fill="black" />
                   </span>
                   SELECT PROFILE IMAGE
                 </button>
