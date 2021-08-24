@@ -21,6 +21,7 @@ import {
   GENRESINSTRUMENTS,
   GIGS,
   MUSICIAN_USER,
+  MUSICIAN_USER_EXTENDED,
   VALIDATE_BAND_MEMBERS,
 } from "../../graphql/queries";
 import {
@@ -34,25 +35,16 @@ import Title from "../../components/Title";
 import Button from "../../components/Button";
 import MultiSelectDropDown from "../../components/MultiSelectDropdown";
 import FormInput from "../../components/FormInput";
+import {
+  generateDefaultValues,
+  generateOptions,
+  generateRoleOptions,
+} from "../../utils/generateMultiDropdownOptions";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
   const { modalState, setModalState } = useModal();
   let history = useHistory();
-
-  const { id: musicianId } = useParams();
-  const [validBandMembers, setValidBandMembers] = useState([musicianId]);
-
-  const myProfile = musicianId === state.user.id;
-
-  const redirectToBandPage = (url) => {
-    setModalState({
-      open: false,
-    });
-
-    history.push(url);
-  };
-
   const {
     register,
     handleSubmit,
@@ -63,6 +55,224 @@ const MusicianProfile = (props) => {
     reValidateMode: "onChange",
     shouldFocusError: true,
   });
+
+  const { id: musicianId } = useParams();
+  // commented out as causes too many rerenders atm
+  // const [musicianInfo, setMusicianInfo] = useState("");
+  const [validBandMembers, setValidBandMembers] = useState([musicianId]);
+
+  const myProfile = musicianId === state.user.id;
+
+  const onSubmitEditProfile = useCallback(async (formData) => {
+    console.log(formData);
+    // formData.fee = formatToTwoDecimals(formData.fee);
+    // const dateTimeUnformatted = $(".form-control").attr("value");
+
+    // // Needs fixing
+    // console.log("unformatted date", dateTimeUnformatted);
+    // const dateTimeFormatted = moment.utc(dateTimeUnformatted).format();
+
+    // console.log(dateTimeFormatted);
+
+    // createGig({
+    //   variables: {
+    //     createGigInput: {
+    //       ...formData,
+    //       venue: venueId,
+    //       dateTime: dateTimeFormatted,
+    //     },
+    //   },
+    // });
+  });
+
+  const [editProfileModal] = useLazyQuery(MUSICIAN_USER_EXTENDED, {
+    fetchPolicy: "network-only",
+    onCompleted: (data) => {
+      if (!modalState.open) {
+        if (!data) {
+          setModalState({
+            open: true,
+            content: (
+              <Modal.Body className="solid-background">
+                <p> Sorry, we couldn't load filtering options at this time </p>
+              </Modal.Body>
+            ),
+          });
+        } else {
+          const musician = data.musicianUser;
+          const genres = generateOptions(data.genres);
+          const userGenres = generateDefaultValues(musician.genre);
+          const instruments = generateOptions(data.instruments);
+          const userInstruments = generateDefaultValues(musician.instruments);
+          const lookingFor = generateRoleOptions(data.instruments);
+          const userLookingFor = generateDefaultValues(musician.lookingFor);
+
+          setModalState({
+            open: true,
+            content: (
+              <>
+                <Modal.Header className="solid-background" closeButton>
+                  <Modal.Title>Create a new band</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="solid-background">
+                  <form onSubmit={handleSubmit(onSubmitEditProfile)}>
+                    <Accordion preExpanded={["a"]}>
+                      <AccordionItem uuid="a" className="accordion-container">
+                        <AccordionItemHeading className="accordion-heading-override">
+                          <AccordionItemButton>
+                            THE BASICS <BsChevronCompactDown size={24} />
+                          </AccordionItemButton>
+                        </AccordionItemHeading>
+                        <AccordionItemPanel>
+                          <p>FIRST NAME</p>
+                          <FormInput
+                            value={musician.firstName}
+                            error={errors.firstName}
+                            register={register("firstName")}
+                          />
+                          <p>LAST NAME</p>
+                          <FormInput
+                            value={musician.lastName}
+                            error={errors.lastName}
+                            register={register("lastName")}
+                          />
+                          <p>EMAIL</p>
+                          <FormInput
+                            value={musician.email}
+                            error={errors.email}
+                            register={register("email")}
+                          />
+                          <p>CITY</p>
+                          {/* change from postcode to city */}
+                          <FormInput
+                            value={musician.postcode}
+                            error={errors.postcode}
+                            register={register("postcode")}
+                          />
+                        </AccordionItemPanel>
+                      </AccordionItem>
+                      <AccordionItem uuid="b" className="accordion-container">
+                        <AccordionItemHeading className="accordion-heading-override">
+                          <AccordionItemButton>
+                            SOCIALS AND INFO <BsChevronCompactDown size={24} />
+                          </AccordionItemButton>
+                        </AccordionItemHeading>
+                        <AccordionItemPanel>
+                          <p>PROFILE PIC</p>
+                          <p>BIO</p>
+                          <FormInput
+                            value={musician.description}
+                            error={errors.description}
+                            register={register("description")}
+                          />
+                          <p>WEBSITE</p>
+                          <FormInput
+                            value={musician.websiteUrl}
+                            error={errors.websiteUrl}
+                            register={register("websiteUrl")}
+                          />
+                          <p>SOUNDCLOUD</p>
+                          <FormInput
+                            value={musician.soundCloudUrl}
+                            error={errors.soundCloudUrl}
+                            register={register("soundCloudUrl")}
+                          />
+                        </AccordionItemPanel>
+                      </AccordionItem>
+                      <AccordionItem uuid="c" className="accordion-container">
+                        <AccordionItemHeading className="accordion-heading-override">
+                          <AccordionItemButton>
+                            GENRE AND COLLABS <BsChevronCompactDown size={24} />
+                          </AccordionItemButton>
+                        </AccordionItemHeading>
+                        <AccordionItemPanel>
+                          <p>GENRES</p>
+                          <MultiSelectDropDown
+                            options={genres}
+                            defaultValue={userGenres}
+                            placeholder="Select genres"
+                            isMulti={true}
+                            name="genre"
+                            control={control}
+                          />
+                          <p>INSTRUMENTS</p>
+                          <MultiSelectDropDown
+                            options={instruments}
+                            defaultValue={userInstruments}
+                            placeholder="Select instruments"
+                            isMulti={true}
+                            name="instruments"
+                            control={control}
+                          />
+                          <p>WHO DO YOU WANT TO WORK WITH?</p>
+                          <MultiSelectDropDown
+                            options={lookingFor}
+                            defaultValue={userLookingFor}
+                            placeholder="Select instruments"
+                            isMulti={true}
+                            name="lookingFor"
+                            control={control}
+                          />
+                          <section className="dropdown-div">
+                            <div className="select-label">
+                              What level are you?
+                            </div>
+                            <select
+                              className="select-dropdown"
+                              id="experienceLevel"
+                              name="experienceLevel"
+                              placeholder="Select your experience level"
+                              defaultValue={musician.experienceLevel}
+                              {...register("experienceLevel", {
+                                required: true,
+                              })}
+                            >
+                              <option className="option-text" value="newbie">
+                                Newbie
+                              </option>
+                              <option className="option-text" value="amateur">
+                                Midway
+                              </option>
+                              <option className="option-text" value="expert">
+                                Expert
+                              </option>
+                            </select>
+                          </section>
+                        </AccordionItemPanel>
+                      </AccordionItem>
+                    </Accordion>
+                    <Button
+                      type="submit"
+                      label="SAVE CHANGES"
+                      mode="primary"
+                      size="medium"
+                    />
+                  </form>
+                </Modal.Body>
+              </>
+            ),
+          });
+        }
+      }
+    },
+  });
+
+  const renderEditProfileModal = () => {
+    editProfileModal({
+      variables: {
+        musicianUserId: musicianId,
+      },
+    });
+  };
+
+  // band page creation logic
+  const redirectToBandPage = (url) => {
+    setModalState({
+      open: false,
+    });
+
+    history.push(url);
+  };
 
   const [renderCreateBandModal] = useLazyQuery(GENRESINSTRUMENTS, {
     fetchPolicy: "network-only",
@@ -491,6 +701,8 @@ const MusicianProfile = (props) => {
 
   if (musicianData) {
     const musician = musicianData.musicianUser;
+    //this causes too many re renders :(
+    // setMusicianInfo(musicianData.musicianUser);
 
     const name = musician.firstName + " " + musician.lastName;
     const openTo = () => {
@@ -522,7 +734,12 @@ const MusicianProfile = (props) => {
         <div className="p-2"></div>
         {myProfile ? (
           <div className="see-through-background-90 text-align-center profile-title-div">
-            <Title type="profile" text="MY PROFILE" />
+            <Title
+              type="profile"
+              text="MY PROFILE"
+              myProfile={myProfile}
+              onClick={renderEditProfileModal}
+            />
             <div className="create-band-button ">
               <Button
                 label="CREATE A BAND"
