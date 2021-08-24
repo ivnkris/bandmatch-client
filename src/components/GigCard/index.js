@@ -50,8 +50,8 @@ const GigCard = (props) => {
                   <p> {date} </p>
                   <p> @ {gig.venue.name} </p>
                   {/* {change to city} */}
-                  <div className="pb-10">{gig.venue.postcode}</div>
-                  <p className="p-yellow pb-2">PAY: £{gig.fee}</p>
+                  <div>{gig.venue.postcode}</div>
+                  <p className="p-yellow pb-2 pb-10">PAY: £{gig.fee}</p>
                   <p className="regular-text">{gig.description}</p>
                   <div
                     className="flex-apart profile-preview-icons-container"
@@ -73,6 +73,19 @@ const GigCard = (props) => {
           });
         }
       }
+    },
+    onError: () => {
+      setModalState({
+        open: true,
+        content: (
+          <Modal.Body className="solid-background">
+            <p>
+              Sorry, we couldn't load information about this gig at this time.
+              Please try again later.
+            </p>
+          </Modal.Body>
+        ),
+      });
     },
   });
 
