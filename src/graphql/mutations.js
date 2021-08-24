@@ -71,3 +71,13 @@ export const CREATE_GIG = gql`
     }
   }
 `;
+
+export const UPDATE_MUSICIAN = gql`
+  mutation UpdateMusicianUserMutation(
+    $updateMusicianUserInput: updateMusicianUserInput
+  ) {
+    updateMusicianUser(input: $updateMusicianUserInput) {
+      id
+    }
+  }
+`;
