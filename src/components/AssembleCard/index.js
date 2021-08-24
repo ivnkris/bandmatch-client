@@ -5,12 +5,11 @@ import { useForm } from "react-hook-form";
 
 import "../../App.css";
 import "./AssembleCard.css";
-import { Form, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 import getInstrumentIcons from "../../utils/getInstrumentIcons";
 import { BAND_PREVIEW, MUSICIAN_PREVIEW } from "../../graphql/queries";
 import { useModal } from "../../contexts/ModalProvider";
-import FormInput from "../FormInput";
 import Button from "../Button/index";
 import SoundCloudWidget from "../SoundCloudWidget";
 import {

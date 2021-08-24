@@ -395,6 +395,28 @@ export const MUSICIAN_PREVIEW = gql`
   }
 `;
 
+export const GIG_PREVIEW = gql`
+  query Query($gigId: ID!) {
+    gig(id: $gigId) {
+      id
+      title
+      description
+      genre {
+        name
+      }
+      fee
+      websiteUrl
+      dateTime
+      venue {
+        id
+        name
+        postcode
+      }
+      imageUrl
+    }
+  }
+`;
+
 export const CONVERSATIONS = gql`
   query Query($conversationsId: ID!) {
     conversations(id: $conversationsId) {
