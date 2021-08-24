@@ -11,9 +11,9 @@ export const constructPerformerCards = (cards, version = "extended") => {
         firstName={card.firstName}
         lastName={card.lastName}
         imageUrl={card.imageUrl}
-        instruments={card.instruments}
-        lookingFor={card.lookingFor}
-        genre={card.genre}
+        instruments={card.instruments || []}
+        lookingFor={card.lookingFor || []}
+        genre={card.genre || []}
         experienceLevel={card.experienceLevel}
         version={version}
         userId={card.id}

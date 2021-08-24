@@ -1,12 +1,12 @@
 .button--small {
   font-size: 13px;
-  padding: 6px;
+  padding: 6px 18px;
   margin: 2px;
 }
 
 .button--medium {
-  font-size: 14px;
-  padding: 8px;
+  font-size: 16px;
+  padding: 8px 20px;
   margin: 15px;
 }
 
@@ -26,7 +26,7 @@
 .button--primary {
   background-color: #ffd324;
   color: #131313;
-  font-weight: 500;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
   box-shadow: 2px 2px 2px #a5a4a4;
@@ -34,12 +34,12 @@
 }
 
 .button--secondary {
-  background: linear-gradient(#424141, #000000);
+  background: linear-gradient(#424141, #202020);
   color: white;
   border: none;
   border-radius: 8px;
   font-weight: 500;
-  box-shadow: 2px 2px 2px #a5a4a4;
+  box-shadow: 2px 2px 5px #a5a4a4;
   letter-spacing: 1.5px;
 }
 

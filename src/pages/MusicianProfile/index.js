@@ -17,13 +17,16 @@ import { useModal } from "../../contexts/ModalProvider";
 import { CREATE_BAND } from "../../graphql/mutations";
 import { useUserContext } from "../../contexts/UserProvider";
 import {
+  BANDS,
   GENRESINSTRUMENTS,
   GIGS,
   MUSICIAN_USER,
   VALIDATE_BAND_MEMBERS,
 } from "../../graphql/queries";
-import { constructGigCards } from "../../utils/constructCards";
-
+import {
+  constructGigCards,
+  constructPerformerCards,
+} from "../../utils/constructCards";
 import "./MusicianProfile.css";
 import ProfileInfo from "../../components/ProfileInfo";
 import SoundCloudWidget from "../../components/SoundCloudWidget";
@@ -433,6 +436,51 @@ const MusicianProfile = (props) => {
     }
   );
 
+  const {
+    data: bandsData,
+    loading: bandsLoading,
+    error: bandsError,
+  } = useQuery(BANDS, {
+    variables: {
+      bandsFilters: {
+        musician: musicianId,
+      },
+    },
+
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  let bands;
+  if (bandsData) {
+    bands = bandsData.bands.map((band) => {
+      let bandGenres = [];
+      let bandInstruments = [];
+      let bandLookingFor = [];
+
+      band.genre.forEach((genre) => {
+        bandGenres.push(genre.name);
+      });
+
+      band.instruments.forEach((instrument) => {
+        bandInstruments.push(instrument.name);
+      });
+
+      band.lookingFor.forEach((looking) => {
+        bandLookingFor.push(looking.role);
+      });
+
+      return {
+        ...band,
+        type: "band",
+        genre: bandGenres,
+        instruments: bandInstruments,
+        lookingFor: bandLookingFor,
+      };
+    });
+  }
+
   if (loading) {
     return <div>Loading</div>;
   }
@@ -468,6 +516,7 @@ const MusicianProfile = (props) => {
     musician.lookingFor.forEach((looking) => {
       lookingFor.push(looking.role);
     });
+
     return (
       <div className="profile-container">
         <div className="p-2"></div>
@@ -509,7 +558,7 @@ const MusicianProfile = (props) => {
 
         <div className="see-through-background-90 text-align-center">
           {myProfile ? (
-            <Title type="section" text="MY GIGS" />
+            <Title type="profile" text="MY GIGS" />
           ) : (
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s GIGS</p>
           )}
@@ -523,13 +572,17 @@ const MusicianProfile = (props) => {
 
         <div className="see-through-background-90 text-align-center">
           {myProfile ? (
-            <Title type="section" text="MY BANDS" />
+            <Title type="profile" text="MY BANDS" />
           ) : (
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s BANDS</p>
           )}
 
           <div className="cards-container">
-            {/* {constructPerformerCards(musician.bands, "shortened")} */}
+            {bandsData && (
+              <div className="cards-container">
+                {constructPerformerCards(bands, "shortened")}
+              </div>
+            )}
           </div>
         </div>
       </div>
