@@ -143,7 +143,7 @@ const MusicianProfile = (props) => {
     });
   });
 
-  const [editProfileModal] = useLazyQuery(MUSICIAN_USER_EXTENDED, {
+  const [editProfileModal] = useLazyQuery(GENRESINSTRUMENTS, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
       if (!modalState.open) {
@@ -157,7 +157,7 @@ const MusicianProfile = (props) => {
             ),
           });
         } else {
-          const musician = data.musicianUser;
+          const musician = musicianData.musicianUser;
           const genres = generateOptions(data.genres);
           const userGenres = generateDefaultValues(musician.genre);
           const instruments = generateOptions(data.instruments);
@@ -797,8 +797,6 @@ const MusicianProfile = (props) => {
 
   if (musicianData) {
     const musician = musicianData.musicianUser;
-    //this causes too many re renders :(
-    // setMusicianInfo(musicianData.musicianUser);
 
     const name = musician.firstName + " " + musician.lastName;
     const openTo = () => {
