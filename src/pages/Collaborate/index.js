@@ -57,7 +57,7 @@ const Collaborate = (props) => {
 
   let carouselCards;
   if (carouselData) {
-    carouselCards = renderCards(carouselData.collaborate);
+    carouselCards = renderCards(carouselData.collaborateCarousel);
   }
 
   let collaborateCards;
