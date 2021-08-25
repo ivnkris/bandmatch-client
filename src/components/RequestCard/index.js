@@ -1,5 +1,6 @@
 import Button from "../Button";
 import "./RequestCard.css";
+import moment from "moment";
 
 const RequestCard = ({
 	firstName,
@@ -10,6 +11,7 @@ const RequestCard = ({
 	musicianId,
 	bandId,
 	gigId,
+	dateTime,
 }) => {
 	return (
 		<div className="musician-request-card solid-background d-flex align-items-center">
@@ -25,6 +27,11 @@ const RequestCard = ({
 			<div className="musician-info-container text-center">
 				<p>{bandId ? name : firstName + " " + lastName}</p>
 				<p>{gigName}</p>
+				<p>
+					{moment(dateTime * 1)
+						.local()
+						.format("DD-MM-YYYY HH:mm")}
+				</p>
 			</div>
 			<div className="musician-button-container">
 				<div className="musician-button">
