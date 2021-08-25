@@ -43,7 +43,11 @@ const LoginForm = () => {
         payload,
       });
 
-      history.push(`/profile/${data.login.user.id}`);
+      if (data.login.type === "musician") {
+        history.push(`/profile/${data.login.user.id}`);
+      } else if (data.login.type === "venue") {
+        history.push(`/venues/${data.login.user.id}`);
+      }
     },
     onError: () => {},
   });

@@ -39,7 +39,6 @@ export const SIGNUP_VENUE_USER = gql`
         firstName
         email
         lastName
-        imageUrl
       }
       type
     }
