@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useModal } from "../../contexts/ModalProvider";
 import { Modal } from "react-bootstrap";
@@ -17,7 +17,7 @@ import {
 } from "react-accessible-accordion";
 import $ from "jquery";
 
-import { GENRESINSTRUMENTS } from "../../graphql/queries";
+import { GENRESINSTRUMENTS, VENUE } from "../../graphql/queries";
 import { CREATE_GIG } from "../../graphql/mutations";
 import formatToTwoDecimals from "../../utils/formatToTwoDecimals";
 import generateDropdownOptions from "../../utils/generateDropdownOptions";
@@ -26,9 +26,17 @@ import validateFutureDates from "../../utils/validateFutureDates";
 import "./Venue.css";
 import Button from "../../components/Button";
 import FormInput from "../../components/FormInput";
+import { useUserContext } from "../../contexts/UserProvider";
+import Title from "../../components/Title";
+import ProfileInfo from "../../components/ProfileInfo";
 
 const Venue = () => {
+  const { state } = useUserContext();
+
   const { id: venueId } = useParams();
+
+  const myProfile = venueId === state.user.id;
+
   const { modalState, setModalState } = useModal();
   const history = useHistory();
   const {
@@ -236,14 +244,57 @@ const Venue = () => {
     },
   });
 
+  const { data: venueData, loading, error } = useQuery(VENUE, {
+    variables: {
+      venueId: venueId,
+    },
+
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   return (
-    <div className="solid-background">
-      <Button
-        label="NEW GIG"
-        mode="primary"
-        size="medium"
-        onClick={renderCreateGigModal}
-      />
+    <div className="profile-container">
+      <div className="p-2"></div>
+      {myProfile ? (
+        <div className="see-through-background-90 text-align-center profile-title-div">
+          <Title type="profile" text="MY VENUE" />
+          <div className="create-band-button ">
+            <Button
+              label="NEW GIG"
+              mode="primary"
+              size="medium"
+              onClick={renderCreateGigModal}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="see-through-background-90 text-align-center profile-title-div">
+          <p className="title mb-2 pt-2 fs-1">{state.user.name}</p>
+        </div>
+      )}
+
+      {venueData && (
+        <ProfileInfo
+          imageUrl={venueData.venue.photoUrl}
+          name={venueData.venue.name}
+          postcode={venueData.venue.postcode}
+          description={venueData.venue.description}
+          websiteUrl={venueData.venue.websiteUrl}
+          myProfile={myProfile}
+        />
+      )}
+
+      <div className="see-through-background-90 text-align-center">
+        <p className="title mb-2 pt-2 fs-1">GIGS at {state.user.name}</p>
+
+        {/* {gigsData && (
+          <div className="cards-container">
+            {constructGigCards(gigsData.gigs)}
+          </div>
+        )} */}
+      </div>
     </div>
   );
 };
