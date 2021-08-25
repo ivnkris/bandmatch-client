@@ -181,7 +181,7 @@ export const COLLABORATE = gql`
 
 export const COLLABORATE_CAROUSEL = gql`
   query Query {
-    collaborate {
+    collaborateCarousel {
       musicians {
         id
         firstName
