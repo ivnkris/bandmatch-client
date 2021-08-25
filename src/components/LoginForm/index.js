@@ -27,14 +27,27 @@ const LoginForm = () => {
 
   const [login, { loading }] = useMutation(LOGIN, {
     onCompleted: (data) => {
-      const payload = {
-        token: data.login.token,
-        email: data.login.user.email,
-        firstName: data.login.user.firstName,
-        lastName: data.login.user.lastName,
-        id: data.login.user.id,
-        type: data.login.type,
-      };
+      let payload;
+      if (data.login.type === "venue") {
+        payload = {
+          token: data.login.token,
+          email: data.login.user.email,
+          firstName: data.login.user.firstName,
+          lastName: data.login.user.lastName,
+          id: data.login.user.id,
+          name: data.login.user.name,
+          type: data.login.type,
+        };
+      } else if (data.login.type === "musician") {
+        payload = {
+          token: data.login.token,
+          email: data.login.user.email,
+          firstName: data.login.user.firstName,
+          lastName: data.login.user.lastName,
+          id: data.login.user.id,
+          type: data.login.type,
+        };
+      }
 
       localStorage.setItem("user", JSON.stringify(payload));
 
@@ -43,7 +56,11 @@ const LoginForm = () => {
         payload,
       });
 
-      history.push(`/profile/${data.login.user.id}`);
+      if (data.login.type === "musician") {
+        history.push(`/profile/${data.login.user.id}`);
+      } else if (data.login.type === "venue") {
+        history.push(`/venues/${data.login.user.id}`);
+      }
     },
     onError: () => {},
   });

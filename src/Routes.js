@@ -15,6 +15,7 @@ import SignUp from "./pages/SignUp/index";
 import MusicianSignup from "./pages/MusicianSignup";
 import VenueSignup from "./pages/VenueSignup";
 import Venue from "./pages/Venue";
+import Requests from "./pages/Requests";
 
 const Routes = () => {
   const { state } = useUserContext();
@@ -42,16 +43,40 @@ const Routes = () => {
         {state.user ? <Inbox /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/login">
-        {!state.user ? <Login /> : <Redirect to="/profile" />}
+        {!state.user && <Login />}
+        {state.user && state.user.type === "musician" && (
+          <Redirect to={`/profile/${state.user.id}`} />
+        )}
+        {state.user && state.user.type === "venue" && (
+          <Redirect to={`/venues/${state.user.id}`} />
+        )}
       </Route>
       <Route exact path="/signup">
-        {!state.user ? <SignUp /> : <Redirect to="/profile" />}
+        {!state.user && <SignUp />}
+        {state.user && state.user.type === "musician" && (
+          <Redirect to={`/profile/${state.user.id}`} />
+        )}
+        {state.user && state.user.type === "venue" && (
+          <Redirect to={`/venues/${state.user.id}`} />
+        )}
       </Route>
       <Route exact path="/signup/musician">
-        {!state.user ? <MusicianSignup /> : <Redirect to="/profile" />}
+        {!state.user && <MusicianSignup />}
+        {state.user && state.user.type === "musician" && (
+          <Redirect to={`/profile/${state.user.id}`} />
+        )}
+        {state.user && state.user.type === "venue" && (
+          <Redirect to={`/venues/${state.user.id}`} />
+        )}
       </Route>
       <Route exact path="/signup/venue">
-        {!state.user ? <VenueSignup /> : <Redirect to="/profile" />}
+        {!state.user && <VenueSignup />}
+        {state.user && state.user.type === "musician" && (
+          <Redirect to={`/profile/${state.user.id}`} />
+        )}
+        {state.user && state.user.type === "venue" && (
+          <Redirect to={`/venues/${state.user.id}`} />
+        )}
       </Route>
       <Route exact path="/profile/:id">
         {state.user ? <MusicianProfile /> : <Redirect to="/login" />}
@@ -61,6 +86,13 @@ const Routes = () => {
       </Route>
       <Route exact path="/venues/:id">
         {state.user ? <Venue /> : <Redirect to="/login" />}
+      </Route>
+      <Route exact path="/requests/:id">
+        {state.user && state.user.type === "venue" ? (
+          <Requests />
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Route>
       <Route exact path="/">
         <Home />
