@@ -27,7 +27,12 @@ const ProfileInfo = (props) => {
           </p>
         )}
 
-        {props.websiteUrl && <p className="mb-3">{props.websiteUrl}</p>}
+        {props.websiteUrl && (
+          <a href={props.websiteUrl} className="mb-3">
+            {props.websiteUrl}
+          </a>
+        )}
+
         {props.postcode && <p className="mb-3">{props.postcode}</p>}
 
         {props.openTo && props.myProfile && (
