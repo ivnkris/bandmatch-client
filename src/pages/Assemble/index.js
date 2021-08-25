@@ -60,7 +60,7 @@ const Assemble = (props) => {
 
   let carouselCards;
   if (carouselData) {
-    carouselCards = renderCards(carouselData.assemble);
+    carouselCards = renderCards(carouselData.assembleCarousel);
   }
 
   let assembleCards;
