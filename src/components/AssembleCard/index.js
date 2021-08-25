@@ -206,10 +206,13 @@ const AssembleCard = (props) => {
             <form className="px-5" onSubmit={handleSubmit(sendMessage)}>
               <div className="py-3">
                 To:{" "}
-                {props.firstName.charAt(0).toUpperCase() +
-                  props.firstName.slice(1)}{" "}
-                {props.lastName.charAt(0).toUpperCase() +
-                  props.lastName.slice(1)}
+                {props.firstName &&
+                  props.firstName.charAt(0).toUpperCase() +
+                    props.firstName.slice(1)}{" "}
+                {props.lastName &&
+                  props.lastName.charAt(0).toUpperCase() +
+                    props.lastName.slice(1)}
+                {props.name && props.name}
               </div>
               <textarea
                 className="message-text-area"
