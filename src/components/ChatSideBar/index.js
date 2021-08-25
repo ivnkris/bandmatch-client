@@ -3,6 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import "./ChatSideBar.css";
 
 const ChatSideBar = ({ show, setShow, chats, loading, getMessages }) => {
+  console.log(chats);
   let drawerClasses = "side-drawer";
   if (show) {
     drawerClasses = "side-drawer open";
@@ -34,10 +35,13 @@ const ChatSideBar = ({ show, setShow, chats, loading, getMessages }) => {
                     <img src={chat.user.imageUrl} alt={chat.user.firstName} />
                   </div>
                   <div className="ms-5 mt-4 chat-user-name">
-                    {chat.user.firstName.charAt(0).toUpperCase() +
-                      chat.user.firstName.slice(1)}{" "}
-                    {chat.user.lastName.charAt(0).toUpperCase() +
-                      chat.user.lastName.slice(1)}
+                    {chat.user.firstName &&
+                      chat.user.firstName.charAt(0).toUpperCase() +
+                        chat.user.firstName.slice(1)}{" "}
+                    {chat.user.lastName &&
+                      chat.user.lastName.charAt(0).toUpperCase() +
+                        chat.user.lastName.slice(1)}
+                    {chat.user.name && chat.user.name}
                   </div>
                 </li>
               </button>
