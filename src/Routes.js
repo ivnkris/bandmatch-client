@@ -15,6 +15,7 @@ import SignUp from "./pages/SignUp/index";
 import MusicianSignup from "./pages/MusicianSignup";
 import VenueSignup from "./pages/VenueSignup";
 import Venue from "./pages/Venue";
+import Requests from "./pages/Requests";
 
 const Routes = () => {
   const { state } = useUserContext();
@@ -85,6 +86,13 @@ const Routes = () => {
       </Route>
       <Route exact path="/venues/:id">
         {state.user ? <Venue /> : <Redirect to="/login" />}
+      </Route>
+      <Route exact path="/requests/:id">
+        {state.user && state.user.type === "venue" ? (
+          <Requests />
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Route>
       <Route exact path="/">
         <Home />
