@@ -9,6 +9,7 @@ export const LOGIN = gql`
         email
         firstName
         lastName
+        name
       }
       type
     }
@@ -39,7 +40,7 @@ export const SIGNUP_VENUE_USER = gql`
         firstName
         email
         lastName
-        imageUrl
+        name
       }
       type
     }
