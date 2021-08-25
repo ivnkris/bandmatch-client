@@ -60,11 +60,11 @@ const GigCard = (props) => {
                     <Button
                       label="REQUEST"
                       onClick={() => console.log("requesting")}
-                      size="medium"
+                      size="small"
                       mode="primary"
                     />
                     <a href={`venues/${gig.venue.id}`}>
-                      <Button label="VENUE" size="medium" mode="secondary" />
+                      <Button label="VENUE" size="small" mode="secondary" />
                     </a>
                   </div>
                 </Modal.Body>

@@ -8,16 +8,11 @@ import Button from "../Button";
 
 import "./ImageUpload.css";
 
-const ImageUpload = ({ email, setImageUrl, imageUrl, dontChangeState }) => {
+const ImageUpload = ({ email, setImageUrl, imageUrl }) => {
   const [images, setImages] = useState([]);
 
   const onChange = (imageList) => {
-    //changed state
-    if (dontChangeState) {
-      console.log(imageList);
-    } else {
-      setImages(imageList);
-    }
+    setImages(imageList);
   };
 
   const onUpload = async () => {
@@ -36,13 +31,8 @@ const ImageUpload = ({ email, setImageUrl, imageUrl, dontChangeState }) => {
     const s3Data = await ReactS3Client.uploadFile(file, fileName);
 
     if (s3Data.status === 204) {
-      //change
-      if (dontChangeState) {
-        console.log(s3Data.location);
-      } else {
-        setImageUrl(s3Data.location);
-        setImages([]);
-      }
+      setImageUrl(s3Data.location);
+      setImages([]);
     } else {
       console.log("Failed to upload image");
     }

@@ -68,7 +68,7 @@ const MusicianProfile = (props) => {
   });
 
   const { id: musicianId } = useParams();
-  // const [imageUrl, setImageUrl] = useState();
+  const [imageUrl, setImageUrl] = useState();
   const [validBandMembers, setValidBandMembers] = useState([musicianId]);
 
   const myProfile = musicianId === state.user.id;
@@ -222,9 +222,8 @@ const MusicianProfile = (props) => {
                           <p>PROFILE PIC</p>
                           <ImageUpload
                             email={musician.email}
-                            // setImageUrl={setImageUrl}
-                            // imageUrl={imageUrl}
-                            dontChangeState={true}
+                            setImageUrl={setImageUrl}
+                            imageUrl={imageUrl}
                           />
                           <p>BIO</p>
                           <FormInput
