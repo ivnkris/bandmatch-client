@@ -419,19 +419,35 @@ export const GIG_PREVIEW = gql`
 `;
 
 export const CONVERSATIONS = gql`
-  query Query($conversationsId: ID!) {
-    conversations(id: $conversationsId) {
+  query Query($bandConversationsBandId: ID!, $conversationsId: ID!) {
+    bandConversations(bandId: $bandConversationsBandId) {
       id
+      participants {
+        id
+        name
+        firstName
+        lastName
+        imageUrl
+      }
       messages {
         id
         senderId
         text
       }
+    }
+    conversations(id: $conversationsId) {
+      id
       participants {
         id
+        name
         firstName
         lastName
         imageUrl
+      }
+      messages {
+        id
+        senderId
+        text
       }
     }
   }
