@@ -523,7 +523,9 @@ export const GIG_REQUESTS = gql`
     gigRequests(id: $gigRequestsId) {
       id
       title
+      dateTime
       performers {
+        _id
         musician
         band
         confirmed
