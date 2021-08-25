@@ -500,3 +500,29 @@ export const BANDS = gql`
     }
   }
 `;
+
+export const GIG_REQUESTS = gql`
+  query Query($gigRequestsId: ID!) {
+    gigRequests(id: $gigRequestsId) {
+      id
+      title
+      performers {
+        musician
+        band
+        confirmed
+        musicianDetails {
+          firstName
+          lastName
+          imageUrl
+          description
+        }
+        bandDetails {
+          name
+          imageUrl
+          description
+        }
+      }
+      accepting
+    }
+  }
+`;
