@@ -16,9 +16,6 @@ const Requests = (props) => {
 			console.log(error);
 		},
 		pollInterval: 500,
-		onCompleted: (data) => {
-			console.log(data);
-		},
 	});
 
 	const filteredData = [];
