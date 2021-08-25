@@ -90,6 +90,7 @@ const ImageUpload = ({ email, setImageUrl, imageUrl, dontChangeState }) => {
                   mode="primary"
                   label="UPLOAD"
                   size="medium"
+                  type="button"
                   onClick={onUpload}
                 />
               </div>
@@ -97,7 +98,11 @@ const ImageUpload = ({ email, setImageUrl, imageUrl, dontChangeState }) => {
 
             <div className="image-upload-actions">
               {imageList.length === 0 && (
-                <button className="upload-btn" onClick={onImageUpload}>
+                <button
+                  type="button"
+                  className="upload-btn"
+                  onClick={onImageUpload}
+                >
                   <span className="upload-logo">
                     <AiFillCamera size="1.5rem" fill="black" />
                   </span>

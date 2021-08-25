@@ -69,7 +69,7 @@ export const ASSEMBLE = gql`
 
 export const ASSEMBLE_CAROUSEL = gql`
   query Query {
-    assemble {
+    assembleCarousel {
       musicians {
         id
         firstName
@@ -181,7 +181,7 @@ export const COLLABORATE = gql`
 
 export const COLLABORATE_CAROUSEL = gql`
   query Query {
-    collaborate {
+    collaborateCarousel {
       musicians {
         id
         firstName
@@ -498,6 +498,48 @@ export const BANDS = gql`
       }
       openToCollaboration
       openToMembers
+    }
+  }
+`;
+
+export const GIG_REQUESTS = gql`
+  query Query($gigRequestsId: ID!) {
+    gigRequests(id: $gigRequestsId) {
+      id
+      title
+      performers {
+        musician
+        band
+        confirmed
+        musicianDetails {
+          firstName
+          lastName
+          imageUrl
+          description
+        }
+        bandDetails {
+          name
+          imageUrl
+          description
+        }
+      }
+      accepting
+    }
+  }
+`;
+
+export const VENUE = gql`
+  query Query($venueId: ID!) {
+    venue(id: $venueId) {
+      id
+      email
+      firstName
+      lastName
+      name
+      postcode
+      photoUrl
+      description
+      websiteUrl
     }
   }
 `;
