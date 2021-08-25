@@ -85,6 +85,10 @@ p {
   overflow: hidden;
 }
 
+.icon {
+  cursor: pointer;
+}
+
 .cards-container {
   padding-left: 40px;
   padding-right: 40px;

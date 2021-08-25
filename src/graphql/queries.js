@@ -300,6 +300,7 @@ export const MUSICIAN_USER = gql`
       }
       openToCollaboration
       openToJoiningBand
+      email
     }
   }
 `;

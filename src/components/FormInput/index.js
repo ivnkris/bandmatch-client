@@ -11,6 +11,7 @@ const FormInput = ({
   required,
   onBlur,
   id,
+  value,
 }) => {
   return (
     <div className="form-element">
@@ -21,6 +22,7 @@ const FormInput = ({
           additionalClassNames,
         })}
         placeholder={placeholder}
+        defaultValue={value}
         {...register}
         required={required}
         onBlur={onBlur}
