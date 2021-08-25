@@ -69,7 +69,7 @@ export const ASSEMBLE = gql`
 
 export const ASSEMBLE_CAROUSEL = gql`
   query Query {
-    assemble {
+    assembleCarousel {
       musicians {
         id
         firstName
