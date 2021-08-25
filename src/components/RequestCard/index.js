@@ -1,6 +1,9 @@
 import Button from "../Button";
 import "./RequestCard.css";
 import moment from "moment";
+import { useMutation } from "@apollo/client";
+import { UPDATE_GIG_REQUEST } from "../../graphql/mutations";
+import { findAllByDisplayValue } from "@testing-library/react";
 
 const RequestCard = ({
 	firstName,
@@ -12,7 +15,23 @@ const RequestCard = ({
 	bandId,
 	gigId,
 	dateTime,
+	id,
 }) => {
+	const [updateGigRequest] = useMutation(UPDATE_GIG_REQUEST);
+	const acceptRequest = async (event) => {
+		const id = event.target.parentElement.dataset.id;
+		await updateGigRequest({
+			variables: { updateGigRequestInput: { id, confirmed: true } },
+		});
+	};
+	const rejectRequest = async (event) => {
+		const id = event.target.parentElement.dataset.id;
+		await updateGigRequest({
+			variables: {
+				updateGigRequestInput: { id, confirmed: findAllByDisplayValue },
+			},
+		});
+	};
 	return (
 		<div className="musician-request-card solid-background d-flex align-items-center">
 			<div className="musician-image-container">
@@ -34,11 +53,21 @@ const RequestCard = ({
 				</p>
 			</div>
 			<div className="musician-button-container">
-				<div className="musician-button">
-					<Button mode="primary" size="small" label="ACCEPT" />
+				<div className="musician-button" data-id={id}>
+					<Button
+						mode="primary"
+						size="small"
+						label="ACCEPT"
+						onClick={acceptRequest}
+					/>
 				</div>
-				<div className="musician-button">
-					<Button mode="secondary" size="small" label="REJECT" />
+				<div className="musician-button" data-id={id}>
+					<Button
+						mode="secondary"
+						size="small"
+						label="REJECT"
+						onClick={rejectRequest}
+					/>
 				</div>
 			</div>
 		</div>

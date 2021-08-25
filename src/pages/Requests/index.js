@@ -15,7 +15,7 @@ const Requests = (props) => {
 		onError: (error) => {
 			console.log(error);
 		},
-		// pollInterval: 500,
+		pollInterval: 500,
 		onCompleted: (data) => {
 			console.log(data);
 		},
@@ -34,6 +34,7 @@ const Requests = (props) => {
 						gigId: gig.id,
 						gigName: gig.title,
 						dateTime: gig.dateTime,
+						id: performer._id,
 					};
 					filteredData.push(performerData);
 				} else if (performer.musician) {
@@ -45,6 +46,7 @@ const Requests = (props) => {
 						gigId: gig.id,
 						gigName: gig.title,
 						dateTime: gig.dateTime,
+						id: performer._id,
 					};
 					filteredData.push(performerData);
 				}
@@ -69,6 +71,7 @@ const Requests = (props) => {
 								bandId={performer.bandId || null}
 								gigId={performer.gigId}
 								dateTime={performer.dateTime}
+								id={performer.id}
 								key={performer.gigId + performer.imageUrl}
 							/>
 						);
