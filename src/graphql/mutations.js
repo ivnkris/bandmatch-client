@@ -91,3 +91,11 @@ export const UPDATE_GIG_REQUEST = gql`
 		}
 	}
 `;
+
+export const CREATE_GIG_REQUEST = gql`
+	mutation Mutation($createGigRequestInput: createGigRequestInput) {
+		createGigRequest(input: $createGigRequestInput) {
+			id
+		}
+	}
+`;
