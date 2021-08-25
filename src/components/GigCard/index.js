@@ -1,16 +1,30 @@
 import moment from "moment";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { Modal } from "react-bootstrap";
 import { useModal } from "../../contexts/ModalProvider";
 import { GIG_PREVIEW } from "../../graphql/queries";
 import Button from "../Button";
+import { CREATE_GIG_REQUEST } from "../../graphql/mutations";
+import { useUserContext } from "../../contexts/UserProvider";
 
 const GigCard = (props) => {
 	const { setModalState, modalState } = useModal();
+	const { state } = useUserContext();
 	const postcode = props.postcode.replace(/[+]/g, " ");
 	const date = moment(props.dateTime * 1)
 		.local()
 		.format("DD-MM-YYYY HH:mm");
+	const [gigRequestQuery] = useMutation(CREATE_GIG_REQUEST);
+	const sendGigRequest = async (event) => {
+		await gigRequestQuery({
+			variables: {
+				createGigRequestInput: {
+					id: props.gigId,
+					performer: { musician: state.user.id },
+				},
+			},
+		});
+	};
 
 	const [getGigInfo] = useLazyQuery(GIG_PREVIEW, {
 		fetchPolicy: "network-only",
@@ -64,7 +78,7 @@ const GigCard = (props) => {
 									>
 										<Button
 											label="REQUEST"
-											onClick={() => console.log("requesting")}
+											onClick={sendGigRequest}
 											size="small"
 											mode="primary"
 										/>
@@ -116,7 +130,7 @@ const GigCard = (props) => {
 			<div id={props.gigId}>
 				<Button
 					label="REQUEST"
-					onClick={() => console.log("request")}
+					onClick={sendGigRequest}
 					size="medium"
 					mode="primary"
 				/>
