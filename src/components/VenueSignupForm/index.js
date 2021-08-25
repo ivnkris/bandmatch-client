@@ -59,6 +59,7 @@ const VenueSignupForm = () => {
         lastName: data.signupVenueUser.user.lastName,
         id: data.signupVenueUser.user.id,
         type: data.signupVenueUser.type,
+        name: data.signupVenueUser.user.name,
       };
 
       localStorage.setItem("user", JSON.stringify(payload));

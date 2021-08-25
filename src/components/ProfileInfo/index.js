@@ -16,17 +16,27 @@ const ProfileInfo = (props) => {
 
       <div className="musician-info-div text-center">
         {props.myProfile && <p className="title mb-2">{props.name}</p>}
-        <p className="p-yellow pb-2 ">
-          Instrument(s): {props.instruments.join(" | ")}
-        </p>
-        <p className="p-yellow pb-2 text-limit-one-line">
-          Genre(s): {props.genre.join(" | ")}
-        </p>
+        {props.instruments && (
+          <p className="p-yellow pb-2 ">
+            Instrument(s): {props.instruments.join(" | ")}
+          </p>
+        )}
+        {props.genre && (
+          <p className="p-yellow pb-2 text-limit-one-line">
+            Genre(s): {props.genre.join(" | ")}
+          </p>
+        )}
 
-        {props.myProfile && <p className="mb-3">{props.openTo}</p>}
+        {props.websiteUrl && <p className="mb-3">{props.websiteUrl}</p>}
+        {props.postcode && <p className="mb-3">{props.postcode}</p>}
+
+        {props.openTo && props.myProfile && (
+          <p className="mb-3">{props.openTo}</p>
+        )}
+
         <div>{props.description}</div>
 
-        {props.myProfile && (
+        {props.myProfile && props.lookingFor && (
           <p className="p-yellow mt-2 text-limit-one-line">
             LOOKING FOR:{" "}
             <span className="looking-for">{props.lookingFor.join(" | ")}</span>
@@ -34,9 +44,11 @@ const ProfileInfo = (props) => {
         )}
         <div className="profile-icon-container mt-4">
           <FaComment size={24} />
-          <a target="_blank" rel="noreferrer" href={props.soundCloudUrl}>
-            <GrSoundcloud size={32} />
-          </a>
+          {props.soundCloudUrl && (
+            <a target="_blank" rel="noreferrer" href={props.soundCloudUrl}>
+              <GrSoundcloud size={32} />
+            </a>
+          )}
         </div>
       </div>
     </div>

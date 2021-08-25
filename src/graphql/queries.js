@@ -500,3 +500,19 @@ export const BANDS = gql`
     }
   }
 `;
+
+export const VENUE = gql`
+  query Query($venueId: ID!) {
+    venue(id: $venueId) {
+      id
+      email
+      firstName
+      lastName
+      name
+      postcode
+      photoUrl
+      description
+      websiteUrl
+    }
+  }
+`;
