@@ -131,7 +131,7 @@ const GigCard = (props) => {
   });
 
   return (
-    <div className="card-container card-container-shortened">
+    <div className="card-container card-container-shortened mx-3">
       <div
         className="card-image"
         style={{
