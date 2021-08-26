@@ -110,8 +110,6 @@ export const DELETE_BAND = gql`
 
 export const DELETE_GIG = gql`
   mutation Mutation($deleteGigInput: deleteGigInput) {
-    deleteGig(input: $deleteGigInput) {
-      id
-    }
+    deleteGig(input: $deleteGigInput)
   }
 `;
