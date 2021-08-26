@@ -802,6 +802,23 @@ const MusicianProfile = (props) => {
     });
   }
 
+  // let filteredGigs;
+  // if (gigsData) {
+  //   console.log(gigsData);
+  //   console.log(state.user.id);
+
+  //   const filteredGigs = gigsData.gigs.filter((gig) => {
+  //     const confirmedGigs = gig.performers.filter((performer) => {
+  //       return (
+  //         performer.musician === state.user.id && performer.confirmed === "true"
+  //       );
+  //     });
+  //     return confirmedGigs.length;
+  //   });
+  //   console.log(filteredGigs);
+  //   return filteredGigs;
+  // }
+
   if (loading) {
     return <div>Loading</div>;
   }
@@ -837,6 +854,12 @@ const MusicianProfile = (props) => {
     musician.lookingFor.forEach((looking) => {
       lookingFor.push(looking.role);
     });
+
+    const redirectToPage = (event) => {
+      const page = event.currentTarget.id;
+
+      window.location.replace(`/${page}`);
+    };
 
     return (
       <div className="profile-container">
@@ -880,7 +903,9 @@ const MusicianProfile = (props) => {
           soundCloudUrl={musician.soundCloudUrl}
           myProfile={myProfile}
         />
-        <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
+        {musicianData && musician.soundCloudUrl && (
+          <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
+        )}
 
         <div className="see-through-background-90 text-align-center">
           {myProfile ? (
@@ -889,9 +914,30 @@ const MusicianProfile = (props) => {
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s GIGS</p>
           )}
 
-          {gigsData && (
+          {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
               {constructGigCards(gigsData.gigs)}
+            </div>
+          ) : myProfile ? (
+            <div className="no-gigs-bands-container">
+              <div>
+                <p className="mb-2 fs-3">You have no gigs</p>
+              </div>
+              <div>
+                <Button
+                  label="FIND A GIG"
+                  mode="primary"
+                  size="medium"
+                  onClick={redirectToPage}
+                  buttonId="gig"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="no-gigs-bands-container">
+              <p className="mb-3 fs-3">
+                {`${musician.firstName} ${musician.lastName}`} has no gigs
+              </p>
             </div>
           )}
         </div>
@@ -904,9 +950,30 @@ const MusicianProfile = (props) => {
           )}
 
           <div className="cards-container">
-            {bandsData && (
+            {bandsData && bandsData.bands ? (
               <div className="cards-container">
                 {constructPerformerCards(bands, "shortened")}
+              </div>
+            ) : myProfile ? (
+              <div className="no-gigs-bands-container">
+                <div>
+                  <p className="mb-2 fs-3">You have no bands</p>
+                </div>
+                <div>
+                  <Button
+                    label="FIND A GIG"
+                    mode="primary"
+                    size="medium"
+                    onClick={redirectToPage}
+                    buttonId="assemble"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="no-gigs-bands-container">
+                <p className="mb-3 fs-3">
+                  {`${musician.firstName} ${musician.lastName}`} has no bands
+                </p>
               </div>
             )}
           </div>
