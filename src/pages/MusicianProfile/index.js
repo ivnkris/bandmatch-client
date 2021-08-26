@@ -802,6 +802,23 @@ const MusicianProfile = (props) => {
     });
   }
 
+  // let filteredGigs;
+  // if (gigsData) {
+  //   console.log(gigsData);
+  //   console.log(state.user.id);
+
+  //   const filteredGigs = gigsData.gigs.filter((gig) => {
+  //     const confirmedGigs = gig.performers.filter((performer) => {
+  //       return (
+  //         performer.musician === state.user.id && performer.confirmed === "true"
+  //       );
+  //     });
+  //     return confirmedGigs.length;
+  //   });
+  //   console.log(filteredGigs);
+  //   return filteredGigs;
+  // }
+
   if (loading) {
     return <div>Loading</div>;
   }

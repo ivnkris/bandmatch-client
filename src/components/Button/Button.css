@@ -1,62 +1,63 @@
 .button--small {
-	font-size: 13px;
-	padding: 6px 18px;
-	margin: 2px;
+  font-size: 13px;
+  padding: 6px 10px;
+  margin: 15px;
+  margin-top: 25px;
 }
 
 .button--medium {
-	font-size: 16px;
-	padding: 8px 20px;
-	margin: 15px;
+  font-size: 16px;
+  padding: 8px 20px;
+  margin: 15px;
 }
 
 .button--large {
-	font-size: 26px;
-	padding: 10px;
-	margin: 40px;
-	width: 220px;
+  font-size: 26px;
+  padding: 10px;
+  margin: 40px;
+  width: 220px;
 }
 
 .button--large:hover,
 .button--small:hover,
 .button--medium:hover {
-	transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .button--primary {
-	background-color: #ffd324;
-	color: #131313;
-	font-weight: bold;
-	border: none;
-	border-radius: 8px;
-	box-shadow: 2px 2px 3px #a5a4a4;
-	letter-spacing: 1px;
+  background-color: #ffd324;
+  color: #131313;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 2px 2px 3px #a5a4a4;
+  letter-spacing: 1px;
 }
 
 .button--secondary {
-	background: linear-gradient(#424141, #202020);
-	color: white;
-	border: none;
-	border-radius: 8px;
-	font-weight: 500;
-	box-shadow: 2px 2px 3px #a5a4a4;
-	letter-spacing: 1.5px;
+  background: linear-gradient(#424141, #202020);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 2px 2px 3px #a5a4a4;
+  letter-spacing: 1.5px;
 }
 
 @media screen and (max-width: 768px) {
-	.button--large {
-		font-size: 25px;
-		padding: 12px;
-		margin: 20px;
-		width: 180px;
-	}
+  .button--large {
+    font-size: 25px;
+    padding: 12px;
+    margin: 20px;
+    width: 180px;
+  }
 }
 
 @media screen and (max-width: 500px) {
-	.button--large {
-		font-size: 18px;
-		padding: 10px;
-		margin: 10px;
-		width: 120px;
-	}
+  .button--large {
+    font-size: 18px;
+    padding: 10px;
+    margin: 10px;
+    width: 120px;
+  }
 }
