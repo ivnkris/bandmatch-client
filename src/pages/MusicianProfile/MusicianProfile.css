@@ -31,14 +31,6 @@
   cursor: pointer;
 }
 
-.no-gigs-bands-container {
-  padding-left: 40px;
-  padding-right: 40px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-}
-
 @media screen and (max-width: 911px) {
   .create-band-button {
     position: relative;
