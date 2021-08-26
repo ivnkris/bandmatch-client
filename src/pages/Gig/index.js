@@ -8,7 +8,14 @@ import FilterStrip from "../../components/FilterStrip";
 import Button from "../../components/Button";
 
 const Gig = (props) => {
-  const { data, loading, error } = useQuery(GIGS);
+  const { data, loading, error, fetchMore } = useQuery(GIGS, {
+    variables: {
+      gigsOffset: 0,
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   if (error) {
     console.log(error);
@@ -19,6 +26,29 @@ const Gig = (props) => {
     return <div>Loading...</div>;
   }
 
+  const onLoadMore = async () => {
+    await fetchMore({
+      variables: {
+        gigsOffset: data.gigs.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        console.log("prev", prev.gigs);
+        console.log("fetchMoreResult", fetchMoreResult);
+
+        const result = {
+          gigs: {
+            gigs: [...prev.gigs, ...fetchMoreResult.gigs],
+          },
+        };
+
+        console.log("result", result);
+
+        return result;
+      },
+    });
+  };
+
   if (data) {
     const gigs = data.gigs;
     return (
@@ -27,7 +57,12 @@ const Gig = (props) => {
         <FilterStrip title="FIND YOUR GIG" />
         <div className="see-through-background-90 text-align-center">
           <div className="cards-container">{constructGigCards(gigs)}</div>
-          <Button label="LOAD MORE" size="medium" mode="primary" />
+          <Button
+            label="LOAD MORE"
+            size="medium"
+            mode="primary"
+            onClick={onLoadMore}
+          />
         </div>
       </div>
     );

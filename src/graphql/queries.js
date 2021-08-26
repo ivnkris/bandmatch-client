@@ -232,8 +232,8 @@ export const COLLABORATE_CAROUSEL = gql`
 `;
 
 export const GIGS = gql`
-  query Query($gigsFilters: Filter) {
-    gigs(filters: $gigsFilters) {
+  query Query($gigsFilters: Filter, $gigsOffset: Int) {
+    gigs(filters: $gigsFilters, gigsOffset: $gigsOffset) {
       id
       title
       description
