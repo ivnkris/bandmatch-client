@@ -37,9 +37,7 @@ const Gig = (props) => {
         console.log("fetchMoreResult", fetchMoreResult);
 
         const result = {
-          gigs: {
-            gigs: [...prev.gigs, ...fetchMoreResult.gigs],
-          },
+          gigs: [...prev.gigs, ...fetchMoreResult.gigs],
         };
 
         console.log("result", result);
