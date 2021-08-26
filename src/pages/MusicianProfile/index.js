@@ -900,7 +900,7 @@ const MusicianProfile = (props) => {
               {constructGigCards(gigsData.gigs)}
             </div>
           ) : myProfile ? (
-            <div className="no-gigs-container">
+            <div className="no-gigs-bands-container">
               <div>
                 <p className="mb-2 fs-3">You have no gigs</p>
               </div>
@@ -915,7 +915,7 @@ const MusicianProfile = (props) => {
               </div>
             </div>
           ) : (
-            <div className="no-gigs-container">
+            <div className="no-gigs-bands-container">
               <p className="mb-3 fs-3">
                 {`${musician.firstName} ${musician.lastName}`} has no gigs
               </p>
@@ -931,9 +931,30 @@ const MusicianProfile = (props) => {
           )}
 
           <div className="cards-container">
-            {bandsData && (
+            {bandsData && bandsData.bands ? (
               <div className="cards-container">
                 {constructPerformerCards(bands, "shortened")}
+              </div>
+            ) : myProfile ? (
+              <div className="no-gigs-bands-container">
+                <div>
+                  <p className="mb-2 fs-3">You have no bands</p>
+                </div>
+                <div>
+                  <Button
+                    label="FIND A GIG"
+                    mode="primary"
+                    size="medium"
+                    onClick={redirectToPage}
+                    buttonId="assemble"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="no-gigs-bands-container">
+                <p className="mb-3 fs-3">
+                  {`${musician.firstName} ${musician.lastName}`} has no bands
+                </p>
               </div>
             )}
           </div>
