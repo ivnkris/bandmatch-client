@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import "./ChatSideBar.css";
 
 const ChatSideBar = ({ show, setShow, chats, loading, getMessages }) => {
-  console.log(chats);
+  console.log("these are the chats", chats);
   let drawerClasses = "side-drawer";
   if (show) {
     drawerClasses = "side-drawer open";

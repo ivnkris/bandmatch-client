@@ -147,19 +147,19 @@ const Inbox = (props) => {
                         <img
                           src={chat.user.imageUrl}
                           alt={
-                            (props.firstName && chat.user.firstName) ||
-                            (props.name && props.name)
+                            (chat.user.firstName && chat.user.firstName) ||
+                            (chat.user.name && chat.user.name)
                           }
                         />
                       </div>
                       <div className="ms-5 mt-4 chat-user-name">
-                        {props.firstName &&
-                          props.firstName.charAt(0).toUpperCase() +
-                            props.firstName.slice(1)}{" "}
-                        {props.lastName &&
-                          props.lastName.charAt(0).toUpperCase() +
-                            props.lastName.slice(1)}
-                        {props.name && props.name}
+                        {chat.user.firstName &&
+                          chat.user.firstName.charAt(0).toUpperCase() +
+                            chat.user.firstName.slice(1)}{" "}
+                        {chat.user.lastName &&
+                          chat.user.lastName.charAt(0).toUpperCase() +
+                            chat.user.lastName.slice(1)}
+                        {chat.user.name && chat.user.name}
                       </div>
                     </li>
                   </button>
