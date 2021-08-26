@@ -116,7 +116,10 @@ const BandProfile = (props) => {
           lookingFor={lookingFor}
           soundCloudUrl={band.soundCloudUrl}
         />
-        <SoundCloudWidget soundCloudUrl={band.soundCloudUrl} />
+
+        {bandData && band.soundCloudUrl && (
+          <SoundCloudWidget soundCloudUrl={band.soundCloudUrl} />
+        )}
 
         <div className="see-through-background-90 text-align-center">
           <p className="title mb-2 pt-2 fs-1">{name}'s GIGS</p>
@@ -128,7 +131,7 @@ const BandProfile = (props) => {
           ) : myBandProfile.length ? (
             <div className="no-gigs-bands-container">
               <div>
-                <p className="mb-2 fs-3">You have no gigs</p>
+                <p className="mb-2 fs-3">Your band has no gigs</p>
               </div>
               <div>
                 <Button
@@ -150,7 +153,7 @@ const BandProfile = (props) => {
         </div>
 
         <div className="see-through-background-90 text-align-center">
-          <p className="title mb-2 pt-2 fs-1">{band.name}'s BANDS</p>
+          <p className="title mb-2 pt-2 fs-1">{band.name}'s BAND MEMBERS</p>
 
           <div className="cards-container">
             {bandData && (
@@ -164,7 +167,5 @@ const BandProfile = (props) => {
     );
   }
 };
-
-// gigsData  &&  gigsData.gigs ? show gigs :  myBandProfile.length ? you no : they no
 
 export default BandProfile;
