@@ -7,7 +7,7 @@ import Collaborate from "./pages/Collaborate";
 import Gig from "./pages/Gig";
 import EditBand from "./pages/EditBand";
 import EditProfile from "./pages/EditProfile";
-import Home from "./pages/Home";
+import Home from "./pages/Home/index";
 import Inbox from "./pages/Inbox/index";
 import Login from "./pages/Login/index";
 import MusicianProfile from "./pages/MusicianProfile";
