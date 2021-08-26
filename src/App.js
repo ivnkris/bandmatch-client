@@ -18,7 +18,9 @@ import "./Reset.css";
 import "./App.css";
 
 const httpLink = createHttpLink({
-  uri: process.env.GRAPHQL_URL || "https://boiling-headland-30180.herokuapp.com/",
+  uri:
+    process.env.GRAPHQL_URL ||
+    "https://boiling-headland-30180.herokuapp.com/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
