@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 
 import { GIGS } from "../../graphql/queries";
@@ -9,7 +9,16 @@ import Button from "../../components/Button";
 import Title from "../../components/Title";
 
 const Gig = (props) => {
-  const { data, loading, error } = useQuery(GIGS);
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+
+  const { data, loading, error, fetchMore } = useQuery(GIGS, {
+    variables: {
+      gigsOffset: 0,
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   if (error) {
     console.log(error);
@@ -20,6 +29,27 @@ const Gig = (props) => {
     return <div>Loading...</div>;
   }
 
+  const onLoadMore = async () => {
+    await fetchMore({
+      variables: {
+        gigsOffset: data.gigs.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+
+        if (fetchMoreResult.gigs.length < data.gigs.length) {
+          setHasMoreItems(false);
+        }
+
+        const result = {
+          gigs: [...prev.gigs, ...fetchMoreResult.gigs],
+        };
+
+        return result;
+      },
+    });
+  };
+
   if (data) {
     const gigs = data.gigs;
     return (
@@ -29,7 +59,14 @@ const Gig = (props) => {
         <Title text="FIND YOUR GIG" type="section" />
         <div className="see-through-background-90 text-align-center">
           <div className="cards-container">{constructGigCards(gigs)}</div>
-          {/* <Button label="LOAD MORE" size="medium" mode="primary" /> */}
+          {hasMoreItems && (
+            <Button
+              label="LOAD MORE"
+              size="medium"
+              mode="primary"
+              onClick={onLoadMore}
+            />
+          )}
         </div>
       </div>
     );
