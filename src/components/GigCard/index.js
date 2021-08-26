@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 import { useModal } from "../../contexts/ModalProvider";
 import { GIG_PREVIEW } from "../../graphql/queries";
 import Button from "../Button";
-import { CREATE_GIG_REQUEST } from "../../graphql/mutations";
+import { CREATE_GIG_REQUEST, DELETE_GIG } from "../../graphql/mutations";
 import { useUserContext } from "../../contexts/UserProvider";
 import Title from "../Title";
 
@@ -43,6 +43,16 @@ const GigCard = (props) => {
         createGigRequestInput: {
           id: props.gigId,
           performer: { musician: state.user.id },
+        },
+      },
+    });
+  };
+  const [deleteGigQuery] = useMutation(DELETE_GIG);
+  const sendDeleteRequest = async (event) => {
+    await deleteGigQuery({
+      variables: {
+        deleteGigInput: {
+          id: props.gigId,
         },
       },
     });
@@ -150,12 +160,21 @@ const GigCard = (props) => {
         </p>
       </div>
       <div id={props.gigId}>
-        <Button
-          label="REQUEST"
-          onClick={sendGigRequest}
-          size="small"
-          mode="primary"
-        />
+        {state.user.name === props.venueName ? (
+          <Button
+            label="DELETE"
+            onClick={sendDeleteRequest}
+            size="small"
+            mode="delete"
+          />
+        ) : (
+          <Button
+            label="REQUEST"
+            onClick={sendGigRequest}
+            size="small"
+            mode="primary"
+          />
+        )}
         <Button
           label="MORE INFO"
           size="small"

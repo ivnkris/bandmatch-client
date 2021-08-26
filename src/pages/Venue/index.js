@@ -17,7 +17,7 @@ import {
 } from "react-accessible-accordion";
 import $ from "jquery";
 
-import { GENRESINSTRUMENTS, VENUE } from "../../graphql/queries";
+import { GENRESINSTRUMENTS, GIGS, VENUE } from "../../graphql/queries";
 import { CREATE_GIG } from "../../graphql/mutations";
 import formatToTwoDecimals from "../../utils/formatToTwoDecimals";
 import generateDropdownOptions from "../../utils/generateDropdownOptions";
@@ -29,6 +29,7 @@ import FormInput from "../../components/FormInput";
 import { useUserContext } from "../../contexts/UserProvider";
 import Title from "../../components/Title";
 import ProfileInfo from "../../components/ProfileInfo";
+import { constructGigCards } from "../../utils/constructCards";
 
 const Venue = () => {
   const { state } = useUserContext();
@@ -141,7 +142,7 @@ const Venue = () => {
             content: (
               <>
                 <Modal.Header className="solid-background" closeButton>
-                  <Modal.Title>Create a new band</Modal.Title>
+                  <Modal.Title>Create a new gig</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="solid-background">
                   <form onSubmit={handleSubmit(onSubmit)}>
@@ -248,6 +249,16 @@ const Venue = () => {
       console.log(error);
     },
   });
+  let filteredGigsData;
+  const { data: gigsData } = useQuery(GIGS);
+  console.log(gigsData);
+  if (gigsData) {
+    filteredGigsData = gigsData.gigs.filter((gig) => {
+      console.log(gig.venue.id);
+      console.log(state.user.id);
+      return gig.venue.id === state.user.id;
+    });
+  }
 
   return (
     <div className="profile-container">
@@ -284,11 +295,11 @@ const Venue = () => {
       <div className="see-through-background-90 text-align-center">
         <p className="title mb-2 pt-2 fs-1">GIGS at {state.user.name}</p>
 
-        {/* {gigsData && (
+        {filteredGigsData && (
           <div className="cards-container">
-            {constructGigCards(gigsData.gigs)}
+            {constructGigCards(filteredGigsData)}
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );

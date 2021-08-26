@@ -44,6 +44,16 @@
   letter-spacing: 1.5px;
 }
 
+.button--delete {
+  background-color: #ff2424;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 2px 2px 3px #a5a4a4;
+  letter-spacing: 1px;
+}
+
 @media screen and (max-width: 768px) {
   .button--large {
     font-size: 25px;
