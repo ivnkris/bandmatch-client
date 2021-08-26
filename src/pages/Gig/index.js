@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 
 import { GIGS } from "../../graphql/queries";
@@ -8,6 +8,8 @@ import FilterStrip from "../../components/FilterStrip";
 import Button from "../../components/Button";
 
 const Gig = (props) => {
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+
   const { data, loading, error, fetchMore } = useQuery(GIGS, {
     variables: {
       gigsOffset: 0,
@@ -33,14 +35,14 @@ const Gig = (props) => {
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
-        console.log("prev", prev.gigs);
-        console.log("fetchMoreResult", fetchMoreResult);
+
+        if (fetchMoreResult.gigs.length < data.gigs.length) {
+          setHasMoreItems(false);
+        }
 
         const result = {
           gigs: [...prev.gigs, ...fetchMoreResult.gigs],
         };
-
-        console.log("result", result);
 
         return result;
       },
@@ -55,12 +57,14 @@ const Gig = (props) => {
         <FilterStrip title="FIND YOUR GIG" />
         <div className="see-through-background-90 text-align-center">
           <div className="cards-container">{constructGigCards(gigs)}</div>
-          <Button
-            label="LOAD MORE"
-            size="medium"
-            mode="primary"
-            onClick={onLoadMore}
-          />
+          {hasMoreItems && (
+            <Button
+              label="LOAD MORE"
+              size="medium"
+              mode="primary"
+              onClick={onLoadMore}
+            />
+          )}
         </div>
       </div>
     );
