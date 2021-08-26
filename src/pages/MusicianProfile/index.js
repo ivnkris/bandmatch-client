@@ -916,7 +916,9 @@ const MusicianProfile = (props) => {
             </div>
           ) : (
             <div className="no-gigs-container">
-              <p className="mb-3 fs-3">This user has no gigs</p>
+              <p className="mb-3 fs-3">
+                {`${musician.firstName} ${musician.lastName}`} has no gigs
+              </p>
             </div>
           )}
         </div>
