@@ -886,7 +886,9 @@ const MusicianProfile = (props) => {
           soundCloudUrl={musician.soundCloudUrl}
           myProfile={myProfile}
         />
-        <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
+        {musicianData && musician.soundCloudUrl && (
+          <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
+        )}
 
         <div className="see-through-background-90 text-align-center">
           {myProfile ? (
