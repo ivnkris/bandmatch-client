@@ -28,6 +28,8 @@ const Inbox = (props) => {
   const { data, loading, error } = useQuery(CONVERSATIONS, {
     variables: {
       conversationsId: state.user.id,
+      // CHANGE TO ID FROM STATE L8
+      bandConversationsBandId: "612686d7415e5a5e43e7e5b2",
     },
     onError: (error) => {
       console.log(error);
@@ -38,7 +40,9 @@ const Inbox = (props) => {
   let chats;
 
   if (data) {
+    console.log("data", data);
     const conversations = data.conversations;
+    console.log("conversations", conversations);
     const renderChats = () => {
       return conversations.map((conversation) => {
         const otherUser = conversation.participants.find((participant) => {
@@ -99,6 +103,11 @@ const Inbox = (props) => {
     messages = conversationData.conversation.messages;
   }
 
+  // let bandMessages
+  // if (bandConversationData) {
+  //   bandMessages = bandConversationData.conversation.messages;
+  // }
+
   return (
     <div className="inbox-background-container">
       {data && (
@@ -137,14 +146,20 @@ const Inbox = (props) => {
                       <div className="profile-inbox-image">
                         <img
                           src={chat.user.imageUrl}
-                          alt={chat.user.firstName}
+                          alt={
+                            (props.firstName && chat.user.firstName) ||
+                            (props.name && props.name)
+                          }
                         />
                       </div>
                       <div className="ms-5 mt-4 chat-user-name">
-                        {chat.user.firstName.charAt(0).toUpperCase() +
-                          chat.user.firstName.slice(1)}{" "}
-                        {chat.user.lastName.charAt(0).toUpperCase() +
-                          chat.user.lastName.slice(1)}
+                        {props.firstName &&
+                          props.firstName.charAt(0).toUpperCase() +
+                            props.firstName.slice(1)}{" "}
+                        {props.lastName &&
+                          props.lastName.charAt(0).toUpperCase() +
+                            props.lastName.slice(1)}
+                        {props.name && props.name}
                       </div>
                     </li>
                   </button>

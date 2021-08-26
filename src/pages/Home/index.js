@@ -7,6 +7,8 @@ const redirectToPage = (event) => {
   window.location.replace(`/${page}`);
 };
 
+console.log("home")
+
 const Home = (props) => {
   return (
     <div className="home-container">
