@@ -46,6 +46,7 @@ const LoginForm = () => {
           lastName: data.login.user.lastName,
           id: data.login.user.id,
           type: data.login.type,
+          bands: data.login.user.bands,
         };
       }
 
@@ -62,7 +63,9 @@ const LoginForm = () => {
         history.push(`/venues/${data.login.user.id}`);
       }
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   const onSubmit = async (formData) => {
