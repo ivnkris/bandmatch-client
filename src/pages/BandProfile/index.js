@@ -1,8 +1,10 @@
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 
+import { useUserContext } from "../../contexts/UserProvider";
 import ProfileInfo from "../../components/ProfileInfo";
 import SoundCloudWidget from "../../components/SoundCloudWidget";
+import Button from "../../components/Button";
 import Title from "../../components/Title";
 import { BAND, GIGS } from "../../graphql/queries";
 import {
@@ -12,6 +14,9 @@ import {
 import "./BandProfile.css";
 
 const BandProfile = (props) => {
+  // get user your logged in as from userContext
+  // check if user is member of band bandData.bands.musicians -> is an array loop through and check
+
   const { id } = useParams();
 
   const { data: bandData, loading, error } = useQuery(BAND, {
@@ -22,6 +27,17 @@ const BandProfile = (props) => {
       console.log(error);
     },
   });
+
+  const { state } = useUserContext();
+
+  let myBandProfile;
+
+  if (bandData) {
+    myBandProfile = bandData.band.musicians.filter((musician) => {
+      console.log(musician);
+      return musician.id === state.user.id;
+    });
+  }
 
   const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
     GIGS,
@@ -48,7 +64,6 @@ const BandProfile = (props) => {
 
   if (bandData) {
     const band = bandData.band;
-    console.log(band);
     const name = band.name;
     const openTo = () => {
       if (band.openToCollaboration && band.openToMembers) {
@@ -73,6 +88,13 @@ const BandProfile = (props) => {
     band.lookingFor.forEach((looking) => {
       lookingFor.push(looking.role);
     });
+
+    const redirectToPage = (event) => {
+      const page = event.currentTarget.id;
+
+      window.location.replace(`/${page}`);
+    };
+
     return (
       <div className="profile-container">
         <div className="p-2"></div>
@@ -94,20 +116,44 @@ const BandProfile = (props) => {
           lookingFor={lookingFor}
           soundCloudUrl={band.soundCloudUrl}
         />
-        <SoundCloudWidget soundCloudUrl={band.soundCloudUrl} />
+
+        {bandData && band.soundCloudUrl && (
+          <SoundCloudWidget soundCloudUrl={band.soundCloudUrl} />
+        )}
 
         <div className="see-through-background-90 text-align-center">
           <p className="title mb-2 pt-2 fs-1">{name}'s GIGS</p>
 
-          {gigsData && (
+          {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
               {constructGigCards(gigsData.gigs)}
+            </div>
+          ) : myBandProfile.length ? (
+            <div className="no-gigs-bands-container">
+              <div>
+                <p className="mb-2 fs-3">Your band has no gigs</p>
+              </div>
+              <div>
+                <Button
+                  label="FIND A GIG"
+                  mode="primary"
+                  size="medium"
+                  onClick={redirectToPage}
+                  buttonId="gig"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="no-gigs-bands-container">
+              <p className="mb-3 fs-3">
+                {`${bandData.band.name}`} have no gigs
+              </p>
             </div>
           )}
         </div>
 
         <div className="see-through-background-90 text-align-center">
-          <p className="title mb-2 pt-2 fs-1">{band.name}'s BANDS</p>
+          <p className="title mb-2 pt-2 fs-1">{band.name}'s BAND MEMBERS</p>
 
           <div className="cards-container">
             {bandData && (
