@@ -2,11 +2,11 @@ import { useQuery } from "@apollo/client";
 
 import Header from "../../components/Header";
 import CardsCarousel from "../../components/Carousel";
-import FilterStrip from "../../components/FilterStrip";
 import { constructPerformerCards } from "../../utils/constructCards";
 
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { BANDS } from "../../graphql/queries";
+import Title from "../../components/Title";
 
 const Bands = () => {
   const { data: bandsData, loading: bandsLoading } = useQuery(BANDS);
@@ -31,6 +31,7 @@ const Bands = () => {
       });
       return {
         ...card,
+        type: "band",
         genre: genres,
         instruments,
         lookingFor,
@@ -46,9 +47,9 @@ const Bands = () => {
         {bandsLoading && <LoadingSpinner />}
         {bandsData && <CardsCarousel cards={bandCards} />}
       </div>
-      <Header className="pt-3" title="ALL BANDS" />
 
-      <div className="see-through-background-90 text-align-center main-cards-container">
+      <div className="mt-5 see-through-background-90 text-align-center main-cards-container">
+        <Title className="pt-3" text="ALL BANDS" type="section" />
         {bandsLoading && <LoadingSpinner />}
         {bandsData && (
           <div className="cards-container">

@@ -9,17 +9,27 @@ const responsive = {
     slidesToSlide: 1,
   },
   desktop: {
-    breakpoint: { max: 1400, min: 1024 },
+    breakpoint: { max: 1400, min: 1308 },
     items: 5,
     slidesToSlide: 1,
   },
+  largeTablet: {
+    breakpoint: { max: 1307, min: 1040 },
+    items: 4,
+    slidesToSlide: 1,
+  },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 1039, min: 780 },
     items: 3,
     slidesToSlide: 1,
   },
+  largeMobile: {
+    breakpoint: { max: 779, min: 526 },
+    items: 2,
+    slidesToSlide: 1,
+  },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
+    breakpoint: { max: 525, min: 0 },
     items: 1,
     slidesToSlide: 1,
   },

@@ -2,6 +2,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import { isMobile, isBrowser } from "react-device-detect";
+import { useHistory } from "react-router-dom";
 
 import "bootstrap/dist/js/bootstrap";
 
@@ -11,11 +12,13 @@ import "./NavigationBar.css";
 
 const NavigationBar = (props) => {
   const { state, dispatch } = useUserContext();
+  let history = useHistory();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("userFilters");
     dispatch({ type: "LOGOUT" });
+    history.push("/");
   };
 
   const capitalizeFirstLetter = (string) => {
