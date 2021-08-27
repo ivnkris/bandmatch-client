@@ -315,7 +315,7 @@ const MusicianProfile = (props) => {
                               <option className="option-text" value="newbie">
                                 Newbie
                               </option>
-                              <option className="option-text" value="amateur">
+                              <option className="option-text" value="midway">
                                 Midway
                               </option>
                               <option className="option-text" value="expert">
