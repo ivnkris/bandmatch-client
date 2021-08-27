@@ -16,7 +16,7 @@ export const ASSEMBLE = gql`
         firstName
         lastName
         description
-        postcode
+        location
         genre {
           name
           id
@@ -74,7 +74,7 @@ export const ASSEMBLE_CAROUSEL = gql`
         id
         firstName
         lastName
-        postcode
+        location
         genre {
           id
           name
@@ -156,7 +156,7 @@ export const COLLABORATE = gql`
         id
         firstName
         lastName
-        postcode
+        location
         genre {
           id
           name
@@ -186,7 +186,7 @@ export const COLLABORATE_CAROUSEL = gql`
         id
         firstName
         lastName
-        postcode
+        location
         genre {
           id
           name
@@ -281,7 +281,7 @@ export const MUSICIAN_USER = gql`
       firstName
       lastName
       description
-      postcode
+      location
       genre {
         name
         id
@@ -337,7 +337,7 @@ export const BAND = gql`
         firstName
         lastName
         description
-        postcode
+        location
 
         experienceLevel
 
@@ -381,7 +381,7 @@ export const MUSICIAN_PREVIEW = gql`
       firstName
       lastName
       description
-      postcode
+      location
       genre {
         name
       }
@@ -558,6 +558,37 @@ export const VENUE = gql`
       photoUrl
       description
       websiteUrl
+    }
+  }
+`;
+
+export const MUSICIANS = gql`
+  query Query {
+    musicians {
+      id
+      email
+      firstName
+      lastName
+      description
+      location
+      genre {
+        name
+        id
+      }
+      experienceLevel
+      instruments {
+        id
+        name
+      }
+      imageUrl
+      websiteUrl
+      soundCloudUrl
+      lookingFor {
+        role
+        id
+      }
+      openToCollaboration
+      openToJoiningBand
     }
   }
 `;

@@ -115,7 +115,7 @@ const NavigationBar = (props) => {
                 {state.user.type === "venue" && (
                   <a
                     className="nav-link nav-bar-link"
-                    href={`/venue/${state.user.id}`}
+                    href={`/venues/${state.user.id}`}
                   >
                     MY PROFILE
                   </a>

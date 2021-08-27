@@ -5,8 +5,7 @@
 }
 
 .card-body {
-  margin-left: 2px;
-  margin-right: 2px;
+  margin: 0 1rem;
 }
 
 .card-title {

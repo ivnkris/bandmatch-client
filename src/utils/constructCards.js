@@ -3,6 +3,7 @@ import GigCard from "../components/GigCard";
 
 export const constructPerformerCards = (cards, version = "extended") => {
   const cardsToRender = cards.map((card) => {
+    console.log(card);
     return (
       <AssembleCard
         key={`${version}-${card.id}`}
@@ -40,6 +41,7 @@ export const constructGigCards = (gigs) => {
         venueName={venueName}
         postcode={postcode}
         gigId={gig.id}
+        fee={gig.fee}
       />
     );
   });
