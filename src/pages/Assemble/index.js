@@ -24,6 +24,7 @@ const Assemble = (props) => {
     lookingFor: state.userFilters.lookingFor,
     experienceLevel: state.userFilters.experienceLevel,
     userType: state.userFilters.userType,
+    location: state.userFilters.location,
   };
 
   const {

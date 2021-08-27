@@ -9,7 +9,7 @@ const SoundCloudWidget = (props) => {
           title="SoundCloud Widget"
           id="sc-widget"
           src={props.soundCloudUrl}
-          width="350px"
+          width="90%"
           height="100px"
           scrolling="no"
           frameBorder="no"
