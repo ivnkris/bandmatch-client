@@ -496,8 +496,7 @@ const MusicianProfile = (props) => {
 
   const onSubmit = useCallback(
     (formData) => {
-
-    console.log(imageUrlBand)
+      console.log(imageUrlBand);
       let openToMembers;
 
       if (formData.lookingFor) {
@@ -834,6 +833,9 @@ const MusicianProfile = (props) => {
     register2,
     setModalState,
     validateMembers,
+    control2,
+    imageUrlBand,
+    state.user.email,
   ]);
 
   let bands;
