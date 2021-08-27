@@ -40,13 +40,14 @@ const Bands = () => {
 
   return (
     <div className="results-page-container">
-      <Header className="pt-3" title="Create, complete or join a band" />
+      <Header className="pt-3" title="FIND YOUR GIG'S PERFECT BAND" />
       <div className="see-through-background-90 mt-20 ">
         <p className="title gutter">NEW KIDS ON THE BLOCK</p>
         {bandsLoading && <LoadingSpinner />}
         {bandsData && <CardsCarousel cards={bandCards} />}
       </div>
-      <FilterStrip title="FIND YOUR MATCH" />
+      <Header className="pt-3" title="ALL BANDS" />
+
       <div className="see-through-background-90 text-align-center main-cards-container">
         {bandsLoading && <LoadingSpinner />}
         {bandsData && (

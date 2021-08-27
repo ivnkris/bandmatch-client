@@ -2,7 +2,6 @@ import { useQuery } from "@apollo/client";
 
 import Header from "../../components/Header";
 import CardsCarousel from "../../components/Carousel";
-import FilterStrip from "../../components/FilterStrip";
 import { constructPerformerCards } from "../../utils/constructCards";
 
 import LoadingSpinner from "../../components/LoadingSpinner";
@@ -42,13 +41,13 @@ const Musicians = () => {
 
   return (
     <div className="results-page-container">
-      <Header className="pt-3" title="Create, complete or join a band" />
+      <Header className="pt-3" title="FIND YOUR GIG'S PERFECT MUSICIAN" />
       <div className="see-through-background-90 mt-20 ">
         <p className="title gutter">NEW KIDS ON THE BLOCK</p>
         {musiciansLoading && <LoadingSpinner />}
         {musiciansData && <CardsCarousel cards={musicianCards} />}
       </div>
-      <FilterStrip title="FIND YOUR MATCH" />
+      <Header className="pt-3" title="ALL MUSICIANS" />
       <div className="see-through-background-90 text-align-center main-cards-container">
         {musiciansLoading && <LoadingSpinner />}
         {musiciansData && (
