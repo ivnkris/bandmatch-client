@@ -28,8 +28,7 @@ const Inbox = (props) => {
   const { data, loading, error } = useQuery(CONVERSATIONS, {
     variables: {
       conversationsId: state.user.id,
-      // CHANGE TO ID FROM STATE L8
-      bandConversationsBandId: "612686d7415e5a5e43e7e5b2",
+      bandConversationsBandIds: state.user.bands || [],
     },
     onError: (error) => {
       console.log(error);
@@ -38,11 +37,15 @@ const Inbox = (props) => {
   });
 
   let chats;
+  let bandChats;
 
   if (data) {
-    console.log("data", data);
     const conversations = data.conversations;
-    console.log("conversations", conversations);
+
+    const bandsConversations = data.bandConversations;
+
+    console.log("band convos", bandsConversations);
+
     const renderChats = () => {
       return conversations.map((conversation) => {
         const otherUser = conversation.participants.find((participant) => {
@@ -54,6 +57,56 @@ const Inbox = (props) => {
       });
     };
     chats = renderChats();
+
+    if (bandsConversations) {
+      const isParticipantLoggedInUser = (participant) => {
+        const bandIds = state.user.bands;
+        const result = bandIds.includes(participant.id);
+        // const result = bandIds.filter((bandId) => bandId !== participant.id);
+        // console.log("result", result, "for", participant.id);
+        return result;
+      };
+
+      const renderBandChats = () => {
+        const bandsWithChats = bandsConversations.filter(
+          (bandConversations) => bandConversations.conversations !== null
+        );
+
+        console.log("bands with chats", bandsWithChats);
+
+        const filteredStuff = bandsWithChats.forEach((bandConversations) => {
+          if (bandConversations.conversations.length === 0) {
+            return;
+          }
+          // console.log("band conversation", bandConversations);
+          return bandConversations.conversations.map((conversation) => {
+            let otherUser;
+            conversation.participants.forEach((participant) => {
+              console.log("participant", participant);
+              const result = isParticipantLoggedInUser(participant);
+
+              console.log("result", result, "for", participant.id);
+              if (result !== true) {
+                otherUser = participant;
+              } else {
+                return;
+              }
+            });
+
+            console.log("this is the other user", otherUser);
+
+            const filteredConversation = {
+              ...bandsConversations,
+              user: otherUser,
+            };
+            return filteredConversation;
+          });
+        });
+
+        return filteredStuff;
+      };
+      bandChats = renderBandChats();
+    }
   }
 
   const [
@@ -103,16 +156,12 @@ const Inbox = (props) => {
     messages = conversationData.conversation.messages;
   }
 
-  // let bandMessages
-  // if (bandConversationData) {
-  //   bandMessages = bandConversationData.conversation.messages;
-  // }
-
   return (
     <div className="inbox-background-container">
       {data && (
         <ChatSideBar
           chats={chats}
+          bandChats={bandChats}
           loading={loading}
           show={isSideDrawer}
           setShow={setIsSideDrawer}
