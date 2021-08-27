@@ -156,7 +156,7 @@ const BandProfile = (props) => {
           <div className="cards-container">
             {bandData && (
               <div className="cards-container">
-                {constructPerformerCards(band.musicians, "shortened")}
+                {constructPerformerCards(band.musicians, "shortest")}
               </div>
             )}
           </div>

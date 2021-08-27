@@ -77,7 +77,7 @@ const AssembleCard = (props) => {
                       size="medium"
                       mode="primary"
                     />
-                    <a href={`bands/${band.id}`}>
+                    <a href={`/bands/${band.id}`}>
                       <Button label="PROFILE" size="medium" mode="secondary" />
                     </a>
                   </div>

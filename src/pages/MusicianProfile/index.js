@@ -226,10 +226,10 @@ const MusicianProfile = (props) => {
                                 return (
                                   <option
                                     className="option-text"
-                                    value={location.name}
-                                    key={location.name}
+                                    value={location.label}
+                                    key={location.label}
                                   >
-                                    {location.name}
+                                    {location.label}
                                   </option>
                                 );
                               })}
@@ -423,14 +423,11 @@ const MusicianProfile = (props) => {
   const [validateBandMembers] = useLazyQuery(VALIDATE_BAND_MEMBERS, {
     fetchPolicy: "network-only",
     onCompleted: ({ checkIfMusicianExists }) => {
-      console.log("this is the data that came back", checkIfMusicianExists);
-
       const invalidUsers = checkIfMusicianExists.filter(
         (musician) => !musician.exists
       );
 
       if (invalidUsers.length) {
-        console.log("found invalid users", invalidUsers);
         $("#membersInput").append(<h1> people are missing </h1>);
       }
 
@@ -440,11 +437,8 @@ const MusicianProfile = (props) => {
           return musician.id;
         });
 
-      console.log("valid users after filter", validUsers);
-
       if (validUsers) {
         setValidBandMembers([...validBandMembers, ...validUsers]);
-        console.log("valid users after set state", validBandMembers);
       }
     },
   });
@@ -490,13 +484,12 @@ const MusicianProfile = (props) => {
       }, 1500);
     },
     onError: (error) => {
-      //TO DO: handle error
+      console.log(error);
     },
   });
 
   const onSubmit = useCallback(
     (formData) => {
-      console.log(imageUrlBand);
       let openToMembers;
 
       if (formData.lookingFor) {
@@ -693,9 +686,9 @@ const MusicianProfile = (props) => {
                             return (
                               <option
                                 className="option-text"
-                                value={location.name}
+                                value={location.label}
                               >
-                                {location.name}
+                                {location.label}
                               </option>
                             );
                           })}
