@@ -142,6 +142,7 @@ p {
 .card-container-shortened {
   width: 250px;
   height: 290px;
+  margin: 1rem;
 }
 
 .card-container:hover {
