@@ -22,8 +22,8 @@ const Requests = (props) => {
   const filteredData = [];
 
   if (data) {
-    data.gigRequests.foreach((gig) => {
-      gig.performers.foreach((performer) => {
+    data.gigRequests.map((gig) => {
+      gig.performers.map((performer) => {
         if (performer.band) {
           const performerData = {
             bandId: performer.band,
