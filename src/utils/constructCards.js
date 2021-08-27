@@ -17,6 +17,7 @@ export const constructPerformerCards = (cards, version = "extended") => {
         experienceLevel={card.experienceLevel}
         version={version}
         userId={card.id}
+        location={card.location}
       />
     );
   });

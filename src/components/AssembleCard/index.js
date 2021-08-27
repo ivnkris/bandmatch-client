@@ -137,6 +137,7 @@ const AssembleCard = (props) => {
                     </div>
                   </div>
                   <p className="title">{title}</p>
+
                   <p className="p-yellow pb-2">
                     {generateGenres(musician.genre).join(" / ")}
                   </p>
@@ -284,6 +285,7 @@ const AssembleCard = (props) => {
         ) : (
           <h3 className="title text-limit-one-line">{title}</h3>
         )}
+        <p className="text py-2">{props.location}</p>
         <p className="p-yellow pb-2 text-limit-one-line">
           {props.genre.join("/")}
         </p>
