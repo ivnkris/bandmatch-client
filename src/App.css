@@ -145,6 +145,12 @@ p {
   margin: 1rem;
 }
 
+.card-container-shortest {
+  width: 250px;
+  height: 280px;
+  margin: 1rem;
+}
+
 .card-container:hover {
   transform: scale(1.01);
 }
