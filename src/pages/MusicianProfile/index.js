@@ -685,6 +685,7 @@ const MusicianProfile = (props) => {
                               <option
                                 className="option-text"
                                 value={location.label}
+                                key={location.label}
                               >
                                 {location.label}
                               </option>
