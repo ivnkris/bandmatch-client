@@ -62,6 +62,7 @@ const MusicianProfile = (props) => {
     register: register2,
     formState: { errors: errors2 },
     handleSubmit: handleSubmit2,
+    control: control2,
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -70,6 +71,8 @@ const MusicianProfile = (props) => {
 
   const { id: musicianId } = useParams();
   const [imageUrl, setImageUrl] = useState();
+  const [imageUrlBand, setImageUrlBand] = useState();
+
   const [validBandMembers, setValidBandMembers] = useState([musicianId]);
 
   const myProfile = musicianId === state.user.id;
@@ -493,6 +496,15 @@ const MusicianProfile = (props) => {
 
   const onSubmit = useCallback(
     (formData) => {
+
+    console.log(imageUrlBand)
+      let openToMembers;
+
+      if (formData.lookingFor) {
+        openToMembers = true;
+      } else {
+        openToMembers = false;
+      }
       formData.numberOfMembers = parseFloat(formData.numberOfMembers);
       formData.openToCollaboration = formData.openToCollaboration = "true"
         ? true
@@ -502,13 +514,14 @@ const MusicianProfile = (props) => {
         variables: {
           createBandInput: {
             ...formData,
-            // openToMembers: openToMembers,
-            members: validBandMembers,
+            imageUrl: imageUrlBand,
+            openToMembers,
+            musicians: validBandMembers,
           },
         },
       });
     },
-    [createBand, validBandMembers]
+    [createBand, validBandMembers, imageUrlBand]
   );
 
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
@@ -538,6 +551,9 @@ const MusicianProfile = (props) => {
       bandsFilters: {
         musician: musicianId,
       },
+    },
+    onCompleted: (data) => {
+      console.log(data);
     },
     onError: (error) => {
       console.log(error);
@@ -610,7 +626,8 @@ const MusicianProfile = (props) => {
                         placeholder="Select your genre(s)"
                         isMulti={true}
                         name="genre"
-                        control={control}
+                        control={control2}
+                        required={true}
                       />
                       <p>EXPERIENCE</p>
                       <section className="dropdown-div">
@@ -623,13 +640,25 @@ const MusicianProfile = (props) => {
                             required: true,
                           })}
                         >
-                          <option className="option-text" value="newbie">
+                          <option
+                            key="newbie"
+                            className="option-text"
+                            value="newbie"
+                          >
                             Newbie
                           </option>
-                          <option className="option-text" value="midway">
+                          <option
+                            key="midway"
+                            className="option-text"
+                            value="midway"
+                          >
                             Midway
                           </option>
-                          <option className="option-text" value="expert">
+                          <option
+                            key="expert"
+                            className="option-text"
+                            value="expert"
+                          >
                             Expert
                           </option>
                         </select>
@@ -644,11 +673,13 @@ const MusicianProfile = (props) => {
                     </AccordionItemHeading>
                     <AccordionItemPanel>
                       <p>BAND PIC</p>
-                      <FormInput
-                        placeholder="Profile Image"
-                        error={errors2.imageUrl}
-                        register={register2("imageUrl", { required: true })}
+
+                      <ImageUpload
+                        email={state.user.email}
+                        setImageUrl={setImageUrlBand}
+                        imageUrl={imageUrlBand}
                       />
+
                       <p>LOCATION</p>
 
                       <section className="dropdown-div py-3">
@@ -691,7 +722,7 @@ const MusicianProfile = (props) => {
                         account. Separate each with a comma.
                       </p>
                       <FormInput
-                        register={register2("members", {
+                        register={register2("musicians", {
                           required: true,
                         })}
                         placeholder="Members"
@@ -711,7 +742,8 @@ const MusicianProfile = (props) => {
                         placeholder="Band instruments"
                         isMulti={true}
                         name="instruments"
-                        control={control}
+                        control={control2}
+                        required={true}
                       />
                     </AccordionItemPanel>
                   </AccordionItem>
@@ -770,7 +802,7 @@ const MusicianProfile = (props) => {
                         placeholder="Musician type..."
                         isMulti={true}
                         name="lookingFor"
-                        control={control}
+                        control={control2}
                       />
                     </AccordionItemPanel>
                   </AccordionItem>
@@ -969,13 +1001,13 @@ const MusicianProfile = (props) => {
           {bandsLoading && <LoadingSpinner />}
 
           <div className="cards-container">
-            {bandsData && bandsData.length && bandsData.bands && (
+            {bandsData && bandsData.bands && (
               <div className="cards-container">
                 {constructPerformerCards(bands, "shortened")}
               </div>
             )}
 
-            {myProfile && bandsData && !bandsData.length && (
+            {myProfile && !bandsData && (
               <div className="no-gigs-bands-container">
                 <div>
                   <p className="mb-2 fs-3">You have no bands</p>
@@ -992,7 +1024,7 @@ const MusicianProfile = (props) => {
               </div>
             )}
 
-            {!myProfile && bandsData && !bandsData.length && (
+            {!myProfile && !bandsData && (
               <div className="no-gigs-bands-container">
                 <p className="mb-3 fs-3">
                   {`${musician.firstName} ${musician.lastName}`} has no bands
