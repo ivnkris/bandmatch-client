@@ -219,6 +219,7 @@ const MusicianProfile = (props) => {
                                 selected="selected"
                                 className="option-text"
                                 value={musician.location}
+                                key="selected"
                               >
                                 {musician.location}
                               </option>
