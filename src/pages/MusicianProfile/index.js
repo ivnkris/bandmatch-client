@@ -545,6 +545,9 @@ const MusicianProfile = (props) => {
         musician: musicianId,
       },
     },
+    onCompleted: (data) => {
+      console.log(data);
+    },
     onError: (error) => {
       console.log(error);
     },
@@ -995,36 +998,38 @@ const MusicianProfile = (props) => {
           {bandsLoading && <LoadingSpinner />}
 
           <div className="cards-container">
-            {bandsData && bandsData.bands && (
+            {bandsData && bandsData.bands.length > 0 && (
               <div className="cards-container">
                 {constructPerformerCards(bands, "shortened")}
               </div>
             )}
 
-            {myProfile && !bandsData && (
-              <div className="no-gigs-bands-container">
-                <div>
-                  <p className="mb-2 fs-3">You have no bands</p>
+            {(myProfile && !bandsData) ||
+              (myProfile && bandsData.bands.length === 0 && (
+                <div className="no-gigs-bands-container">
+                  <div>
+                    <p className="mb-2 fs-3">You have no bands</p>
+                  </div>
+                  <div>
+                    <Button
+                      label="FIND A BAND"
+                      mode="primary"
+                      size="medium"
+                      onClick={redirectToPage}
+                      buttonId="assemble"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Button
-                    label="FIND A BAND"
-                    mode="primary"
-                    size="medium"
-                    onClick={redirectToPage}
-                    buttonId="assemble"
-                  />
-                </div>
-              </div>
-            )}
+              ))}
 
-            {!myProfile && !bandsData && (
-              <div className="no-gigs-bands-container">
-                <p className="mb-3 fs-3">
-                  {`${musician.firstName} ${musician.lastName}`} has no bands
-                </p>
-              </div>
-            )}
+            {(!myProfile && !bandsData) ||
+              (!myProfile && bandsData.bands.length === 0 && (
+                <div className="no-gigs-bands-container">
+                  <p className="mb-3 fs-3">
+                    {`${musician.firstName} ${musician.lastName}`} has no bands
+                  </p>
+                </div>
+              ))}
           </div>
         </div>
       </div>
