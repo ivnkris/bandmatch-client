@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 
 import { useUserContext } from "../../contexts/UserProvider";
@@ -8,11 +8,9 @@ import { useUserContext } from "../../contexts/UserProvider";
 import FormInput from "../FormInput";
 import Title from "../Title";
 import FormContainer from "../FormContainer";
-import MultiSelectDropDown from "../MultiSelectDropdown";
 import Button from "../Button";
 import ImageUpload from "../ImageUpload";
-import { SIGNUP, SIGNUP_VENUE_USER } from "../../graphql/mutations";
-import { GENRESINSTRUMENTS } from "../../graphql/queries";
+import { SIGNUP_VENUE_USER } from "../../graphql/mutations";
 
 import "./VenueSignupForm.css";
 
@@ -42,7 +40,6 @@ const VenueSignupForm = () => {
     handleSubmit,
     watch,
     formState: { errors },
-    control,
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onBlur",
@@ -51,7 +48,6 @@ const VenueSignupForm = () => {
 
   const [signUp, { loading }] = useMutation(SIGNUP_VENUE_USER, {
     onCompleted: (data) => {
-      console.log(data);
       const payload = {
         token: data.signupVenueUser.token,
         email: data.signupVenueUser.user.email,

@@ -16,6 +16,7 @@ const ProfileInfo = (props) => {
 
       <div className="musician-info-div text-center">
         {props.myProfile && <p className="title mb-2">{props.name}</p>}
+        {props.location && <p className="mb-3">Location: {props.location}</p>}
         {props.instruments && (
           <p className="p-yellow pb-2 ">
             Instrument(s): {props.instruments.join(" | ")}
@@ -32,8 +33,6 @@ const ProfileInfo = (props) => {
             {props.websiteUrl}
           </a>
         )}
-
-        {props.postcode && <p className="mb-3">{props.postcode}</p>}
 
         {props.openTo && props.myProfile && (
           <p className="mb-3">{props.openTo}</p>

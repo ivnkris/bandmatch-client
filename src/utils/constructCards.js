@@ -17,6 +17,7 @@ export const constructPerformerCards = (cards, version = "extended") => {
         experienceLevel={card.experienceLevel}
         version={version}
         userId={card.id}
+        location={card.location}
       />
     );
   });
@@ -40,6 +41,7 @@ export const constructGigCards = (gigs) => {
         venueName={venueName}
         postcode={postcode}
         gigId={gig.id}
+        fee={gig.fee}
       />
     );
   });
