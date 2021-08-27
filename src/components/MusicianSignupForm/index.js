@@ -293,7 +293,11 @@ const MusicianSignupForm = () => {
               >
                 {locationOptions.map((location) => {
                   return (
-                    <option className="option-text" value={location.label}>
+                    <option
+                      key={location.label}
+                      className="option-text"
+                      value={location.label}
+                    >
                       {location.label}
                     </option>
                   );
