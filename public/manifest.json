@@ -3,13 +3,18 @@
   "name": "Bandmatch",
   "icons": [
     {
-      "src": "",
-      "sizes": "",
-      "type": "image/x-icon"
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
     }
   ],
   "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
 }
