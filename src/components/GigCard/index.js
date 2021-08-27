@@ -158,6 +158,7 @@ const GigCard = (props) => {
         <p className="text-limit-two-line">
           {/* {change to city} */}@ {props.venueName} {postcode}
         </p>
+        <p className="p-yellow pb-2 pb-10">PAY: £{props.fee}</p>
       </div>
       <div id={props.gigId}>
         {state.user.name === props.venueName ? (

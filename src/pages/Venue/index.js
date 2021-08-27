@@ -30,6 +30,7 @@ import { useUserContext } from "../../contexts/UserProvider";
 import Title from "../../components/Title";
 import ProfileInfo from "../../components/ProfileInfo";
 import { constructGigCards } from "../../utils/constructCards";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Venue = () => {
   const { state } = useUserContext();
@@ -44,7 +45,6 @@ const Venue = () => {
     register,
     handleSubmit,
     formState: { errors },
-    control,
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -98,21 +98,24 @@ const Venue = () => {
     },
   });
 
-  const onSubmit = useCallback(async (formData) => {
-    formData.fee = formatToTwoDecimals(formData.fee);
-    const dateTimeUnformatted = $(".form-control").attr("value");
-    const dateTimeFormatted = moment.utc(dateTimeUnformatted).format();
+  const onSubmit = useCallback(
+    async (formData) => {
+      formData.fee = formatToTwoDecimals(formData.fee);
+      const dateTimeUnformatted = $(".form-control").attr("value");
+      const dateTimeFormatted = moment.utc(dateTimeUnformatted).format();
 
-    createGig({
-      variables: {
-        createGigInput: {
-          ...formData,
-          venue: venueId,
-          dateTime: dateTimeFormatted,
+      createGig({
+        variables: {
+          createGigInput: {
+            ...formData,
+            venue: venueId,
+            dateTime: dateTimeFormatted,
+          },
         },
-      },
-    });
-  });
+      });
+    },
+    [createGig, venueId]
+  );
 
   const [renderCreateGigModal] = useLazyQuery(GENRESINSTRUMENTS, {
     fetchPolicy: "network-only",
@@ -240,7 +243,7 @@ const Venue = () => {
     },
   });
 
-  const { data: venueData, loading, error } = useQuery(VENUE, {
+  const { data: venueData, loading: venueLoading } = useQuery(VENUE, {
     variables: {
       venueId: venueId,
     },
@@ -251,11 +254,9 @@ const Venue = () => {
   });
   let filteredGigsData;
   const { data: gigsData } = useQuery(GIGS);
-  console.log(gigsData);
+
   if (gigsData) {
     filteredGigsData = gigsData.gigs.filter((gig) => {
-      console.log(gig.venue.id);
-      console.log(state.user.id);
       return gig.venue.id === state.user.id;
     });
   }
@@ -291,6 +292,8 @@ const Venue = () => {
           myProfile={myProfile}
         />
       )}
+
+      {venueLoading && <LoadingSpinner />}
 
       <div className="see-through-background-90 text-align-center">
         <p className="title mb-2 pt-2 fs-1">GIGS at {state.user.name}</p>

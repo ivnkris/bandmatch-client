@@ -12,6 +12,7 @@ import {
   constructPerformerCards,
 } from "../../utils/constructCards";
 import "./BandProfile.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const BandProfile = (props) => {
   // get user your logged in as from userContext
@@ -34,25 +35,21 @@ const BandProfile = (props) => {
 
   if (bandData) {
     myBandProfile = bandData.band.musicians.filter((musician) => {
-      console.log(musician);
       return musician.id === state.user.id;
     });
   }
 
-  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
-    GIGS,
-    {
-      variables: {
-        gigsFilters: {
-          band: id,
-        },
+  const { data: gigsData, loading: gigsLoading } = useQuery(GIGS, {
+    variables: {
+      gigsFilters: {
+        band: id,
       },
+    },
 
-      onError: (error) => {
-        console.log(error);
-      },
-    }
-  );
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   if (loading) {
     return <div>Loading</div>;
@@ -124,6 +121,7 @@ const BandProfile = (props) => {
         <div className="see-through-background-90 text-align-center">
           <p className="title mb-2 pt-2 fs-1">{name}'s GIGS</p>
 
+          {gigsLoading && <LoadingSpinner />}
           {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
               {constructGigCards(gigsData.gigs)}
@@ -158,7 +156,7 @@ const BandProfile = (props) => {
           <div className="cards-container">
             {bandData && (
               <div className="cards-container">
-                {constructPerformerCards(band.musicians, "shortened")}
+                {constructPerformerCards(band.musicians, "shortest")}
               </div>
             )}
           </div>
