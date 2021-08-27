@@ -545,9 +545,6 @@ const MusicianProfile = (props) => {
         musician: musicianId,
       },
     },
-    onCompleted: (data) => {
-      console.log(data);
-    },
     onError: (error) => {
       console.log(error);
     },
