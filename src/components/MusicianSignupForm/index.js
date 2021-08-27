@@ -15,6 +15,7 @@ import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
 import "./MusicianSignupForm.css";
 import ImageUpload from "../ImageUpload";
+import locationOptions from "../../data/locationOptions";
 
 const MusicianSignupForm = () => {
   let history = useHistory();
@@ -129,7 +130,7 @@ const MusicianSignupForm = () => {
       password: formData.password,
       imageUrl,
       description: formData.description,
-      postcode: formData.postcode,
+      location: formData.location,
       websiteUrl: formData.websiteUrl,
       soundCloudUrl: formData.soundCloudUrl,
       genre: formData.genre,
@@ -284,16 +285,32 @@ const MusicianSignupForm = () => {
               setImageUrl={setImageUrl}
               imageUrl={imageUrl}
             />
+
+            <section className="dropdown-div">
+              <div className="select-label">Where are you based?</div>
+              <select
+                className="select-dropdown"
+                id="location"
+                name="location"
+                placeholder="Select your location"
+                {...register("location", { required: true })}
+              >
+                {locationOptions.map((location) => {
+                  return (
+                    <option className="option-text" value={location.name}>
+                      {location.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </section>
+
             <FormInput
               placeholder="Short bio"
               error={errors.description}
               register={register("description", { required: true })}
             />
-            <FormInput
-              placeholder="Postcode"
-              error={errors.postcode}
-              register={register("postcode", { required: true })}
-            />
+
             <FormInput
               placeholder="Website URL"
               error={errors.websiteUrl}
