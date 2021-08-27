@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 
-import { useUserContext } from "../../contexts/UserProvider";
 import Header from "../../components/Header";
 import CardsCarousel from "../../components/Carousel";
 import FilterStrip from "../../components/FilterStrip";
@@ -10,16 +9,6 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { BANDS } from "../../graphql/queries";
 
 const Bands = () => {
-  const { state } = useUserContext();
-
-  const filters = {
-    genre: state.userFilters.genre,
-    instruments: state.userFilters.instruments,
-    lookingFor: state.userFilters.lookingFor,
-    experienceLevel: state.userFilters.experienceLevel,
-    userType: state.userFilters.userType,
-  };
-
   const { data: bandsData, loading: bandsLoading } = useQuery(BANDS);
 
   let bandCards;

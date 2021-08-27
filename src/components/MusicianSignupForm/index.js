@@ -75,11 +75,7 @@ const MusicianSignupForm = () => {
     },
   });
 
-  const {
-    data: formSelectData,
-    loading: genreLoading,
-    error: formSelectDataError,
-  } = useQuery(GENRESINSTRUMENTS);
+  const { data: formSelectData } = useQuery(GENRESINSTRUMENTS);
 
   let genreOptions;
   let instrumentOptions;
