@@ -41,6 +41,7 @@ import {
   generateRoleOptions,
 } from "../../utils/generateMultiDropdownOptions";
 import ImageUpload from "../../components/ImageUpload";
+import locationOptions from "../../data/locationOptions";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
@@ -204,12 +205,33 @@ const MusicianProfile = (props) => {
                             register={register("email")}
                           />
                           <p>CITY</p>
-                          {/* change from postcode to city */}
-                          <FormInput
-                            value={musician.postcode}
-                            error={errors.postcode}
-                            register={register("postcode")}
-                          />
+                          <section className="dropdown-div py-3">
+                            <select
+                              className="select-dropdown"
+                              id="location"
+                              name="location"
+                              placeholder="Select your location"
+                              {...register("location", { required: true })}
+                            >
+                              <option
+                                selected="selected"
+                                className="option-text"
+                                value={musician.location}
+                              >
+                                {musician.location}
+                              </option>
+                              {locationOptions.map((location) => {
+                                return (
+                                  <option
+                                    className="option-text"
+                                    value={location.name}
+                                  >
+                                    {location.name}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </section>
                         </AccordionItemPanel>
                       </AccordionItem>
                       <AccordionItem uuid="b" className="accordion-container">
@@ -636,11 +658,28 @@ const MusicianProfile = (props) => {
                         register={register2("imageUrl", { required: true })}
                       />
                       <p>LOCATION</p>
-                      <FormInput
-                        placeholder="City"
-                        error={errors2.location}
-                        register={register2("location", { required: true })}
-                      />
+
+                      <section className="dropdown-div py-3">
+                        <select
+                          className="select-dropdown"
+                          id="location"
+                          name="location"
+                          placeholder="Select your location"
+                          {...register2("location", { required: true })}
+                        >
+                          {locationOptions.map((location) => {
+                            return (
+                              <option
+                                className="option-text"
+                                value={location.name}
+                              >
+                                {location.name}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </section>
+
                       <p>NUMBER OF MEMBERS</p>
                       <FormInput
                         placeholder="Members"
@@ -902,6 +941,7 @@ const MusicianProfile = (props) => {
           lookingFor={lookingFor}
           soundCloudUrl={musician.soundCloudUrl}
           myProfile={myProfile}
+          location={musician.location}
         />
         {musicianData && musician.soundCloudUrl && (
           <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
