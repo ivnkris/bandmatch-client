@@ -216,7 +216,7 @@ const MusicianProfile = (props) => {
                               {...register("location", { required: true })}
                             >
                               <option
-                                selected="selected"
+                                defaultValue={musician.location}
                                 className="option-text"
                                 value={musician.location}
                                 key="selected"
