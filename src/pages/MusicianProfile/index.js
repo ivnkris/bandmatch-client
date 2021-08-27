@@ -224,6 +224,7 @@ const MusicianProfile = (props) => {
                                   <option
                                     className="option-text"
                                     value={location.name}
+                                    key={location.name}
                                   >
                                     {location.name}
                                   </option>
@@ -538,7 +539,6 @@ const MusicianProfile = (props) => {
         musician: musicianId,
       },
     },
-
     onError: (error) => {
       console.log(error);
     },
@@ -969,18 +969,20 @@ const MusicianProfile = (props) => {
           {bandsLoading && <LoadingSpinner />}
 
           <div className="cards-container">
-            {bandsData && bandsData.bands ? (
+            {bandsData && bandsData.length && bandsData.bands && (
               <div className="cards-container">
                 {constructPerformerCards(bands, "shortened")}
               </div>
-            ) : myProfile ? (
+            )}
+
+            {myProfile && bandsData && !bandsData.length && (
               <div className="no-gigs-bands-container">
                 <div>
                   <p className="mb-2 fs-3">You have no bands</p>
                 </div>
                 <div>
                   <Button
-                    label="FIND A GIG"
+                    label="FIND A BAND"
                     mode="primary"
                     size="medium"
                     onClick={redirectToPage}
@@ -988,7 +990,9 @@ const MusicianProfile = (props) => {
                   />
                 </div>
               </div>
-            ) : (
+            )}
+
+            {!myProfile && bandsData && !bandsData.length && (
               <div className="no-gigs-bands-container">
                 <p className="mb-3 fs-3">
                   {`${musician.firstName} ${musician.lastName}`} has no bands
