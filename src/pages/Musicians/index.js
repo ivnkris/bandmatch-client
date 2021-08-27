@@ -6,6 +6,7 @@ import { constructPerformerCards } from "../../utils/constructCards";
 
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { MUSICIANS } from "../../graphql/queries";
+import Title from "../../components/Title";
 
 const Musicians = () => {
   const { data: musiciansData, loading: musiciansLoading } = useQuery(
@@ -47,8 +48,8 @@ const Musicians = () => {
         {musiciansLoading && <LoadingSpinner />}
         {musiciansData && <CardsCarousel cards={musicianCards} />}
       </div>
-      <Header className="pt-3" title="ALL MUSICIANS" />
-      <div className="see-through-background-90 text-align-center main-cards-container">
+      <div className="see-through-background-90 text-align-center main-cards-container mt-5">
+        <Title className="pt-5" text="ALL MUSICIANS" type="section" />
         {musiciansLoading && <LoadingSpinner />}
         {musiciansData && (
           <div className="cards-container">

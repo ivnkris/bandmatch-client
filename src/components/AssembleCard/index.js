@@ -71,7 +71,12 @@ const AssembleCard = (props) => {
                     className="flex-apart profile-preview-icons-container"
                     user={band.id}
                   >
-                    <Button label="MESSAGE" size="medium" mode="primary" />
+                    <Button
+                      label="MESSAGE"
+                      onClick={showMessageModal}
+                      size="medium"
+                      mode="primary"
+                    />
                     <a href={`bands/${band.id}`}>
                       <Button label="PROFILE" size="medium" mode="secondary" />
                     </a>
