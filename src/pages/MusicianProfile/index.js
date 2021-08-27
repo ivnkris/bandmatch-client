@@ -21,7 +21,6 @@ import {
   GENRESINSTRUMENTS,
   GIGS,
   MUSICIAN_USER,
-  MUSICIAN_USER_EXTENDED,
   VALIDATE_BAND_MEMBERS,
 } from "../../graphql/queries";
 import {
@@ -42,6 +41,7 @@ import {
 } from "../../utils/generateMultiDropdownOptions";
 import ImageUpload from "../../components/ImageUpload";
 import locationOptions from "../../data/locationOptions";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
@@ -92,7 +92,6 @@ const MusicianProfile = (props) => {
 
   const [submitEditProfileInfo] = useMutation(UPDATE_MUSICIAN, {
     onCompleted: (data) => {
-      console.log("I've done it!", data);
       setModalState({
         open: true,
         content: (
@@ -521,26 +520,19 @@ const MusicianProfile = (props) => {
     },
   });
 
-  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
-    GIGS,
-    {
-      variables: {
-        gigsFilters: {
-          musician: musicianId,
-        },
+  const { data: gigsData, loading: gigsLoading } = useQuery(GIGS, {
+    variables: {
+      gigsFilters: {
+        musician: musicianId,
       },
+    },
 
-      onError: (error) => {
-        console.log(error);
-      },
-    }
-  );
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
-  const {
-    data: bandsData,
-    loading: bandsLoading,
-    error: bandsError,
-  } = useQuery(BANDS, {
+  const { data: bandsData, loading: bandsLoading } = useQuery(BANDS, {
     variables: {
       bandsFilters: {
         musician: musicianId,
@@ -841,23 +833,6 @@ const MusicianProfile = (props) => {
     });
   }
 
-  // let filteredGigs;
-  // if (gigsData) {
-  //   console.log(gigsData);
-  //   console.log(state.user.id);
-
-  //   const filteredGigs = gigsData.gigs.filter((gig) => {
-  //     const confirmedGigs = gig.performers.filter((performer) => {
-  //       return (
-  //         performer.musician === state.user.id && performer.confirmed === "true"
-  //       );
-  //     });
-  //     return confirmedGigs.length;
-  //   });
-  //   console.log(filteredGigs);
-  //   return filteredGigs;
-  // }
-
   if (loading) {
     return <div>Loading</div>;
   }
@@ -954,6 +929,8 @@ const MusicianProfile = (props) => {
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s GIGS</p>
           )}
 
+          {gigsLoading && <LoadingSpinner />}
+
           {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
               {constructGigCards(gigsData.gigs)}
@@ -988,6 +965,8 @@ const MusicianProfile = (props) => {
           ) : (
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s BANDS</p>
           )}
+
+          {bandsLoading && <LoadingSpinner />}
 
           <div className="cards-container">
             {bandsData && bandsData.bands ? (

@@ -4,7 +4,6 @@ import { useQuery } from "@apollo/client";
 import { GIGS } from "../../graphql/queries";
 import { constructGigCards } from "../../utils/constructCards";
 import Header from "../../components/Header";
-import FilterStrip from "../../components/FilterStrip";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
 
