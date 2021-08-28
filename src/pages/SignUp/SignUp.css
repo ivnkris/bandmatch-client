@@ -96,6 +96,14 @@
   }
 }
 
+@media screen and (max-width: 1250px) {
+  .select-user-type-form {
+    width: 70%;
+    height: 30rem;
+    margin-top: 0rem;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .user-signup-div,
   .venue-signup-div {

@@ -24,6 +24,7 @@ const Collaborate = (props) => {
     lookingFor: state.userFilters.lookingFor,
     experienceLevel: state.userFilters.experienceLevel,
     userType: state.userFilters.userType,
+    location: state.userFilters.location,
   };
 
   const {
@@ -75,8 +76,8 @@ const Collaborate = (props) => {
         if (!fetchMoreResult) return prev;
 
         if (
-          fetchMoreResult.collaborate.bands.length < 2 &&
-          fetchMoreResult.collaborate.musicians.length
+          fetchMoreResult.collaborate.bands.length < 6 &&
+          fetchMoreResult.collaborate.musicians.length < 6
         ) {
           setHasMoreItems(false);
         }

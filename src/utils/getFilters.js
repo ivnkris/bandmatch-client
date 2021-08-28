@@ -9,6 +9,7 @@ const getFilters = (filterName) => {
       lookingFor: [],
       experienceLevel: [],
       userType: [],
+      location: [],
     };
   }
 };

@@ -21,7 +21,6 @@ import {
   GENRESINSTRUMENTS,
   GIGS,
   MUSICIAN_USER,
-  MUSICIAN_USER_EXTENDED,
   VALIDATE_BAND_MEMBERS,
 } from "../../graphql/queries";
 import {
@@ -41,6 +40,8 @@ import {
   generateRoleOptions,
 } from "../../utils/generateMultiDropdownOptions";
 import ImageUpload from "../../components/ImageUpload";
+import locationOptions from "../../data/locationOptions";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
@@ -61,6 +62,7 @@ const MusicianProfile = (props) => {
     register: register2,
     formState: { errors: errors2 },
     handleSubmit: handleSubmit2,
+    control: control2,
   } = useForm({
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -69,6 +71,8 @@ const MusicianProfile = (props) => {
 
   const { id: musicianId } = useParams();
   const [imageUrl, setImageUrl] = useState();
+  const [imageUrlBand, setImageUrlBand] = useState();
+
   const [validBandMembers, setValidBandMembers] = useState([musicianId]);
 
   const myProfile = musicianId === state.user.id;
@@ -91,7 +95,6 @@ const MusicianProfile = (props) => {
 
   const [submitEditProfileInfo] = useMutation(UPDATE_MUSICIAN, {
     onCompleted: (data) => {
-      console.log("I've done it!", data);
       setModalState({
         open: true,
         content: (
@@ -204,12 +207,35 @@ const MusicianProfile = (props) => {
                             register={register("email")}
                           />
                           <p>CITY</p>
-                          {/* change from postcode to city */}
-                          <FormInput
-                            value={musician.postcode}
-                            error={errors.postcode}
-                            register={register("postcode")}
-                          />
+                          <section className="dropdown-div py-3">
+                            <select
+                              className="select-dropdown"
+                              id="location"
+                              name="location"
+                              placeholder="Select your location"
+                              {...register("location", { required: true })}
+                            >
+                              <option
+                                defaultValue={musician.location}
+                                className="option-text"
+                                value={musician.location}
+                                key="selected"
+                              >
+                                {musician.location}
+                              </option>
+                              {locationOptions.map((location) => {
+                                return (
+                                  <option
+                                    className="option-text"
+                                    value={location.label}
+                                    key={location.label}
+                                  >
+                                    {location.label}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </section>
                         </AccordionItemPanel>
                       </AccordionItem>
                       <AccordionItem uuid="b" className="accordion-container">
@@ -294,7 +320,7 @@ const MusicianProfile = (props) => {
                               <option className="option-text" value="newbie">
                                 Newbie
                               </option>
-                              <option className="option-text" value="amateur">
+                              <option className="option-text" value="midway">
                                 Midway
                               </option>
                               <option className="option-text" value="expert">
@@ -398,14 +424,11 @@ const MusicianProfile = (props) => {
   const [validateBandMembers] = useLazyQuery(VALIDATE_BAND_MEMBERS, {
     fetchPolicy: "network-only",
     onCompleted: ({ checkIfMusicianExists }) => {
-      console.log("this is the data that came back", checkIfMusicianExists);
-
       const invalidUsers = checkIfMusicianExists.filter(
         (musician) => !musician.exists
       );
 
       if (invalidUsers.length) {
-        console.log("found invalid users", invalidUsers);
         $("#membersInput").append(<h1> people are missing </h1>);
       }
 
@@ -415,11 +438,8 @@ const MusicianProfile = (props) => {
           return musician.id;
         });
 
-      console.log("valid users after filter", validUsers);
-
       if (validUsers) {
         setValidBandMembers([...validBandMembers, ...validUsers]);
-        console.log("valid users after set state", validBandMembers);
       }
     },
   });
@@ -465,12 +485,19 @@ const MusicianProfile = (props) => {
       }, 1500);
     },
     onError: (error) => {
-      //TO DO: handle error
+      console.log(error);
     },
   });
 
   const onSubmit = useCallback(
     (formData) => {
+      let openToMembers;
+
+      if (formData.lookingFor) {
+        openToMembers = true;
+      } else {
+        openToMembers = false;
+      }
       formData.numberOfMembers = parseFloat(formData.numberOfMembers);
       formData.openToCollaboration = formData.openToCollaboration = "true"
         ? true
@@ -480,13 +507,14 @@ const MusicianProfile = (props) => {
         variables: {
           createBandInput: {
             ...formData,
-            // openToMembers: openToMembers,
-            members: validBandMembers,
+            imageUrl: imageUrlBand,
+            openToMembers,
+            musicians: validBandMembers,
           },
         },
       });
     },
-    [createBand, validBandMembers]
+    [createBand, validBandMembers, imageUrlBand]
   );
 
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
@@ -499,32 +527,27 @@ const MusicianProfile = (props) => {
     },
   });
 
-  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
-    GIGS,
-    {
-      variables: {
-        gigsFilters: {
-          musician: musicianId,
-        },
+  const { data: gigsData, loading: gigsLoading } = useQuery(GIGS, {
+    variables: {
+      gigsFilters: {
+        musician: musicianId,
       },
+    },
 
-      onError: (error) => {
-        console.log(error);
-      },
-    }
-  );
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
-  const {
-    data: bandsData,
-    loading: bandsLoading,
-    error: bandsError,
-  } = useQuery(BANDS, {
+  const { data: bandsData, loading: bandsLoading } = useQuery(BANDS, {
     variables: {
       bandsFilters: {
         musician: musicianId,
       },
     },
-
+    onCompleted: (data) => {
+      console.log(data);
+    },
     onError: (error) => {
       console.log(error);
     },
@@ -596,7 +619,8 @@ const MusicianProfile = (props) => {
                         placeholder="Select your genre(s)"
                         isMulti={true}
                         name="genre"
-                        control={control}
+                        control={control2}
+                        required={true}
                       />
                       <p>EXPERIENCE</p>
                       <section className="dropdown-div">
@@ -609,13 +633,25 @@ const MusicianProfile = (props) => {
                             required: true,
                           })}
                         >
-                          <option className="option-text" value="newbie">
+                          <option
+                            key="newbie"
+                            className="option-text"
+                            value="newbie"
+                          >
                             Newbie
                           </option>
-                          <option className="option-text" value="midway">
+                          <option
+                            key="midway"
+                            className="option-text"
+                            value="midway"
+                          >
                             Midway
                           </option>
-                          <option className="option-text" value="expert">
+                          <option
+                            key="expert"
+                            className="option-text"
+                            value="expert"
+                          >
                             Expert
                           </option>
                         </select>
@@ -630,17 +666,37 @@ const MusicianProfile = (props) => {
                     </AccordionItemHeading>
                     <AccordionItemPanel>
                       <p>BAND PIC</p>
-                      <FormInput
-                        placeholder="Profile Image"
-                        error={errors2.imageUrl}
-                        register={register2("imageUrl", { required: true })}
+
+                      <ImageUpload
+                        email={state.user.email}
+                        setImageUrl={setImageUrlBand}
+                        imageUrl={imageUrlBand}
                       />
+
                       <p>LOCATION</p>
-                      <FormInput
-                        placeholder="City"
-                        error={errors2.location}
-                        register={register2("location", { required: true })}
-                      />
+
+                      <section className="dropdown-div py-3">
+                        <select
+                          className="select-dropdown"
+                          id="location"
+                          name="location"
+                          placeholder="Select your location"
+                          {...register2("location", { required: true })}
+                        >
+                          {locationOptions.map((location) => {
+                            return (
+                              <option
+                                className="option-text"
+                                value={location.label}
+                                key={location.label}
+                              >
+                                {location.label}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </section>
+
                       <p>NUMBER OF MEMBERS</p>
                       <FormInput
                         placeholder="Members"
@@ -660,7 +716,7 @@ const MusicianProfile = (props) => {
                         account. Separate each with a comma.
                       </p>
                       <FormInput
-                        register={register2("members", {
+                        register={register2("musicians", {
                           required: true,
                         })}
                         placeholder="Members"
@@ -680,7 +736,8 @@ const MusicianProfile = (props) => {
                         placeholder="Band instruments"
                         isMulti={true}
                         name="instruments"
-                        control={control}
+                        control={control2}
+                        required={true}
                       />
                     </AccordionItemPanel>
                   </AccordionItem>
@@ -739,7 +796,7 @@ const MusicianProfile = (props) => {
                         placeholder="Musician type..."
                         isMulti={true}
                         name="lookingFor"
-                        control={control}
+                        control={control2}
                       />
                     </AccordionItemPanel>
                   </AccordionItem>
@@ -771,6 +828,9 @@ const MusicianProfile = (props) => {
     register2,
     setModalState,
     validateMembers,
+    control2,
+    imageUrlBand,
+    state.user.email,
   ]);
 
   let bands;
@@ -801,23 +861,6 @@ const MusicianProfile = (props) => {
       };
     });
   }
-
-  // let filteredGigs;
-  // if (gigsData) {
-  //   console.log(gigsData);
-  //   console.log(state.user.id);
-
-  //   const filteredGigs = gigsData.gigs.filter((gig) => {
-  //     const confirmedGigs = gig.performers.filter((performer) => {
-  //       return (
-  //         performer.musician === state.user.id && performer.confirmed === "true"
-  //       );
-  //     });
-  //     return confirmedGigs.length;
-  //   });
-  //   console.log(filteredGigs);
-  //   return filteredGigs;
-  // }
 
   if (loading) {
     return <div>Loading</div>;
@@ -902,6 +945,7 @@ const MusicianProfile = (props) => {
           lookingFor={lookingFor}
           soundCloudUrl={musician.soundCloudUrl}
           myProfile={myProfile}
+          location={musician.location}
         />
         {musicianData && musician.soundCloudUrl && (
           <SoundCloudWidget soundCloudUrl={musician.soundCloudUrl} />
@@ -913,6 +957,8 @@ const MusicianProfile = (props) => {
           ) : (
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s GIGS</p>
           )}
+
+          {gigsLoading && <LoadingSpinner />}
 
           {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
@@ -949,33 +995,41 @@ const MusicianProfile = (props) => {
             <p className="title mb-2 pt-2 fs-1">{musician.firstName}'s BANDS</p>
           )}
 
+          {bandsLoading && <LoadingSpinner />}
+
           <div className="cards-container">
-            {bandsData && bandsData.bands ? (
+            {bandsData && bandsData.bands.length > 0 && (
               <div className="cards-container">
                 {constructPerformerCards(bands, "shortened")}
               </div>
-            ) : myProfile ? (
-              <div className="no-gigs-bands-container">
-                <div>
-                  <p className="mb-2 fs-3">You have no bands</p>
-                </div>
-                <div>
-                  <Button
-                    label="FIND A GIG"
-                    mode="primary"
-                    size="medium"
-                    onClick={redirectToPage}
-                    buttonId="assemble"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="no-gigs-bands-container">
-                <p className="mb-3 fs-3">
-                  {`${musician.firstName} ${musician.lastName}`} has no bands
-                </p>
-              </div>
             )}
+
+            {(myProfile && !bandsData) ||
+              (myProfile && bandsData.bands.length === 0 && (
+                <div className="no-gigs-bands-container">
+                  <div>
+                    <p className="mb-2 fs-3">You have no bands</p>
+                  </div>
+                  <div>
+                    <Button
+                      label="FIND A BAND"
+                      mode="primary"
+                      size="medium"
+                      onClick={redirectToPage}
+                      buttonId="assemble"
+                    />
+                  </div>
+                </div>
+              ))}
+
+            {(!myProfile && !bandsData) ||
+              (!myProfile && bandsData.bands.length === 0 && (
+                <div className="no-gigs-bands-container">
+                  <p className="mb-3 fs-3">
+                    {`${musician.firstName} ${musician.lastName}`} has no bands
+                  </p>
+                </div>
+              ))}
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import MultiSelectDropDown from "../MultiSelectDropdown";
 import { useUserContext } from "../../contexts/UserProvider";
 import { GENRESINSTRUMENTS } from "../../graphql/queries";
 import { useModal } from "../../contexts/ModalProvider";
+import locationOptions from "../../data/locationOptions";
 
 const FilterStrip = (props) => {
   const { dispatch, state } = useUserContext();
@@ -25,13 +26,21 @@ const FilterStrip = (props) => {
   });
 
   const handleApplyFilters = useCallback(
-    ({ genre, instruments, experienceLevel, lookingFor, userType }) => {
+    ({
+      genre,
+      instruments,
+      experienceLevel,
+      lookingFor,
+      userType,
+      location,
+    }) => {
       const payload = {
         genre,
         instruments,
         experienceLevel,
         lookingFor,
         userType,
+        location,
       };
 
       // save filters in global context
@@ -121,6 +130,17 @@ const FilterStrip = (props) => {
                       control={control}
                       label="Genre"
                     />
+
+                    <MultiSelectDropDown
+                      options={locationOptions}
+                      defaultValue={state.userFilters.location}
+                      placeholder="Select location"
+                      isMulti={true}
+                      name="location"
+                      control={control}
+                      label="Location"
+                    />
+
                     <MultiSelectDropDown
                       options={instruments}
                       defaultValue={state.userFilters.instruments}

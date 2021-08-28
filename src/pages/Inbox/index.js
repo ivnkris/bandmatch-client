@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../components/Button";
 import ChatSideBar from "../../components/ChatSideBar";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import Title from "../../components/Title";
 import { useUserContext } from "../../contexts/UserProvider";
 import { CREATE_MESSAGE } from "../../graphql/mutations";
@@ -25,11 +26,11 @@ const Inbox = (props) => {
 
   const { state } = useUserContext();
 
-  const { data, loading, error } = useQuery(CONVERSATIONS, {
+  const { data, loading } = useQuery(CONVERSATIONS, {
     variables: {
       conversationsId: state.user.id,
       // CHANGE TO ID FROM STATE L8
-      bandConversationsBandId: "612686d7415e5a5e43e7e5b2",
+      // bandConversationsBandId: "612686d7415e5a5e43e7e5b2",
     },
     onError: (error) => {
       console.log(error);
@@ -40,9 +41,8 @@ const Inbox = (props) => {
   let chats;
 
   if (data) {
-    console.log("data", data);
     const conversations = data.conversations;
-    console.log("conversations", conversations);
+
     const renderChats = () => {
       return conversations.map((conversation) => {
         const otherUser = conversation.participants.find((participant) => {
@@ -58,11 +58,7 @@ const Inbox = (props) => {
 
   const [
     getMessages,
-    {
-      data: conversationData,
-      loading: conversationLoading,
-      error: conversationError,
-    },
+    { data: conversationData, loading: conversationLoading },
   ] = useLazyQuery(CONVERSATION, {
     onCompleted: (data) => {
       setSelectedConversation(conversationData);
@@ -147,31 +143,31 @@ const Inbox = (props) => {
                         <img
                           src={chat.user.imageUrl}
                           alt={
-                            (props.firstName && chat.user.firstName) ||
-                            (props.name && props.name)
+                            (chat.user.firstName && chat.user.firstName) ||
+                            (chat.name && chat.name)
                           }
                         />
                       </div>
                       <div className="ms-5 mt-4 chat-user-name">
-                        {props.firstName &&
-                          props.firstName.charAt(0).toUpperCase() +
-                            props.firstName.slice(1)}{" "}
-                        {props.lastName &&
-                          props.lastName.charAt(0).toUpperCase() +
-                            props.lastName.slice(1)}
-                        {props.name && props.name}
+                        {chat.user.firstName &&
+                          chat.user.firstName.charAt(0).toUpperCase() +
+                            chat.user.firstName.slice(1)}{" "}
+                        {chat.user.lastName &&
+                          chat.user.lastName.charAt(0).toUpperCase() +
+                            chat.user.lastName.slice(1)}
+                        {chat.name && chat.name}
                       </div>
                     </li>
                   </button>
                 );
               })}
 
-            {loading && <div>Loading...</div>}
+            {loading && <LoadingSpinner />}
           </ul>
         </div>
         <div className="inbox-main-panel">
           <div className="current-message-list pt-3">
-            {conversationData && <div></div>}
+            {conversationLoading && <LoadingSpinner />}
             {conversationData &&
               messages.map((message) => {
                 if (message.senderId === state.user.id) {
