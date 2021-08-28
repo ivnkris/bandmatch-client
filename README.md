@@ -23,12 +23,12 @@ Keep reading to find out more about our application.
       - [Musician User](#musician-user)
       - [Venue Owner User](#venue-owner-user)
     - [Figma](#figma)
-      - [Figma Screenshots](#figma-screenshots)
+      - [Screenshot](#screenshot)
     - [React StoryBook](#react-storybook)
     - [Technologies Used](#technologies-used)
     - [Future Improvements](#future-improvements)
       - [Service Provider User:](#service-provider-user)
-      - [Favourite/Friend](#favouritefriend)
+      - [Payment](#payment)
       - [Update Chat](#update-chat)
     - [Screenshots](#screenshots)
   - [Contact the Team](#contact-the-team)
@@ -82,8 +82,6 @@ go on the gig page
 
 #### Musician User
 
-to do - how to make it scroll
-
 ```
 As a musician user I can create a profile setting my experience level, played instruments and genre. I can also specify if I'm open to join a band or collaborate with other musicians.
 
@@ -108,7 +106,9 @@ As a venue user, I can create a gig and add some information, including date, ti
 
 We used Figma as it allowed us to plan and collaborate on our designs together in real time to produce high fidelity designs. That allowed us to easily spot what we wanted to make into react components and to consistency build our entire site.
 
-#### Figma Screenshots
+#### Screenshot
+
+to do compare a figma page to actual page
 
 ### React StoryBook
 
@@ -140,9 +140,9 @@ to do - do i add react packages
 
 To be a one stop shop for musicians we would like to add more services that musicians and bands may need. One such feature that we had to cut was service providers who could allow musicians to rent all they could need to create the next great hit from equipment to studio spaces.
 
-#### Favourite/Friend
+#### Payment
 
-To improve user experience we could add a feature for users to save other users
+To improve user experience we could add the ability for venue owners to be able to pay musicians for gigs they play on our site.
 
 #### Update Chat
 
