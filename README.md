@@ -36,7 +36,7 @@ To view the project on Heroku [click here](https://arcane-springs-60231.herokuap
 
 ## Getting Started
 
-To run the application you will first need to clone both the client and server repositories.
+To run the application locally you will first need to clone both the client and server repositories.
 
 To access the server repository [click here](https://github.com/ivnkris/bandmatch-server) and follow the steps to get started with the server.
 
@@ -117,11 +117,11 @@ As a venue user, I can create a gig and add some information, including date, ti
 
 ### Figma
 
-We used Figma as it allowed us to plan and collaborate on our designs together in real time to produce high fidelity designs. That allowed us to easily spot what we wanted to make into react components and to consistency build our entire site.
+We used Figma as it allowed us to plan and collaborate on our designs together in real time to produce high fidelity designs. That allowed us to easily spot what we wanted to make into react components and to keep consistent designs throughout the site.
 
 ## Screenshots
 
-to do compare a figma page to actual page
+![image](./public/images/figma.png)
 
 ### Future Improvements
 
