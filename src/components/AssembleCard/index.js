@@ -73,11 +73,11 @@ const AssembleCard = (props) => {
                   >
                     <Button
                       label="MESSAGE"
-                      onClick={() => console.log("msg")}
+                      onClick={showMessageModal}
                       size="medium"
                       mode="primary"
                     />
-                    <a href={`bands/${band.id}`}>
+                    <a href={`/bands/${band.id}`}>
                       <Button label="PROFILE" size="medium" mode="secondary" />
                     </a>
                   </div>
@@ -137,6 +137,7 @@ const AssembleCard = (props) => {
                     </div>
                   </div>
                   <p className="title">{title}</p>
+
                   <p className="p-yellow pb-2">
                     {generateGenres(musician.genre).join(" / ")}
                   </p>
@@ -264,11 +265,9 @@ const AssembleCard = (props) => {
 
   return (
     <div
-      className={[
-        `card-container-${props.version}`,
-        `card-container`,
-        `mx-4`,
-      ].join(" ")}
+      className={[`card-container-${props.version}`, `card-container`].join(
+        " "
+      )}
     >
       <div
         className="card-image"
@@ -281,7 +280,12 @@ const AssembleCard = (props) => {
         </div>
       </div>
       <div className="card-body">
-        <h3 className="title text-limit-one-line">{title}</h3>
+        {props.name ? (
+          <h3 className="title text-limit-one-line">{props.name}</h3>
+        ) : (
+          <h3 className="title text-limit-one-line">{title}</h3>
+        )}
+        <p className="text py-2">{props.location}</p>
         <p className="p-yellow pb-2 text-limit-one-line">
           {props.genre.join("/")}
         </p>
