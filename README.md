@@ -1,41 +1,38 @@
-# Bandmatch to do add little icon
+<h1>BandMatch</h1>
 
-## Introduction
+<h2> Introduction </h2>
 
 The Bandmatch app gives musicians, bands and venue owners a one stop shop so they can focus on creating and showcasing amazing music.
 
-Bandmatch gives all music creators from budding musicians to experienced something the opportunity to create their own profile to increase exposure, the ability create bands with friends or other users, to collaborate with other bands on musicians to create the perfect sound and then to showcase it all by booking an upcoming gig posted by our venue owners.
+Bandmatch gives all music creators, from budding musicians, to experienced rockstars the opportunity to create their own profile to increase exposure, the ability create bands with friends or other users, to collaborate with other bands on musicians to create the perfect sound and then to showcase it all by booking an upcoming gig posted by our venue owners.
 
 Keep reading to find out more about our application.
 
-## Table of Contents
+<h2> Table of Contents </h2>
 
-- [Bandmatch to do add little icon](#bandmatch-to-do-add-little-icon)
-  - [Introduction](#introduction)
-  - [Table of Contents](#table-of-contents)
-  - [Project Link](#project-link)
-  - [Getting Started](#getting-started)
-    - [Installation](#installation)
-    - [Launch the app](#launch-the-app)
-  - [About the Project](#about-the-project)
-    - [Description](#description)
-    - [User Stories](#user-stories)
-      - [Musician User](#musician-user)
-      - [Venue Owner User](#venue-owner-user)
-    - [Figma](#figma)
-      - [Screenshot](#screenshot)
-    - [React StoryBook](#react-storybook)
-    - [Technologies Used](#technologies-used)
-    - [Future Improvements](#future-improvements)
-      - [Service Provider User:](#service-provider-user)
-      - [Payment](#payment)
-      - [Update Chat](#update-chat)
-    - [Screenshots](#screenshots)
-  - [Contact the Team](#contact-the-team)
+- [Project Link](#project-link)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Launch the app](#launch-the-app)
+- [About the Project](#about-the-project)
+  - [Description](#description)
+  - [Key Features](#key-features)
+  - [Technologies Used](#technologies-used)
+  - [User Stories](#user-stories)
+    - [Musician User](#musician-user)
+    - [Venue Owner User](#venue-owner-user)
+  - [Figma](#figma)
+- [Screenshots](#screenshots)
+  - [Future Improvements](#future-improvements)
+    - [Service Provider User:](#service-provider-user)
+    - [Payment](#payment)
+    - [Update Chat](#update-chat)
+  - [Screenshots](#screenshots-1)
+- [Contact the Team](#contact-the-team)
 
 ## Project Link
 
-To view the project on Heroku [click here](https://arcane-springs-60231.herokuapp.com/profile/61294e37c9ca2400223e4fdf).
+To view the project on Heroku [click here](https://arcane-springs-60231.herokuapp.com/).
 
 ## Getting Started
 
@@ -65,18 +62,34 @@ npm run start
 
 ### Description
 
-Bandmatch is not mern what do we call it?
+BandMatch is a React.js application, using GraphQL queries and mutations to connect with our Apollo server and MongoDB database.
 
-Our app has three main features?
-musician users can make an account, create a band, find members to join their bands or join other bands, collaborate with other users, find and request gigs to play at.
+The core concept of the app is to allow users to find other musicians to either join their band or arrange collaborations with, and also to book gigs to play at.
 
-on your profile page
+Venues can also make use of our application to advertise upcoming gigs to musicians and to source the top talent to play at their gigs.
 
-go on the assemble page and see carousel of newest musicians and bands click on the card to see a snippet and play their soundcloud link, click to view their full profile or send a message
+### Key Features
 
-go on the collaborate page
+- **Messaging** - we implemented the built in polling feature on our GraphQL queries to enable almost real-time messaging within our inbox. Chats and messages are pulled in from the database every 500ms.
+- **Filtering** - we made use of the dynamically created GraphQL queries on the client side to allow us to send through a range of different filtering options. These filter options are then handled in one resolver which sends back different data depending on what has been requested.
+- **Global state** - we wrapped our app in two providers, one to store our user context and allow us to control the features available to logged in and non-logged in users, and another to manage all of our modals for a smoother state management.
+- **AWS Integration** - user images are all hosted on AWS. This allows users the opportunity to upload personal images, without making our database very heavy.
 
-go on the gig page
+### Technologies Used
+
+- React.js
+- Apollo Client and Server
+- GraphQL
+- MongoDB
+
+Other technologies and packages:
+
+- react-bootstrap
+- react hook forms
+- moment
+- uuid
+- JWT
+- bcrypt
 
 ### User Stories
 
@@ -106,33 +119,9 @@ As a venue user, I can create a gig and add some information, including date, ti
 
 We used Figma as it allowed us to plan and collaborate on our designs together in real time to produce high fidelity designs. That allowed us to easily spot what we wanted to make into react components and to consistency build our entire site.
 
-#### Screenshot
+## Screenshots
 
 to do compare a figma page to actual page
-
-### React StoryBook
-
-to do - do we want to mention this
-
-### Technologies Used
-
-This project was build using
-
-react - build reusable components - useful for our difficult/complex components like modals, use of state for those components, having a ton of libraries.
-
-graphql - query data - doesn't expose data you don't want exposed but also gets back a lot resources in one query.
-
-mongodb - our data doesn't have a lot of relations
-
-Other technologies and packages:
-
-- react-bootstrap
-- chroma-js
-- jquery
-- moment
-- uuid
-
-to do - do i add react packages
 
 ### Future Improvements
 
@@ -149,6 +138,11 @@ To improve user experience we could add the ability for venue owners to be able 
 Currently our application is using graphQL polling to mimic real time conversations. To improve scalability and to add realtime notifications.
 
 ### Screenshots
+
+![image](./public/images/landing.png)
+![image](./public/images/profile.png)
+![image](./public/images/assemble.png)
+![image](./public/images/inbox.png)
 
 ## Contact the Team
 
