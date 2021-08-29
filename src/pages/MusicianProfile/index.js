@@ -533,26 +533,21 @@ const MusicianProfile = (props) => {
   );
 
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
-    // variables: {
-    //   musicianUserId: musicianId,
-    // },
-
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const { data: gigsData, loading: gigsLoading } = useQuery(GIGS, {
     variables: {
-      gigsFilters: {
-        musician: musicianId,
-      },
-    },
-
-    onError: (error) => {
-      console.log(error);
+      musicianUserId: musicianId,
     },
   });
+
+  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
+    GIGS,
+    {
+      // variables: {
+      //   gigsFilters: {
+      //     musician: musicianId,
+      //   },
+      // },
+    }
+  );
 
   const { data: bandsData, loading: bandsLoading } = useQuery(BANDS, {
     variables: {
@@ -991,11 +986,17 @@ const MusicianProfile = (props) => {
 
           {gigsLoading && <LoadingSpinner />}
 
+          {gigsError && (
+            <p className="regular-text pb-20">
+              Sorry, we couldn't load gigs at this time.
+            </p>
+          )}
+
           {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
               {constructGigCards(gigsData.gigs)}
             </div>
-          ) : myProfile ? (
+          ) : myProfile && !gigsError ? (
             <div className="no-gigs-bands-container">
               <div>
                 <p className="mb-2 fs-3">You have no gigs</p>
@@ -1011,11 +1012,13 @@ const MusicianProfile = (props) => {
               </div>
             </div>
           ) : (
-            <div className="no-gigs-bands-container">
-              <p className="mb-3 fs-3">
-                {`${musician.firstName} ${musician.lastName}`} has no gigs
-              </p>
-            </div>
+            !gigsError && (
+              <div className="no-gigs-bands-container">
+                <p className="mb-3 fs-3">
+                  {`${musician.firstName} ${musician.lastName}`} has no gigs
+                </p>
+              </div>
+            )
           )}
         </div>
 
