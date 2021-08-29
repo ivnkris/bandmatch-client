@@ -36,7 +36,7 @@ const Gig = (props) => {
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
 
-        if (fetchMoreResult.gigs.length < data.gigs.length) {
+        if (fetchMoreResult.gigs.length === 0) {
           setHasMoreItems(false);
         }
 

@@ -47,7 +47,7 @@ const Venue = () => {
     formState: { errors },
   } = useForm({
     mode: "onBlur",
-    reValidateMode: "onChange",
+    reValidateMode: "onBlur",
     shouldFocusError: true,
   });
 
@@ -120,126 +120,126 @@ const Venue = () => {
   const [renderCreateGigModal] = useLazyQuery(GENRESINSTRUMENTS, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
-      if (!modalState.open) {
-        if (!data) {
-          setModalState({
-            open: true,
-            content: (
-              <Modal.Body className="solid-background">
-                <p> Sorry, we couldn't load filtering options at this time </p>
-              </Modal.Body>
-            ),
-          });
-        } else {
-          const serverGenres = data.genres.map((genre) => {
-            return {
-              value: genre.id,
-              label: genre.name.charAt(0).toUpperCase() + genre.name.slice(1),
-            };
-          });
+      const serverGenres = data.genres.map((genre) => {
+        return {
+          value: genre.id,
+          label: genre.name.charAt(0).toUpperCase() + genre.name.slice(1),
+        };
+      });
 
-          const genres = generateDropdownOptions(serverGenres);
+      const genres = generateDropdownOptions(serverGenres);
 
-          setModalState({
-            open: true,
-            content: (
-              <>
-                <Modal.Header className="solid-background" closeButton>
-                  <Modal.Title>Create a new gig</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="solid-background">
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <Accordion preExpanded={["a"]}>
-                      <AccordionItem uuid="a" className="accordion-container">
-                        <AccordionItemHeading className="accordion-heading-override">
-                          <AccordionItemButton>
-                            THE BASICS <BsChevronCompactDown size={24} />
-                          </AccordionItemButton>
-                        </AccordionItemHeading>
-                        <AccordionItemPanel>
-                          <p>TITLE</p>
-                          <FormInput
-                            placeholder="Gig title"
-                            error={errors.title}
-                            register={register("title")}
-                          />
-                          <p>QUICK OVERVIEW</p>
-                          <FormInput
-                            placeholder="Brief description"
-                            error={errors.description}
-                            register={register("description")}
-                          />
-                          <p>DATE AND TIME</p>
-                          <Datetime
-                            isValidDate={validateFutureDates}
-                            closeOnSelect={true}
-                            // dateFormat="DD-MM-YYYY"
-                            className="form-control-override"
-                          />
-                          <p>PAY RATE (£)</p>
-                          <FormInput
-                            placeholder="Reward for performer"
-                            error={errors.fee}
-                            register={register(
-                              "fee",
-                              {
-                                required: true,
-                              },
-                              { pattern: /\d/g }
-                            )}
-                            required={true}
-                          />
-                        </AccordionItemPanel>
-                      </AccordionItem>
-                      <AccordionItem uuid="b" className="accordion-container">
-                        <AccordionItemHeading className="accordion-heading-override">
-                          <AccordionItemButton>
-                            COUPLE SPECIFICS <BsChevronCompactDown size={24} />
-                          </AccordionItemButton>
-                        </AccordionItemHeading>
-                        <AccordionItemPanel>
-                          <p>MUSIC GENRE</p>
-                          <section className="dropdown-div">
-                            <select
-                              className="select-dropdown"
-                              id="genre"
-                              name="genre"
-                              placeholder="Select your genre"
-                              {...register("genre", {
-                                required: true,
-                              })}
-                            >
-                              {[...genres]}
-                            </select>
-                          </section>
-                          <p>VENUE PIC</p>
-                          <FormInput
-                            placeholder="Snap of the venue"
-                            error={errors.imageUrl}
-                            register={register("imageUrl", { required: true })}
-                          />
-                          <p>WEBSITE URL</p>
-                          <FormInput
-                            placeholder="Link to the site?"
-                            error={errors.description}
-                            register={register("websiteUrl")}
-                          />
-                        </AccordionItemPanel>
-                      </AccordionItem>
-                    </Accordion>
-                    <Button
-                      type="submit"
-                      label="SUBMIT"
-                      mode="primary"
-                      size="medium"
-                    ></Button>
-                  </form>
-                </Modal.Body>
-              </>
-            ),
-          });
-        }
-      }
+      setModalState({
+        open: true,
+        content: (
+          <>
+            <Modal.Header className="solid-background" closeButton>
+              <Modal.Title>Create a new gig</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="solid-background">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Accordion preExpanded={["a"]}>
+                  <AccordionItem uuid="a" className="accordion-container">
+                    <AccordionItemHeading className="accordion-heading-override">
+                      <AccordionItemButton>
+                        THE BASICS <BsChevronCompactDown size={24} />
+                      </AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                      <p>TITLE</p>
+                      <FormInput
+                        placeholder="Gig title"
+                        error={errors.title}
+                        register={register("title", { required: true })}
+                        required={true}
+                      />
+
+                      <p>QUICK OVERVIEW</p>
+                      <FormInput
+                        placeholder="Brief description"
+                        error={errors.description}
+                        register={register("description")}
+                        required={true}
+                      />
+                      <p>DATE AND TIME</p>
+                      <Datetime
+                        isValidDate={validateFutureDates}
+                        closeOnSelect={true}
+                        // dateFormat="DD-MM-YYYY"
+                        className="form-control-override"
+                      />
+                      <p>PAY RATE (£)</p>
+                      <FormInput
+                        placeholder="Reward for performer"
+                        error={errors.fee}
+                        register={register("fee", {
+                          required: true,
+                        })}
+                        required={true}
+                        type="number"
+                      />
+                    </AccordionItemPanel>
+                  </AccordionItem>
+                  <AccordionItem uuid="b" className="accordion-container">
+                    <AccordionItemHeading className="accordion-heading-override">
+                      <AccordionItemButton>
+                        COUPLE SPECIFICS <BsChevronCompactDown size={24} />
+                      </AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                      <p>MUSIC GENRE</p>
+                      <section className="dropdown-div py-3">
+                        <select
+                          className="select-dropdown"
+                          id="genre"
+                          name="genre"
+                          placeholder="Select your genre"
+                          {...register("genre", {
+                            required: true,
+                          })}
+                          required={true}
+                        >
+                          {[...genres]}
+                        </select>
+                      </section>
+
+                      <p>VENUE PIC</p>
+                      <FormInput
+                        placeholder="Snap of the venue"
+                        error={errors.imageUrl}
+                        register={register("imageUrl", { required: true })}
+                        required={true}
+                      />
+                      <p>WEBSITE URL</p>
+                      <FormInput
+                        placeholder="Link to the site?"
+                        error={errors.websiteUrl}
+                        register={register("websiteUrl")}
+                      />
+                    </AccordionItemPanel>
+                  </AccordionItem>
+                </Accordion>
+                <Button
+                  type="submit"
+                  label="SUBMIT"
+                  mode="primary"
+                  size="medium"
+                ></Button>
+              </form>
+            </Modal.Body>
+          </>
+        ),
+      });
+    },
+    onError: (error) => {
+      setModalState({
+        open: true,
+        content: (
+          <Modal.Body className="solid-background">
+            <p> Sorry, we couldn't load filtering options at this time </p>
+          </Modal.Body>
+        ),
+      });
     },
   });
 
