@@ -93,6 +93,14 @@ const MusicianProfile = (props) => {
     history.push(url);
   };
 
+  const redirectToHomepage = () => {
+    setModalState({
+      open: false,
+    });
+
+    history.push("/");
+  };
+
   const [submitEditProfileInfo] = useMutation(UPDATE_MUSICIAN, {
     onCompleted: (data) => {
       setModalState({
@@ -541,25 +549,23 @@ const MusicianProfile = (props) => {
   const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
     GIGS,
     {
-      // variables: {
-      //   gigsFilters: {
-      //     musician: musicianId,
-      //   },
-      // },
+      variables: {
+        gigsFilters: {
+          musician: musicianId,
+        },
+      },
     }
   );
 
-  const { data: bandsData, loading: bandsLoading } = useQuery(BANDS, {
+  const {
+    data: bandsData,
+    loading: bandsLoading,
+    error: bandsError,
+  } = useQuery(BANDS, {
     variables: {
       bandsFilters: {
         musician: musicianId,
       },
-    },
-    onCompleted: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 
@@ -889,7 +895,7 @@ const MusicianProfile = (props) => {
             label="RETURN HOME"
             mode="primary"
             size="medium"
-            onClick={console.log("home")}
+            onClick={redirectToHomepage}
           />
         </div>
       </div>
@@ -1036,6 +1042,12 @@ const MusicianProfile = (props) => {
               <div className="cards-container">
                 {constructPerformerCards(bands, "shortened")}
               </div>
+            )}
+
+            {bandsError && (
+              <p className="regular-text pb-20">
+                Sorry, we couldn't load gigs at this time.
+              </p>
             )}
 
             {(myProfile && !bandsData) ||
