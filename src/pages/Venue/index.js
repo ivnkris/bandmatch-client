@@ -252,19 +252,29 @@ const Venue = () => {
       console.log(error);
     },
   });
-  let filteredGigsData;
-  const { data: gigsData } = useQuery(GIGS);
 
-  if (gigsData) {
-    filteredGigsData = gigsData.gigs.filter((gig) => {
-      return gig.venue.id === state.user.id;
-    });
+  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
+    GIGS,
+    {
+      variables: {
+        gigsFilters: {
+          venue: venueId,
+        },
+      },
+    }
+  );
+
+  let venue;
+
+  if (venueData) {
+    venue = venueData.venue;
   }
 
   return (
     <div className="profile-container">
       <div className="p-2"></div>
-      {myProfile ? (
+
+      {myProfile && venueData && (
         <div className="see-through-background-90 text-align-center profile-title-div">
           <Title type="profile" text="MY VENUE" />
           <div className="create-band-button ">
@@ -276,19 +286,21 @@ const Venue = () => {
             />
           </div>
         </div>
-      ) : (
+      )}
+
+      {!myProfile && venueData && (
         <div className="see-through-background-90 text-align-center profile-title-div">
-          <p className="title mb-2 pt-2 fs-1">{state.user.name}</p>
+          <p className="title mb-2 pt-2 fs-1">{venue.name}</p>
         </div>
       )}
 
-      {venueData && (
+      {venue && (
         <ProfileInfo
-          imageUrl={venueData.venue.photoUrl}
-          name={venueData.venue.name}
-          postcode={venueData.venue.postcode}
-          description={venueData.venue.description}
-          websiteUrl={venueData.venue.websiteUrl}
+          imageUrl={venue.photoUrl}
+          name={venue.name}
+          postcode={venue.postcode}
+          description={venue.description}
+          websiteUrl={venue.websiteUrl}
           myProfile={myProfile}
         />
       )}
@@ -296,11 +308,39 @@ const Venue = () => {
       {venueLoading && <LoadingSpinner />}
 
       <div className="see-through-background-90 text-align-center">
-        <p className="title mb-2 pt-2 fs-1">GIGS at {state.user.name}</p>
+        {venueData && (
+          <p className="title mb-2 pt-2 fs-1">GIGS at {venue.name}</p>
+        )}
 
-        {filteredGigsData && (
+        {gigsData && (
           <div className="cards-container">
-            {constructGigCards(filteredGigsData)}
+            {constructGigCards(gigsData.gigs)}
+          </div>
+        )}
+
+        {gigsLoading && <LoadingSpinner />}
+
+        {!myProfile && !gigsData && venueData && (
+          <div className="no-gigs-bands-container">
+            <p className="mb-3 fs-3">
+              {venueData.venue.name} has no gigs coming up.
+            </p>
+          </div>
+        )}
+
+        {myProfile && !gigsData && (
+          <div className="no-gigs-bands-container">
+            <div>
+              <p className="mb-2 fs-3">You have no gigs</p>
+            </div>
+            <div>
+              <Button
+                label="NEW GIG"
+                mode="primary"
+                size="medium"
+                onClick={renderCreateGigModal}
+              />
+            </div>
           </div>
         )}
       </div>

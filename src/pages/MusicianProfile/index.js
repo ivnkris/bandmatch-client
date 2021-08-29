@@ -701,18 +701,15 @@ const MusicianProfile = (props) => {
                       <FormInput
                         placeholder="Members"
                         error={errors2.numberOfMembers}
-                        register={register2(
-                          "numberOfMembers",
-                          {
-                            required: true,
-                          },
-                          { pattern: /\d/g }
-                        )}
+                        register={register2("numberOfMembers", {
+                          required: true,
+                        })}
                         required={true}
+                        type="number"
                       />
                       <p>MEMBERS</p>
                       <p className="small-text regular-text">
-                        Enter the email address of members with a Bandmatch
+                        Enter the email address of members with a BandMatch
                         account. Separate each with a comma.
                       </p>
                       <FormInput
