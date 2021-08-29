@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
@@ -44,6 +44,8 @@ import locationOptions from "../../data/locationOptions";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const MusicianProfile = (props) => {
+  const location = useLocation();
+
   const { state } = useUserContext();
   const { modalState, setModalState } = useModal();
   let history = useHistory();
@@ -545,9 +547,6 @@ const MusicianProfile = (props) => {
         musician: musicianId,
       },
     },
-    onCompleted: (data) => {
-      console.log(data);
-    },
     onError: (error) => {
       console.log(error);
     },
@@ -960,7 +959,7 @@ const MusicianProfile = (props) => {
 
           {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
-              {constructGigCards(gigsData.gigs)}
+              {constructGigCards(gigsData.gigs, location)}
             </div>
           ) : myProfile ? (
             <div className="no-gigs-bands-container">

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useModal } from "../../contexts/ModalProvider";
@@ -33,6 +33,8 @@ import { constructGigCards } from "../../utils/constructCards";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Venue = () => {
+  const location = useLocation();
+
   const { state } = useUserContext();
 
   const { id: venueId } = useParams();
@@ -314,7 +316,7 @@ const Venue = () => {
 
         {gigsData && (
           <div className="cards-container">
-            {constructGigCards(gigsData.gigs)}
+            {constructGigCards(gigsData.gigs, location)}
           </div>
         )}
 

@@ -161,7 +161,8 @@ const GigCard = (props) => {
         <p className="p-yellow pb-2 pb-10">PAY: £{props.fee}</p>
       </div>
       <div id={props.gigId}>
-        {state.user.name === props.venueName ? (
+        {state.user.name === props.venueName &&
+        props.location.pathname === `/venues/${state.user.id}` ? (
           <Button
             label="DELETE"
             onClick={sendDeleteRequest}
