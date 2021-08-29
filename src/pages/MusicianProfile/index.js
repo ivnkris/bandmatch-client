@@ -484,8 +484,24 @@ const MusicianProfile = (props) => {
         redirectToPage(`/bands/${bandId}`);
       }, 1500);
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
+      setModalState({
+        open: true,
+        content: (
+          <>
+            <Modal.Header className="solid-background" closeButton>
+              <Modal.Title>Create a new band</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="solid-background">
+              <p className="regular-text">
+                Sorry, we currently experiencing some difficulties and could not
+                create your band at this time.
+              </p>
+              <p className="regular-text">Please try again later.</p>
+            </Modal.Body>
+          </>
+        ),
+      });
     },
   });
 
