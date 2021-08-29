@@ -114,7 +114,6 @@ const MusicianProfile = (props) => {
       }, 1500);
     },
     onError: (error) => {
-      console.log(error);
       setModalState({
         open: true,
         content: (
@@ -509,7 +508,7 @@ const MusicianProfile = (props) => {
     (formData) => {
       let openToMembers;
 
-      if (formData.lookingFor) {
+      if (formData.lookingFor[0]) {
         openToMembers = true;
       } else {
         openToMembers = false;
@@ -534,9 +533,9 @@ const MusicianProfile = (props) => {
   );
 
   const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
-    variables: {
-      musicianUserId: musicianId,
-    },
+    // variables: {
+    //   musicianUserId: musicianId,
+    // },
 
     onError: (error) => {
       console.log(error);
@@ -599,6 +598,7 @@ const MusicianProfile = (props) => {
           };
         }
       );
+      serverLookingFor.unshift({ label: "Not looking atm", value: false });
 
       setModalState({
         open: true,
@@ -802,10 +802,10 @@ const MusicianProfile = (props) => {
                           </option>
                         </select>
                       </section>
-                      <p>LOOKING FOR NEW MEMBERS?</p>
+                      <p className="pt-10">LOOKING FOR NEW MEMBERS?</p>
                       <p className="regular-text small-text">
                         If you're looking for new members, please select from
-                        the options below. Otherwise, leave the field blank.
+                        the options below. Otherwise, select "Not looking atm".
                       </p>
                       <MultiSelectDropDown
                         options={serverLookingFor}
@@ -883,7 +883,22 @@ const MusicianProfile = (props) => {
   }
 
   if (error) {
-    return <div>error</div>;
+    return (
+      <div className="profile-container">
+        <div className="see-through-background-90 error-container">
+          <p className="regular-text">
+            Sorry, we could not load information at this time.
+          </p>
+          <p className="regular-text">Please try again later.</p>
+          <Button
+            label="RETURN HOME"
+            mode="primary"
+            size="medium"
+            onClick={console.log("home")}
+          />
+        </div>
+      </div>
+    );
   }
 
   if (musicianData) {
