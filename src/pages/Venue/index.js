@@ -316,7 +316,7 @@ const Venue = () => {
 
         {gigsData && (
           <div className="cards-container">
-            {constructGigCards(gigsData.gigs, location)}
+            {constructGigCards(gigsData.gigs)}
           </div>
         )}
 

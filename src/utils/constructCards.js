@@ -25,7 +25,7 @@ export const constructPerformerCards = (cards, version = "extended") => {
   return cardsToRender;
 };
 
-export const constructGigCards = (gigs, location) => {
+export const constructGigCards = (gigs) => {
   const cardsToRender = gigs.map((gig) => {
     const genre = gig.genre.name;
     const venueName = gig.venue.name;
@@ -42,7 +42,6 @@ export const constructGigCards = (gigs, location) => {
         postcode={postcode}
         gigId={gig.id}
         fee={gig.fee}
-        location={location}
       />
     );
   });

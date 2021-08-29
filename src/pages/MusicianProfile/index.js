@@ -44,8 +44,6 @@ import locationOptions from "../../data/locationOptions";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const MusicianProfile = (props) => {
-  const location = useLocation();
-
   const { state } = useUserContext();
   const { modalState, setModalState } = useModal();
   let history = useHistory();
@@ -959,7 +957,7 @@ const MusicianProfile = (props) => {
 
           {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
-              {constructGigCards(gigsData.gigs, location)}
+              {constructGigCards(gigsData.gigs)}
             </div>
           ) : myProfile ? (
             <div className="no-gigs-bands-container">
