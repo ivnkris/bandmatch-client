@@ -11,6 +11,7 @@ const ProfileInfo = (props) => {
         className="profile-image"
         style={{
           backgroundImage: "url(" + props.imageUrl + ")",
+          backgroundPosition: "center center",
         }}
       >
         <div className="image-overlay">
