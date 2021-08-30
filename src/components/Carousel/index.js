@@ -36,7 +36,7 @@ const responsive = {
 };
 
 const CardsCarousel = ({ cards }) => {
-  const cardComponents = constructPerformerCards(cards, "shortened");
+  const cardComponents = constructPerformerCards(cards, "carousel");
 
   return (
     <Carousel
