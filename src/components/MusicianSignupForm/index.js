@@ -10,6 +10,7 @@ import Title from "../Title";
 import FormContainer from "../FormContainer";
 import MultiSelectDropDown from "../MultiSelectDropdown";
 import Button from "../Button";
+import LoadingSpinner from "../LoadingSpinner";
 import { SIGNUP } from "../../graphql/mutations";
 import { GENRESINSTRUMENTS } from "../../graphql/queries";
 
@@ -200,9 +201,7 @@ const MusicianSignupForm = () => {
   if (loading) {
     return (
       <div className="pb-5 text-center">
-        <div className="spinner-border " role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <LoadingSpinner />
       </div>
     );
   }
