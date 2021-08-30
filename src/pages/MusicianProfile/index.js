@@ -72,6 +72,8 @@ const MusicianProfile = (props) => {
   const { id: musicianId } = useParams();
   const [imageUrl, setImageUrl] = useState();
   const [imageUrlBand, setImageUrlBand] = useState();
+  const [modalUpdateData, setModalUpdateData] = useState(null);
+  const [bandUpdateData, setBandUpdateData] = useState(null);
 
   const [validBandMembers, setValidBandMembers] = useState([musicianId]);
 
@@ -170,6 +172,9 @@ const MusicianProfile = (props) => {
     { data: editProfileGenreInstrumentsData },
   ] = useLazyQuery(GENRESINSTRUMENTS, {
     fetchPolicy: "network-only",
+    onCompleted: (data) => {
+      setModalUpdateData(data);
+    },
   });
 
   const renderEditProfileModal = () => {
@@ -178,6 +183,7 @@ const MusicianProfile = (props) => {
         musicianUserId: musicianId,
       },
     });
+    setModalUpdateData(null);
   };
 
   useEffect(() => {
@@ -207,7 +213,7 @@ const MusicianProfile = (props) => {
           editProfileGenreInstrumentsData.instruments
         );
         const userLookingFor = generateDefaultValues(musician.lookingFor);
-
+        const newData = modalUpdateData;
         setModalState({
           open: true,
           content: (
@@ -444,6 +450,7 @@ const MusicianProfile = (props) => {
     register,
     setModalState,
     musicianData,
+    modalUpdateData,
   ]);
 
   // band page creation logic
@@ -451,6 +458,9 @@ const MusicianProfile = (props) => {
     GENRESINSTRUMENTS,
     {
       fetchPolicy: "network-only",
+      onCompleted: (data) => {
+        setBandUpdateData(data);
+      },
       onError: (error) => {
         setModalState({
           open: true,
@@ -635,6 +645,9 @@ const MusicianProfile = (props) => {
         }
       );
       serverLookingFor.unshift({ label: "Not looking atm", value: false });
+
+      setBandUpdateData(null);
+      const x = bandUpdateData;
 
       setModalState({
         open: true,
@@ -881,6 +894,8 @@ const MusicianProfile = (props) => {
     control2,
     imageUrlBand,
     state.user.email,
+    bandUpdateData,
+    setBandUpdateData,
   ]);
 
   let bands;
