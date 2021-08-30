@@ -47,7 +47,7 @@ const ProfileInfo = (props) => {
 
         <div>{props.description}</div>
 
-        {props.myProfile && props.lookingFor && (
+        {props.myProfile && props.lookingFor && props.lookingFor.length && (
           <p className="p-yellow mt-2 text-limit-one-line">
             LOOKING FOR:{" "}
             <span className="looking-for">{props.lookingFor.join(" | ")}</span>

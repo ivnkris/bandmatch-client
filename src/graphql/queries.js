@@ -11,6 +11,7 @@ export const ASSEMBLE = gql`
       musiciansOffset: $musiciansOffset
       bandsOffset: $bandsOffset
     ) {
+      id
       musicians {
         id
         firstName
@@ -130,6 +131,7 @@ export const COLLABORATE = gql`
       musiciansOffset: $musiciansOffset
       bandsOffset: $bandsOffset
     ) {
+      id
       bands {
         name
         id

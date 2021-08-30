@@ -295,11 +295,18 @@ const AssembleCard = (props) => {
         <p className="card-text-instruments text-limit-one-line">
           {[...instruments]}
         </p>
-        {props.version === "extended" && (
+        {props.version === "extended" && props.lookingFor.length !== 0 && (
           <>
             <p className="p-yellow card-text">LOOKING FOR: </p>
             <p className="text-limit-one-line">
               {props.lookingFor.join(" | ")}
+            </p>
+          </>
+        )}
+        {props.version === "extended" && props.lookingFor.length === 0 && (
+          <>
+            <p className="p-yellow card-text">
+              NOT CURRENTLY LOOKING FOR NEW MEMBERS{" "}
             </p>
           </>
         )}
