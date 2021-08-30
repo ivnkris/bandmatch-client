@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";
@@ -93,6 +93,14 @@ const MusicianProfile = (props) => {
     history.push(url);
   };
 
+  const redirectToHomepage = () => {
+    setModalState({
+      open: false,
+    });
+
+    history.push("/");
+  };
+
   const [submitEditProfileInfo] = useMutation(UPDATE_MUSICIAN, {
     onCompleted: (data) => {
       setModalState({
@@ -114,7 +122,6 @@ const MusicianProfile = (props) => {
       }, 1500);
     },
     onError: (error) => {
-      console.log(error);
       setModalState({
         open: true,
         content: (
@@ -484,8 +491,24 @@ const MusicianProfile = (props) => {
         redirectToPage(`/bands/${bandId}`);
       }, 1500);
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
+      setModalState({
+        open: true,
+        content: (
+          <>
+            <Modal.Header className="solid-background" closeButton>
+              <Modal.Title>Create a new band</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="solid-background">
+              <p className="regular-text">
+                Sorry, we currently experiencing some difficulties and could not
+                create your band at this time.
+              </p>
+              <p className="regular-text">Please try again later.</p>
+            </Modal.Body>
+          </>
+        ),
+      });
     },
   });
 
@@ -493,7 +516,7 @@ const MusicianProfile = (props) => {
     (formData) => {
       let openToMembers;
 
-      if (formData.lookingFor) {
+      if (formData.lookingFor[0]) {
         openToMembers = true;
       } else {
         openToMembers = false;
@@ -521,32 +544,28 @@ const MusicianProfile = (props) => {
     variables: {
       musicianUserId: musicianId,
     },
-
-    onError: (error) => {
-      console.log(error);
-    },
   });
 
-  const { data: gigsData, loading: gigsLoading } = useQuery(GIGS, {
-    variables: {
-      gigsFilters: {
-        musician: musicianId,
+  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
+    GIGS,
+    {
+      variables: {
+        gigsFilters: {
+          musician: musicianId,
+        },
       },
-    },
+    }
+  );
 
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const { data: bandsData, loading: bandsLoading } = useQuery(BANDS, {
+  const {
+    data: bandsData,
+    loading: bandsLoading,
+    error: bandsError,
+  } = useQuery(BANDS, {
     variables: {
       bandsFilters: {
         musician: musicianId,
       },
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 
@@ -580,6 +599,7 @@ const MusicianProfile = (props) => {
           };
         }
       );
+      serverLookingFor.unshift({ label: "Not looking atm", value: false });
 
       setModalState({
         open: true,
@@ -781,10 +801,10 @@ const MusicianProfile = (props) => {
                           </option>
                         </select>
                       </section>
-                      <p>LOOKING FOR NEW MEMBERS?</p>
+                      <p className="pt-10">LOOKING FOR NEW MEMBERS?</p>
                       <p className="regular-text small-text">
                         If you're looking for new members, please select from
-                        the options below. Otherwise, leave the field blank.
+                        the options below. Otherwise, select "Not looking atm".
                       </p>
                       <MultiSelectDropDown
                         options={serverLookingFor}
@@ -862,7 +882,22 @@ const MusicianProfile = (props) => {
   }
 
   if (error) {
-    return <div>error</div>;
+    return (
+      <div className="profile-container">
+        <div className="see-through-background-90 error-container">
+          <p className="regular-text">
+            Sorry, we could not load information at this time.
+          </p>
+          <p className="regular-text">Please try again later.</p>
+          <Button
+            label="RETURN HOME"
+            mode="primary"
+            size="medium"
+            onClick={redirectToHomepage}
+          />
+        </div>
+      </div>
+    );
   }
 
   if (musicianData) {
@@ -955,11 +990,17 @@ const MusicianProfile = (props) => {
 
           {gigsLoading && <LoadingSpinner />}
 
+          {gigsError && (
+            <p className="regular-text pb-20">
+              Sorry, we couldn't load gigs at this time.
+            </p>
+          )}
+
           {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
               {constructGigCards(gigsData.gigs)}
             </div>
-          ) : myProfile ? (
+          ) : myProfile && !gigsError ? (
             <div className="no-gigs-bands-container">
               <div>
                 <p className="mb-2 fs-3">You have no gigs</p>
@@ -975,11 +1016,13 @@ const MusicianProfile = (props) => {
               </div>
             </div>
           ) : (
-            <div className="no-gigs-bands-container">
-              <p className="mb-3 fs-3">
-                {`${musician.firstName} ${musician.lastName}`} has no gigs
-              </p>
-            </div>
+            !gigsError && (
+              <div className="no-gigs-bands-container">
+                <p className="mb-3 fs-3">
+                  {`${musician.firstName} ${musician.lastName}`} has no gigs
+                </p>
+              </div>
+            )
           )}
         </div>
 
@@ -997,6 +1040,12 @@ const MusicianProfile = (props) => {
               <div className="cards-container">
                 {constructPerformerCards(bands, "shortened")}
               </div>
+            )}
+
+            {bandsError && (
+              <p className="regular-text pb-20">
+                Sorry, we couldn't load gigs at this time.
+              </p>
             )}
 
             {(myProfile && !bandsData) ||
