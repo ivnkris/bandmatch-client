@@ -101,6 +101,12 @@ const MusicianProfile = (props) => {
     history.push("/");
   };
 
+  const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
+    variables: {
+      musicianUserId: musicianId,
+    },
+  });
+
   const [submitEditProfileInfo] = useMutation(UPDATE_MUSICIAN, {
     onCompleted: (data) => {
       setModalState({
@@ -133,273 +139,37 @@ const MusicianProfile = (props) => {
     },
   });
 
-  const onSubmitEditProfile = async (formData) => {
-    if (formData.openToCollaboration === "true") {
-      formData.openToCollaboration = true;
-    } else {
-      formData.openToCollaboration = false;
-    }
-
-    if (formData.openToJoiningBand === "true") {
-      formData.openToJoiningBand = true;
-    } else {
-      formData.openToJoiningBand = false;
-    }
-
-    submitEditProfileInfo({
-      variables: {
-        updateMusicianUserInput: {
-          musicianInfo: formData,
-          musicianId: musicianId,
-        },
-      },
-    });
-  };
-
-  const [editProfileModal] = useLazyQuery(GENRESINSTRUMENTS, {
-    fetchPolicy: "network-only",
-    onCompleted: (data) => {
-      if (!modalState.open) {
-        if (!data) {
-          setModalState({
-            open: true,
-            content: (
-              <Modal.Body className="solid-background">
-                <p> Sorry, we couldn't load filtering options at this time </p>
-              </Modal.Body>
-            ),
-          });
-        } else {
-          const musician = musicianData.musicianUser;
-          const genres = generateOptions(data.genres);
-          const userGenres = generateDefaultValues(musician.genre);
-          const instruments = generateOptions(data.instruments);
-          const userInstruments = generateDefaultValues(musician.instruments);
-          const lookingFor = generateRoleOptions(data.instruments);
-          const userLookingFor = generateDefaultValues(musician.lookingFor);
-
-          setModalState({
-            open: true,
-            content: (
-              <>
-                <Modal.Header className="solid-background" closeButton>
-                  <Modal.Title>Edit Profile</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="solid-background">
-                  <form onSubmit={handleSubmit(onSubmitEditProfile)}>
-                    <Accordion preExpanded={["a"]}>
-                      <AccordionItem uuid="a" className="accordion-container">
-                        <AccordionItemHeading className="accordion-heading-override">
-                          <AccordionItemButton>
-                            THE BASICS <BsChevronCompactDown size={24} />
-                          </AccordionItemButton>
-                        </AccordionItemHeading>
-                        <AccordionItemPanel>
-                          <p>FIRST NAME</p>
-                          <FormInput
-                            value={musician.firstName}
-                            error={errors.firstName}
-                            register={register("firstName")}
-                          />
-                          <p>LAST NAME</p>
-                          <FormInput
-                            value={musician.lastName}
-                            error={errors.lastName}
-                            register={register("lastName")}
-                          />
-                          <p>EMAIL</p>
-                          <FormInput
-                            value={musician.email}
-                            error={errors.email}
-                            register={register("email")}
-                          />
-                          <p>CITY</p>
-                          <section className="dropdown-div py-3">
-                            <select
-                              className="select-dropdown"
-                              id="location"
-                              name="location"
-                              placeholder="Select your location"
-                              {...register("location", { required: true })}
-                            >
-                              <option
-                                defaultValue={musician.location}
-                                className="option-text"
-                                value={musician.location}
-                                key="selected"
-                              >
-                                {musician.location}
-                              </option>
-                              {locationOptions.map((location) => {
-                                return (
-                                  <option
-                                    className="option-text"
-                                    value={location.label}
-                                    key={location.label}
-                                  >
-                                    {location.label}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </section>
-                        </AccordionItemPanel>
-                      </AccordionItem>
-                      <AccordionItem uuid="b" className="accordion-container">
-                        <AccordionItemHeading className="accordion-heading-override">
-                          <AccordionItemButton>
-                            SOCIALS AND INFO <BsChevronCompactDown size={24} />
-                          </AccordionItemButton>
-                        </AccordionItemHeading>
-                        <AccordionItemPanel>
-                          <p>PROFILE PIC</p>
-                          <ImageUpload
-                            email={musician.email}
-                            setImageUrl={setImageUrl}
-                            imageUrl={imageUrl}
-                          />
-                          <p>BIO</p>
-                          <FormInput
-                            value={musician.description}
-                            error={errors.description}
-                            register={register("description")}
-                          />
-                          <p>WEBSITE</p>
-                          <FormInput
-                            value={musician.websiteUrl}
-                            error={errors.websiteUrl}
-                            register={register("websiteUrl")}
-                          />
-                          <p>SOUNDCLOUD</p>
-                          <FormInput
-                            value={musician.soundCloudUrl}
-                            error={errors.soundCloudUrl}
-                            register={register("soundCloudUrl")}
-                          />
-                        </AccordionItemPanel>
-                      </AccordionItem>
-                      <AccordionItem uuid="c" className="accordion-container">
-                        <AccordionItemHeading className="accordion-heading-override">
-                          <AccordionItemButton>
-                            GENRE AND COLLABS <BsChevronCompactDown size={24} />
-                          </AccordionItemButton>
-                        </AccordionItemHeading>
-                        <AccordionItemPanel>
-                          <p>GENRES</p>
-                          <MultiSelectDropDown
-                            options={genres}
-                            defaultValue={userGenres}
-                            placeholder="Select genres"
-                            isMulti={true}
-                            name="genre"
-                            control={control}
-                          />
-                          <p>INSTRUMENTS</p>
-                          <MultiSelectDropDown
-                            options={instruments}
-                            defaultValue={userInstruments}
-                            placeholder="Select instruments"
-                            isMulti={true}
-                            name="instruments"
-                            control={control}
-                          />
-                          <p>WHO DO YOU WANT TO WORK WITH?</p>
-                          <MultiSelectDropDown
-                            options={lookingFor}
-                            defaultValue={userLookingFor}
-                            placeholder="Select instruments"
-                            isMulti={true}
-                            name="lookingFor"
-                            control={control}
-                          />
-                          <section className="dropdown-div">
-                            <div className="select-label">EXPERIENCE</div>
-                            <select
-                              className="select-dropdown"
-                              id="experienceLevel"
-                              name="experienceLevel"
-                              placeholder="Select your experience level"
-                              defaultValue={musician.experienceLevel}
-                              {...register("experienceLevel", {
-                                required: true,
-                              })}
-                            >
-                              <option className="option-text" value="newbie">
-                                Newbie
-                              </option>
-                              <option className="option-text" value="midway">
-                                Midway
-                              </option>
-                              <option className="option-text" value="expert">
-                                Expert
-                              </option>
-                            </select>
-                          </section>
-                          <section className="dropdown-div">
-                            <div className="select-label">
-                              ARE YOU OPEN TO COLLABS?
-                            </div>
-                            <section>
-                              <select
-                                className="select-dropdown"
-                                id="openToCollaboration"
-                                name="openToCollaboration"
-                                placeholder="Select..."
-                                defaultValue={musician.openToCollaboration}
-                                {...register("openToCollaboration", {
-                                  required: true,
-                                })}
-                              >
-                                <option className="option-text" value="true">
-                                  Yes
-                                </option>
-                                <option className="option-text" value="false">
-                                  No
-                                </option>
-                              </select>
-                            </section>
-                          </section>
-                          <section className="dropdown-div">
-                            <div className="select-label">
-                              INTERESTED IN JOINING A BAND?
-                            </div>
-                            <section>
-                              <select
-                                className="select-dropdown"
-                                id="openToJoiningBand"
-                                name="openToJoiningBand"
-                                placeholder="Select..."
-                                defaultValue={musician.openToJoiningBand}
-                                {...register("openToJoiningBand", {
-                                  required: true,
-                                })}
-                              >
-                                <option className="option-text" value="true">
-                                  Yes
-                                </option>
-                                <option className="option-text" value="false">
-                                  No
-                                </option>
-                              </select>
-                            </section>
-                          </section>
-                        </AccordionItemPanel>
-                      </AccordionItem>
-                    </Accordion>
-                    <Button
-                      type="submit"
-                      label="SAVE CHANGES"
-                      mode="primary"
-                      size="medium"
-                    />
-                  </form>
-                </Modal.Body>
-              </>
-            ),
-          });
-        }
+  const onSubmitEditProfile = useCallback(
+    (formData) => {
+      if (formData.openToCollaboration === "true") {
+        formData.openToCollaboration = true;
+      } else {
+        formData.openToCollaboration = false;
       }
+
+      if (formData.openToJoiningBand === "true") {
+        formData.openToJoiningBand = true;
+      } else {
+        formData.openToJoiningBand = false;
+      }
+
+      submitEditProfileInfo({
+        variables: {
+          updateMusicianUserInput: {
+            musicianInfo: { ...formData, imageUrl },
+            musicianId: musicianId,
+          },
+        },
+      });
     },
+    [musicianId, submitEditProfileInfo, imageUrl]
+  );
+
+  const [
+    editProfileModal,
+    { data: editProfileGenreInstrumentsData },
+  ] = useLazyQuery(GENRESINSTRUMENTS, {
+    fetchPolicy: "network-only",
   });
 
   const renderEditProfileModal = () => {
@@ -409,6 +179,272 @@ const MusicianProfile = (props) => {
       },
     });
   };
+
+  useEffect(() => {
+    if (editProfileGenreInstrumentsData && musicianData) {
+      if (!editProfileGenreInstrumentsData) {
+        setModalState({
+          open: true,
+          content: (
+            <Modal.Body className="solid-background">
+              <p>
+                {" "}
+                Sorry, you can't update your profile information at this time.
+                Please try again later!{" "}
+              </p>
+            </Modal.Body>
+          ),
+        });
+      } else {
+        const musician = musicianData.musicianUser;
+        const genres = generateOptions(editProfileGenreInstrumentsData.genres);
+        const userGenres = generateDefaultValues(musician.genre);
+        const instruments = generateOptions(
+          editProfileGenreInstrumentsData.instruments
+        );
+        const userInstruments = generateDefaultValues(musician.instruments);
+        const lookingFor = generateRoleOptions(
+          editProfileGenreInstrumentsData.instruments
+        );
+        const userLookingFor = generateDefaultValues(musician.lookingFor);
+
+        setModalState({
+          open: true,
+          content: (
+            <>
+              <Modal.Header className="solid-background" closeButton>
+                <Modal.Title>Edit Profile</Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="solid-background">
+                <form onSubmit={handleSubmit(onSubmitEditProfile)}>
+                  <Accordion preExpanded={["a"]}>
+                    <AccordionItem uuid="a" className="accordion-container">
+                      <AccordionItemHeading className="accordion-heading-override">
+                        <AccordionItemButton>
+                          THE BASICS <BsChevronCompactDown size={24} />
+                        </AccordionItemButton>
+                      </AccordionItemHeading>
+                      <AccordionItemPanel>
+                        <p>FIRST NAME</p>
+                        <FormInput
+                          value={musician.firstName}
+                          error={errors.firstName}
+                          register={register("firstName")}
+                        />
+                        <p>LAST NAME</p>
+                        <FormInput
+                          value={musician.lastName}
+                          error={errors.lastName}
+                          register={register("lastName")}
+                        />
+                        <p>EMAIL</p>
+                        <FormInput
+                          value={musician.email}
+                          error={errors.email}
+                          register={register("email")}
+                        />
+                        <p>CITY</p>
+                        <section className="dropdown-div py-3">
+                          <select
+                            className="select-dropdown"
+                            id="location"
+                            name="location"
+                            placeholder="Select your location"
+                            {...register("location", { required: true })}
+                          >
+                            <option
+                              defaultValue={musician.location}
+                              className="option-text"
+                              value={musician.location}
+                              key="selected"
+                            >
+                              {musician.location}
+                            </option>
+                            {locationOptions.map((location) => {
+                              return (
+                                <option
+                                  className="option-text"
+                                  value={location.label}
+                                  key={location.label}
+                                >
+                                  {location.label}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </section>
+                      </AccordionItemPanel>
+                    </AccordionItem>
+                    <AccordionItem uuid="b" className="accordion-container">
+                      <AccordionItemHeading className="accordion-heading-override">
+                        <AccordionItemButton>
+                          SOCIALS AND INFO <BsChevronCompactDown size={24} />
+                        </AccordionItemButton>
+                      </AccordionItemHeading>
+                      <AccordionItemPanel>
+                        <p>PROFILE PIC</p>
+                        <ImageUpload
+                          email={musician.email}
+                          setImageUrl={setImageUrl}
+                          imageUrl={imageUrl}
+                        />
+                        <p>BIO</p>
+                        <FormInput
+                          value={musician.description}
+                          error={errors.description}
+                          register={register("description")}
+                        />
+                        <p>WEBSITE</p>
+                        <FormInput
+                          value={musician.websiteUrl}
+                          error={errors.websiteUrl}
+                          register={register("websiteUrl")}
+                        />
+                        <p>SOUNDCLOUD</p>
+                        <FormInput
+                          value={musician.soundCloudUrl}
+                          error={errors.soundCloudUrl}
+                          register={register("soundCloudUrl")}
+                        />
+                      </AccordionItemPanel>
+                    </AccordionItem>
+                    <AccordionItem uuid="c" className="accordion-container">
+                      <AccordionItemHeading className="accordion-heading-override">
+                        <AccordionItemButton>
+                          GENRE AND COLLABS <BsChevronCompactDown size={24} />
+                        </AccordionItemButton>
+                      </AccordionItemHeading>
+                      <AccordionItemPanel>
+                        <p>GENRES</p>
+                        <MultiSelectDropDown
+                          options={genres}
+                          defaultValue={userGenres}
+                          placeholder="Select genres"
+                          isMulti={true}
+                          name="genre"
+                          control={control}
+                        />
+                        <p>INSTRUMENTS</p>
+                        <MultiSelectDropDown
+                          options={instruments}
+                          defaultValue={userInstruments}
+                          placeholder="Select instruments"
+                          isMulti={true}
+                          name="instruments"
+                          control={control}
+                        />
+                        <p>WHO DO YOU WANT TO WORK WITH?</p>
+                        <MultiSelectDropDown
+                          options={lookingFor}
+                          defaultValue={userLookingFor}
+                          placeholder="Select instruments"
+                          isMulti={true}
+                          name="lookingFor"
+                          control={control}
+                        />
+                        <section className="dropdown-div">
+                          <div className="select-label">EXPERIENCE</div>
+                          <select
+                            className="select-dropdown"
+                            id="experienceLevel"
+                            name="experienceLevel"
+                            placeholder="Select your experience level"
+                            defaultValue={musician.experienceLevel}
+                            {...register("experienceLevel", {
+                              required: true,
+                            })}
+                          >
+                            <option className="option-text" value="newbie">
+                              Newbie
+                            </option>
+                            <option className="option-text" value="midway">
+                              Midway
+                            </option>
+                            <option className="option-text" value="expert">
+                              Expert
+                            </option>
+                          </select>
+                        </section>
+                        <section className="dropdown-div">
+                          <div className="select-label">
+                            ARE YOU OPEN TO COLLABS?
+                          </div>
+                          <section>
+                            <select
+                              className="select-dropdown"
+                              id="openToCollaboration"
+                              name="openToCollaboration"
+                              placeholder="Select..."
+                              defaultValue={musician.openToCollaboration}
+                              {...register("openToCollaboration", {
+                                required: true,
+                              })}
+                            >
+                              <option className="option-text" value="true">
+                                Yes
+                              </option>
+                              <option className="option-text" value="false">
+                                No
+                              </option>
+                            </select>
+                          </section>
+                        </section>
+                        <section className="dropdown-div">
+                          <div className="select-label">
+                            INTERESTED IN JOINING A BAND?
+                          </div>
+                          <section>
+                            <select
+                              className="select-dropdown"
+                              id="openToJoiningBand"
+                              name="openToJoiningBand"
+                              placeholder="Select..."
+                              defaultValue={musician.openToJoiningBand}
+                              {...register("openToJoiningBand", {
+                                required: true,
+                              })}
+                            >
+                              <option className="option-text" value="true">
+                                Yes
+                              </option>
+                              <option className="option-text" value="false">
+                                No
+                              </option>
+                            </select>
+                          </section>
+                        </section>
+                      </AccordionItemPanel>
+                    </AccordionItem>
+                  </Accordion>
+                  <Button
+                    type="submit"
+                    label="SAVE CHANGES"
+                    mode="primary"
+                    size="medium"
+                  />
+                </form>
+              </Modal.Body>
+            </>
+          ),
+        });
+      }
+    }
+  }, [
+    control,
+    editProfileGenreInstrumentsData,
+    errors.description,
+    errors.email,
+    errors.firstName,
+    errors.lastName,
+    errors.soundCloudUrl,
+    errors.websiteUrl,
+    handleSubmit,
+    imageUrl,
+    onSubmitEditProfile,
+    register,
+    setModalState,
+    musicianData,
+  ]);
 
   // band page creation logic
   const [renderCreateBandModal, { data: genreInstrumentsData }] = useLazyQuery(
@@ -516,7 +552,7 @@ const MusicianProfile = (props) => {
     (formData) => {
       let openToMembers;
       let lookingFor;
-      
+
       if (formData.lookingFor) {
         openToMembers = true;
         lookingFor = formData.lookingFor;
@@ -544,12 +580,6 @@ const MusicianProfile = (props) => {
     },
     [createBand, validBandMembers, imageUrlBand]
   );
-
-  const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
-    variables: {
-      musicianUserId: musicianId,
-    },
-  });
 
   const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
     GIGS,

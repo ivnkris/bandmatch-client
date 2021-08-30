@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
@@ -31,11 +31,13 @@ import Title from "../../components/Title";
 import ProfileInfo from "../../components/ProfileInfo";
 import { constructGigCards } from "../../utils/constructCards";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import ImageUpload from "../../components/ImageUpload";
 
 const Venue = () => {
   const location = useLocation();
 
   const { state } = useUserContext();
+  const [imageUrl, setImageUrl] = useState();
 
   const { id: venueId } = useParams();
 
@@ -112,17 +114,34 @@ const Venue = () => {
             ...formData,
             venue: venueId,
             dateTime: dateTimeFormatted,
+            imageUrl,
           },
         },
       });
     },
-    [createGig, venueId]
+    [createGig, venueId, imageUrl]
   );
 
-  const [renderCreateGigModal] = useLazyQuery(GENRESINSTRUMENTS, {
-    fetchPolicy: "network-only",
-    onCompleted: (data) => {
-      const serverGenres = data.genres.map((genre) => {
+  const [renderCreateGigModal, { data: genreInstrumentsData }] = useLazyQuery(
+    GENRESINSTRUMENTS,
+    {
+      fetchPolicy: "network-only",
+      onError: (error) => {
+        setModalState({
+          open: true,
+          content: (
+            <Modal.Body className="solid-background">
+              <p> Sorry, we couldn't load filtering options at this time </p>
+            </Modal.Body>
+          ),
+        });
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (genreInstrumentsData) {
+      const serverGenres = genreInstrumentsData.genres.map((genre) => {
         return {
           value: genre.id,
           label: genre.name.charAt(0).toUpperCase() + genre.name.slice(1),
@@ -206,11 +225,16 @@ const Venue = () => {
                       </section>
 
                       <p>VENUE PIC</p>
-                      <FormInput
-                        placeholder="Snap of the venue"
-                        error={errors.imageUrl}
-                        register={register("imageUrl", { required: true })}
-                        required={true}
+                      {/* <FormInput
+                      placeholder="Snap of the venue"
+                      error={errors.imageUrl}
+                      register={register("imageUrl", { required: true })}
+                      required={true}
+                    /> */}
+                      <ImageUpload
+                        email={state.user.email}
+                        setImageUrl={setImageUrl}
+                        imageUrl={imageUrl}
                       />
                       <p>WEBSITE URL</p>
                       <FormInput
@@ -232,18 +256,20 @@ const Venue = () => {
           </>
         ),
       });
-    },
-    onError: (error) => {
-      setModalState({
-        open: true,
-        content: (
-          <Modal.Body className="solid-background">
-            <p> Sorry, we couldn't load filtering options at this time </p>
-          </Modal.Body>
-        ),
-      });
-    },
-  });
+    }
+  }, [
+    errors.description,
+    errors.fee,
+    errors.title,
+    errors.websiteUrl,
+    genreInstrumentsData,
+    handleSubmit,
+    imageUrl,
+    onSubmit,
+    register,
+    setModalState,
+    state.user.email,
+  ]);
 
   const { data: venueData, loading: venueLoading } = useQuery(VENUE, {
     variables: {
