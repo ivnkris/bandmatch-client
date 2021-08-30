@@ -161,9 +161,9 @@ const FilterStrip = (props) => {
                     />
                     <MultiSelectDropDown
                       options={[
-                        { value: "newbie", label: "newbie" },
-                        { value: "midway", label: "midway" },
-                        { value: "expert", label: "expert" },
+                        { value: "newbie", label: "Newbie" },
+                        { value: "midway", label: "Midway" },
+                        { value: "expert", label: "Expert" },
                       ]}
                       defaultValue={state.userFilters.experienceLevel}
                       placeholder="Select experience level"
@@ -174,8 +174,8 @@ const FilterStrip = (props) => {
                     />
                     <MultiSelectDropDown
                       options={[
-                        { value: "band", label: "band" },
-                        { value: "musician", label: "musician" },
+                        { value: "band", label: "Band" },
+                        { value: "musician", label: "Musician" },
                       ]}
                       defaultValue={state.userFilters.userType}
                       placeholder="Select performer type"

@@ -150,12 +150,18 @@ p {
 .card-container-shortened {
   width: 250px;
   height: 330px;
+  margin: 1rem;
 }
 
 .card-container-shortest {
   width: 250px;
   height: 280px;
   margin: 1rem;
+}
+
+.card-container-carousel {
+  width: 250px;
+  height: 280px;
 }
 
 .card-container:hover {
@@ -209,6 +215,20 @@ p {
 
 .message-text-area::placeholder {
   color: #aaaaaa;
+}
+
+@media screen and (max-width: 989px) {
+  .cards-container {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+@media screen and (max-width: 909px) {
+  .main-cards-container {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }
 
 @media screen and (max-width: 500px) {

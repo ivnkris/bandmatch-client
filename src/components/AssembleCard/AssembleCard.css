@@ -51,6 +51,7 @@
 .profile-preview-image-overlay-item {
   background-color: #131313;
   padding: 10px;
+  text-transform: uppercase;
 }
 
 .profile-preview-icons-container {

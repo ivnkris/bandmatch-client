@@ -26,7 +26,7 @@ const NavigationBar = (props) => {
   };
 
   return (
-    <nav id="navbar" className="navbar navbar-expand-lg nav-bar">
+    <nav id="navbar" className="navbar navbar-expand-lg nav-bar sticky-top">
       <div className="container-fluid">
         <a className="navbar-brand nav-bar-logo-container" href="/">
           <div>BAND MATCH</div>

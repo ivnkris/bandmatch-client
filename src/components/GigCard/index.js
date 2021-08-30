@@ -89,6 +89,7 @@ const GigCard = (props) => {
                     className="profile-preview-image"
                     style={{
                       backgroundImage: "url(" + gig.imageUrl + ")",
+                      backgroundPosition: "center center",
                     }}
                   >
                     <div className="image-overlay">
@@ -146,6 +147,7 @@ const GigCard = (props) => {
         className="card-image"
         style={{
           backgroundImage: "url(" + props.imageUrl + ")",
+          backgroundPosition: "center center",
         }}
       >
         <div className="image-overlay">

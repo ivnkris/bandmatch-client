@@ -51,6 +51,7 @@ const AssembleCard = (props) => {
                     className="profile-preview-image"
                     style={{
                       backgroundImage: "url(" + band.imageUrl + ")",
+                      backgroundPosition: "center center",
                     }}
                   >
                     <div className="image-overlay">
@@ -128,6 +129,7 @@ const AssembleCard = (props) => {
                     className="profile-preview-image"
                     style={{
                       backgroundImage: "url(" + musician.imageUrl + ")",
+                      backgroundPosition: "center center",
                     }}
                   >
                     <div className="image-overlay">
@@ -273,6 +275,7 @@ const AssembleCard = (props) => {
         className="card-image"
         style={{
           backgroundImage: "url(" + props.imageUrl + ")",
+          backgroundPosition: "center center",
         }}
       >
         <div className="image-overlay ">

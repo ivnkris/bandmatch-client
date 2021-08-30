@@ -106,10 +106,11 @@ const BandProfile = (props) => {
         </div>
         <ProfileInfo
           imageUrl={band.imageUrl}
-          // name={name}
+          name={name}
           instruments={instruments}
           genre={genres}
           description={band.description}
+          experienceLevel={band.experienceLevel}
           lookingFor={lookingFor}
           soundCloudUrl={band.soundCloudUrl}
         />
