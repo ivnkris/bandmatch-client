@@ -623,56 +623,42 @@ const MusicianProfile = (props) => {
                         placeholder="Band Name"
                         error={errors2.name}
                         register={register2("name")}
+                        required={true}
                       />
                       <p>QUICK OVERVIEW</p>
                       <FormInput
                         placeholder="Brief description"
                         error={errors2.description}
                         register={register2("description")}
-                      />
-                      <p>MUSIC GENRE</p>
-                      <MultiSelectDropDown
-                        options={serverGenres}
-                        placeholder="Select your genre(s)"
-                        isMulti={true}
-                        name="genre"
-                        control={control2}
                         required={true}
                       />
-                      <p>EXPERIENCE</p>
-                      <section className="dropdown-div">
-                        <select
-                          className="select-dropdown"
-                          id="experienceLevel"
-                          name="experienceLevel"
-                          placeholder="Select your experience level"
-                          {...register2("experienceLevel", {
-                            required: true,
-                          })}
-                        >
-                          <option
-                            key="newbie"
-                            className="option-text"
-                            value="newbie"
-                          >
-                            Newbie
-                          </option>
-                          <option
-                            key="midway"
-                            className="option-text"
-                            value="midway"
-                          >
-                            Midway
-                          </option>
-                          <option
-                            key="expert"
-                            className="option-text"
-                            value="expert"
-                          >
-                            Expert
-                          </option>
-                        </select>
-                      </section>
+                      <p>NUMBER OF MEMBERS</p>
+                      <FormInput
+                        placeholder="Members"
+                        error={errors2.numberOfMembers}
+                        register={register2("numberOfMembers", {
+                          required: true,
+                        })}
+                        required={true}
+                        type="number"
+                      />
+                      <p>MEMBERS</p>
+                      <p className="small-text regular-text">
+                        Enter the email address of members with a BandMatch
+                        account. Separate each with a comma.
+                      </p>
+                      <FormInput
+                        register={register2("musicians")}
+                        placeholder="Members"
+                        error={errors2.numberOfMembers}
+                        id="membersInput"
+                        onChange={(e) => {
+                          validateMembers(e);
+                        }}
+                        onBlur={(e) => {
+                          validateMembers(e);
+                        }}
+                      />
                     </AccordionItemPanel>
                   </AccordionItem>
                   <AccordionItem uuid="b">
@@ -714,39 +700,51 @@ const MusicianProfile = (props) => {
                         </select>
                       </section>
 
-                      <p>NUMBER OF MEMBERS</p>
-                      <FormInput
-                        placeholder="Members"
-                        error={errors2.numberOfMembers}
-                        register={register2(
-                          "numberOfMembers",
-                          {
+                      <p>MUSIC GENRE</p>
+                      <MultiSelectDropDown
+                        options={serverGenres}
+                        placeholder="Select your genre(s)"
+                        isMulti={true}
+                        name="genre"
+                        control={control2}
+                        required={true}
+                      />
+                      <p>EXPERIENCE</p>
+                      <section className="dropdown-div py-3">
+                        <select
+                          className="select-dropdown"
+                          id="experienceLevel"
+                          name="experienceLevel"
+                          placeholder="Select your experience level"
+                          {...register2("experienceLevel", {
                             required: true,
-                          },
-                          { pattern: /\d/g }
-                        )}
-                        required={true}
-                      />
-                      <p>MEMBERS</p>
-                      <p className="small-text regular-text">
-                        Enter the email address of members with a Bandmatch
-                        account. Separate each with a comma.
-                      </p>
-                      <FormInput
-                        register={register2("musicians", {
-                          required: true,
-                        })}
-                        placeholder="Members"
-                        error={errors2.numberOfMembers}
-                        required={true}
-                        id="membersInput"
-                        onChange={(e) => {
-                          validateMembers(e);
-                        }}
-                        onBlur={(e) => {
-                          validateMembers(e);
-                        }}
-                      />
+                          })}
+                          required={true}
+                        >
+                          <option
+                            key="newbie"
+                            className="option-text"
+                            value="newbie"
+                          >
+                            Newbie
+                          </option>
+                          <option
+                            key="midway"
+                            className="option-text"
+                            value="midway"
+                          >
+                            Midway
+                          </option>
+                          <option
+                            key="expert"
+                            className="option-text"
+                            value="expert"
+                          >
+                            Expert
+                          </option>
+                        </select>
+                      </section>
+
                       <p>INSTRUMENTS</p>
                       <MultiSelectDropDown
                         options={serverInstruments}
@@ -785,7 +783,7 @@ const MusicianProfile = (props) => {
                         })}
                       />
                       <p>ARE YOU OPEN TO COLLABS?</p>
-                      <section className="dropdown-div">
+                      <section className="dropdown-div py-3">
                         <select
                           className="select-dropdown"
                           id="openToCollaboration"

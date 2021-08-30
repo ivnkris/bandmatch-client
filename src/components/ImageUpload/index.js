@@ -39,7 +39,7 @@ const ImageUpload = ({ email, setImageUrl, imageUrl }) => {
   };
 
   return (
-    <div className="App">
+    <div className="App py-3">
       <ImageUploading value={images} onChange={onChange} dataURLKey="data_url">
         {({ imageList, onImageUpload, onImageRemoveAll }) => (
           <div className="upload__image-wrapper">
