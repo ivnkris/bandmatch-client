@@ -12,7 +12,13 @@ const ProfileInfo = (props) => {
         style={{
           backgroundImage: "url(" + props.imageUrl + ")",
         }}
-      ></div>
+      >
+        <div className="image-overlay">
+          <div className="profile-preview-image-overlay-item">
+            {props.experienceLevel}
+          </div>
+        </div>
+      </div>
 
       <div className="musician-info-div text-center">
         {props.myProfile && <p className="title mb-2">{props.name}</p>}

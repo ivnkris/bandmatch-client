@@ -974,6 +974,7 @@ const MusicianProfile = (props) => {
           genre={genres}
           openTo={openTo()}
           description={musician.description}
+          experienceLevel={musician.experienceLevel}
           lookingFor={lookingFor}
           soundCloudUrl={musician.soundCloudUrl}
           myProfile={myProfile}
