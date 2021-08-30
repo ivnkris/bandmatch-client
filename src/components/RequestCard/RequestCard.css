@@ -1,25 +1,24 @@
 .musician-request-card {
-	box-shadow: 1px 0px 10px -1px rgba(255, 255, 255, 0.49);
-	width: 95%;
-	margin: 0 auto;
-	margin-bottom: 1rem;
+  box-shadow: 1px 0px 10px -1px rgba(255, 255, 255, 0.49);
+  width: 95%;
+  margin: 0 auto;
+  margin-bottom: 1rem;
 }
 
 .musician-image-container {
-	height: 150px;
+  height: 150px;
+  width: 150px;
 }
 
 .musician-request-image {
-	height: 150px;
+  width: 150px;
+  height: 150px;
 }
 
 .musician-info-container {
-	width: 65%;
-}
-
-.musician-button-container {
+  width: 65%;
 }
 
 .musician-button {
-	margin: 1rem;
+  margin: 1rem;
 }

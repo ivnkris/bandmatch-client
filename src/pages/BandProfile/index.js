@@ -99,10 +99,12 @@ const BandProfile = (props) => {
           <Title type="profile" text={name} />
           <p className="mb-3">{openTo()}</p>
 
-          <p className="p-yellow mt-2 text-limit-one-line">
-            LOOKING FOR:{" "}
-            <span className="looking-for">{lookingFor.join(" | ")}</span>
-          </p>
+          {lookingFor.length !== 0 && (
+            <p className="p-yellow mt-2 text-limit-one-line">
+              LOOKING FOR:{" "}
+              <span className="looking-for">{lookingFor.join(" | ")}</span>
+            </p>
+          )}
         </div>
         <ProfileInfo
           imageUrl={band.imageUrl}

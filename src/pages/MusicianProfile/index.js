@@ -516,8 +516,7 @@ const MusicianProfile = (props) => {
     (formData) => {
       let openToMembers;
       let lookingFor;
-      console.log(formData.lookingFor);
-
+      
       if (formData.lookingFor) {
         openToMembers = true;
         lookingFor = formData.lookingFor;
