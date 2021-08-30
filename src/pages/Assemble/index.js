@@ -79,14 +79,15 @@ const Assemble = (props) => {
         if (!fetchMoreResult) return prev;
 
         if (
-          fetchMoreResult.assemble.bands.length < 6 &&
-          fetchMoreResult.assemble.musicians.length < 6
+          !fetchMoreResult.assemble.bands.length &&
+          !fetchMoreResult.assemble.musicians.length
         ) {
           setHasMoreItems(false);
         }
 
         const result = {
           assemble: {
+            id: prev.assemble.id,
             bands: [...prev.assemble.bands, ...fetchMoreResult.assemble.bands],
             musicians: [
               ...prev.assemble.musicians,

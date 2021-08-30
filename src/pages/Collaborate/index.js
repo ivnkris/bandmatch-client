@@ -76,14 +76,15 @@ const Collaborate = (props) => {
         if (!fetchMoreResult) return prev;
 
         if (
-          fetchMoreResult.collaborate.bands.length < 6 &&
-          fetchMoreResult.collaborate.musicians.length < 6
+          !fetchMoreResult.collaborate.bands.length &&
+          !fetchMoreResult.collaborate.musicians.length
         ) {
           setHasMoreItems(false);
         }
 
         const result = {
           collaborate: {
+            id: prev.collaborate.id,
             bands: [
               ...prev.collaborate.bands,
               ...fetchMoreResult.collaborate.bands,

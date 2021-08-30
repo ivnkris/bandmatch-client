@@ -515,12 +515,17 @@ const MusicianProfile = (props) => {
   const onSubmit = useCallback(
     (formData) => {
       let openToMembers;
+      let lookingFor;
+      console.log(formData.lookingFor);
 
-      if (formData.lookingFor[0]) {
+      if (formData.lookingFor) {
         openToMembers = true;
-      } else {
+        lookingFor = formData.lookingFor;
+      } else if (!formData.lookingFor || formData.lookingFor[0] === false) {
         openToMembers = false;
+        lookingFor = [];
       }
+
       formData.numberOfMembers = parseFloat(formData.numberOfMembers);
       formData.openToCollaboration = formData.openToCollaboration = "true"
         ? true
@@ -533,6 +538,7 @@ const MusicianProfile = (props) => {
             imageUrl: imageUrlBand,
             openToMembers,
             musicians: validBandMembers,
+            lookingFor,
           },
         },
       });
