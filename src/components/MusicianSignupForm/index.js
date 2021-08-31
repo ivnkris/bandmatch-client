@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
+import { Stepper } from "react-form-stepper";
 
 import { useUserContext } from "../../contexts/UserProvider";
 
@@ -437,7 +438,22 @@ const MusicianSignupForm = () => {
           {renderButton()}
         </form>
       )}
-
+      <Stepper
+        steps={[
+          { label: "Account Details" },
+          { label: "Your Profile" },
+          { label: "Your Music" },
+          { label: "Your Goals" },
+        ]}
+        activeStep={formStep}
+        styleConfig={{
+          activeBgColor: "#ffd324",
+          completedBgColor: "#bb9d24",
+          activeTextColor: "#131313",
+          completedTextColor: "#131313",
+          inactiveTextColor: "#131313",
+        }}
+      />
       <div className="text-center my-2">
         Already have an account?{" "}
         <a className="signup-link" href="/login">
