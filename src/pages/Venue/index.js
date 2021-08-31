@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useModal } from "../../contexts/ModalProvider";
@@ -34,8 +34,6 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import ImageUpload from "../../components/ImageUpload";
 
 const Venue = () => {
-  const location = useLocation();
-
   const { state } = useUserContext();
   const [imageUrl, setImageUrl] = useState();
 
@@ -43,7 +41,7 @@ const Venue = () => {
 
   const myProfile = venueId === state.user.id;
 
-  const { modalState, setModalState } = useModal();
+  const { setModalState } = useModal();
   const history = useHistory();
   const {
     register,
@@ -167,7 +165,7 @@ const Venue = () => {
                       </AccordionItemButton>
                     </AccordionItemHeading>
                     <AccordionItemPanel>
-                      <p>TITLE</p>
+                      <p>TITLE *</p>
                       <FormInput
                         placeholder="Gig title"
                         error={errors.title}
@@ -175,21 +173,21 @@ const Venue = () => {
                         required={true}
                       />
 
-                      <p>QUICK OVERVIEW</p>
+                      <p>QUICK OVERVIEW *</p>
                       <FormInput
                         placeholder="Brief description"
                         error={errors.description}
                         register={register("description")}
                         required={true}
                       />
-                      <p>DATE AND TIME</p>
+                      <p>DATE AND TIME *</p>
                       <Datetime
                         isValidDate={validateFutureDates}
                         closeOnSelect={true}
                         // dateFormat="DD-MM-YYYY"
                         className="form-control-override"
                       />
-                      <p>PAY RATE (£)</p>
+                      <p>PAY RATE (£) *</p>
                       <FormInput
                         placeholder="Reward for performer"
                         error={errors.fee}
@@ -208,7 +206,7 @@ const Venue = () => {
                       </AccordionItemButton>
                     </AccordionItemHeading>
                     <AccordionItemPanel>
-                      <p>MUSIC GENRE</p>
+                      <p>MUSIC GENRE *</p>
                       <section className="dropdown-div py-3">
                         <select
                           className="select-dropdown"
@@ -225,12 +223,7 @@ const Venue = () => {
                       </section>
 
                       <p>VENUE PIC</p>
-                      {/* <FormInput
-                      placeholder="Snap of the venue"
-                      error={errors.imageUrl}
-                      register={register("imageUrl", { required: true })}
-                      required={true}
-                    /> */}
+
                       <ImageUpload
                         email={state.user.email}
                         setImageUrl={setImageUrl}
@@ -370,6 +363,13 @@ const Venue = () => {
               />
             </div>
           </div>
+        )}
+
+        {gigsError && (
+          <p className="mb-3 fs-3">
+            We can't display any gig information at the moment. Check again
+            later!
+          </p>
         )}
       </div>
     </div>
