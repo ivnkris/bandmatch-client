@@ -479,7 +479,6 @@ const MusicianProfile = (props) => {
     {
       fetchPolicy: "no-cache",
       onCompleted: ({ checkIfMusicianExists }) => {
-        console.log("on complete", checkIfMusicianExists);
         const validUsers = checkIfMusicianExists
           .filter((musician) => musician.exists)
           .map((musician) => {
@@ -495,13 +494,11 @@ const MusicianProfile = (props) => {
 
   let invalidUsers = [];
   if (userValidationData) {
-    console.log("data from server", userValidationData);
     const filteredInvalidUsers = userValidationData.checkIfMusicianExists.filter(
       (musician) => !musician.exists
     );
 
     invalidUsers = filteredInvalidUsers.map((invalidUser) => invalidUser.email);
-    console.log("invalid users", invalidUsers);
   }
 
   const validateMembers = useCallback(() => {
