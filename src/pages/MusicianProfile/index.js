@@ -477,7 +477,7 @@ const MusicianProfile = (props) => {
   const [validateBandMembers, { data: userValidationData }] = useLazyQuery(
     VALIDATE_BAND_MEMBERS,
     {
-      fetchPolicy: "network-only",
+      fetchPolicy: "no-cache",
       onCompleted: ({ checkIfMusicianExists }) => {
         console.log("on complete", checkIfMusicianExists);
         const validUsers = checkIfMusicianExists
@@ -720,7 +720,7 @@ const MusicianProfile = (props) => {
                         <p className="small-text regular-text p-yellow">
                           {" "}
                           We couldn't find Bandmatch profiles for the following
-                          users: {invalidUsers.join(", ")} .
+                          users: {invalidUsers.join(", ")}.
                         </p>
                       )}
                     </AccordionItemPanel>
