@@ -474,28 +474,32 @@ const MusicianProfile = (props) => {
     }
   );
 
-  const [validateBandMembers] = useLazyQuery(VALIDATE_BAND_MEMBERS, {
-    fetchPolicy: "network-only",
-    onCompleted: ({ checkIfMusicianExists }) => {
-      const invalidUsers = checkIfMusicianExists.filter(
-        (musician) => !musician.exists
-      );
+  const [validateBandMembers, { data: userValidationData }] = useLazyQuery(
+    VALIDATE_BAND_MEMBERS,
+    {
+      fetchPolicy: "no-cache",
+      onCompleted: ({ checkIfMusicianExists }) => {
+        const validUsers = checkIfMusicianExists
+          .filter((musician) => musician.exists)
+          .map((musician) => {
+            return musician.id;
+          });
 
-      if (invalidUsers.length) {
-        $("#membersInput").append(<h1> people are missing </h1>);
-      }
+        if (validUsers) {
+          setValidBandMembers([...validBandMembers, ...validUsers]);
+        }
+      },
+    }
+  );
 
-      const validUsers = checkIfMusicianExists
-        .filter((musician) => musician.exists)
-        .map((musician) => {
-          return musician.id;
-        });
+  let invalidUsers = [];
+  if (userValidationData) {
+    const filteredInvalidUsers = userValidationData.checkIfMusicianExists.filter(
+      (musician) => !musician.exists
+    );
 
-      if (validUsers) {
-        setValidBandMembers([...validBandMembers, ...validUsers]);
-      }
-    },
-  });
+    invalidUsers = filteredInvalidUsers.map((invalidUser) => invalidUser.email);
+  }
 
   const validateMembers = useCallback(() => {
     const membersInput = $("#membersInput").val();
@@ -513,6 +517,8 @@ const MusicianProfile = (props) => {
         checkIfMusicianExistsInput: { musicians: formattedMembers },
       },
     });
+
+    invalidUsers = [];
   }, [validateBandMembers]);
 
   const [createBand] = useMutation(CREATE_BAND, {
@@ -707,6 +713,13 @@ const MusicianProfile = (props) => {
                           validateMembers(e);
                         }}
                       />
+                      {invalidUsers.length > 0 && (
+                        <p className="small-text regular-text p-yellow">
+                          {" "}
+                          We couldn't find Bandmatch profiles for the following
+                          users: {invalidUsers.join(", ")}.
+                        </p>
+                      )}
                     </AccordionItemPanel>
                   </AccordionItem>
                   <AccordionItem uuid="b">
