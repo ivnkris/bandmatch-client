@@ -117,7 +117,9 @@ const ProfileInfo = (props) => {
           </p>
         )}
         <div className="profile-icon-container mt-4">
-          <FaComment size={24} onClick={showMessageModal} />
+          <div className="message-icon">
+            <FaComment size={24} onClick={showMessageModal} />
+          </div>
           {props.soundCloudUrl && (
             <a target="_blank" rel="noreferrer" href={props.soundCloudUrl}>
               <GrSoundcloud size={32} />
