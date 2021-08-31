@@ -966,7 +966,12 @@ const MusicianProfile = (props) => {
   if (musicianData) {
     const musician = musicianData.musicianUser;
 
-    const name = musician.firstName + " " + musician.lastName;
+    const name =
+      musician.firstName.charAt(0).toUpperCase() +
+      musician.firstName.slice(1) +
+      " " +
+      musician.lastName.charAt(0).toUpperCase() +
+      musician.lastName.slice(1);
     const openTo = () => {
       if (musician.openToCollaboration && musician.openToJoiningBand) {
         return "OPEN TO COLLABORATION | OPEN TO JOINING A BAND";
