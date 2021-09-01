@@ -25,3 +25,17 @@
   width: 60%;
   padding: 0 2rem;
 }
+
+@media screen and (max-width: 991px) {
+  .info-div {
+    width: 80%;
+    padding: 0 1rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .info-div {
+    width: 90%;
+    padding: 0;
+  }
+}
