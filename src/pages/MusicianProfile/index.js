@@ -942,7 +942,7 @@ const MusicianProfile = (props) => {
   }
 
   if (loading) {
-    return <div>Loading</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {

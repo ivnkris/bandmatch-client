@@ -264,13 +264,13 @@ const Venue = () => {
     state.user.email,
   ]);
 
-  const { data: venueData, loading: venueLoading } = useQuery(VENUE, {
+  const {
+    data: venueData,
+    loading: venueLoading,
+    error: venueError,
+  } = useQuery(VENUE, {
     variables: {
       venueId: venueId,
-    },
-
-    onError: (error) => {
-      console.log(error);
     },
   });
 
@@ -285,10 +285,37 @@ const Venue = () => {
     }
   );
 
+  const redirectToHomepage = () => {
+    setModalState({
+      open: false,
+    });
+
+    history.push("/");
+  };
+
   let venue;
 
   if (venueData) {
     venue = venueData.venue;
+  }
+
+  if (venueError) {
+    return (
+      <div className="profile-container">
+        <div className="see-through-background-90 error-container">
+          <p className="regular-text">
+            Sorry, we could not load information at this time.
+          </p>
+          <p className="regular-text">Please try again later.</p>
+          <Button
+            label="RETURN HOME"
+            mode="primary"
+            size="medium"
+            onClick={redirectToHomepage}
+          />
+        </div>
+      </div>
+    );
   }
 
   return (
