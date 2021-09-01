@@ -45,7 +45,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 
 const MusicianProfile = (props) => {
   const { state } = useUserContext();
-  const { modalState, setModalState } = useModal();
+  const { setModalState } = useModal();
   let history = useHistory();
   const {
     register,
@@ -474,28 +474,32 @@ const MusicianProfile = (props) => {
     }
   );
 
-  const [validateBandMembers] = useLazyQuery(VALIDATE_BAND_MEMBERS, {
-    fetchPolicy: "network-only",
-    onCompleted: ({ checkIfMusicianExists }) => {
-      const invalidUsers = checkIfMusicianExists.filter(
-        (musician) => !musician.exists
-      );
+  const [validateBandMembers, { data: userValidationData }] = useLazyQuery(
+    VALIDATE_BAND_MEMBERS,
+    {
+      fetchPolicy: "no-cache",
+      onCompleted: ({ checkIfMusicianExists }) => {
+        const validUsers = checkIfMusicianExists
+          .filter((musician) => musician.exists)
+          .map((musician) => {
+            return musician.id;
+          });
 
-      if (invalidUsers.length) {
-        $("#membersInput").append(<h1> people are missing </h1>);
-      }
+        if (validUsers) {
+          setValidBandMembers([...validBandMembers, ...validUsers]);
+        }
+      },
+    }
+  );
 
-      const validUsers = checkIfMusicianExists
-        .filter((musician) => musician.exists)
-        .map((musician) => {
-          return musician.id;
-        });
+  let invalidUsers = [];
+  if (userValidationData) {
+    const filteredInvalidUsers = userValidationData.checkIfMusicianExists.filter(
+      (musician) => !musician.exists
+    );
 
-      if (validUsers) {
-        setValidBandMembers([...validBandMembers, ...validUsers]);
-      }
-    },
-  });
+    invalidUsers = filteredInvalidUsers.map((invalidUser) => invalidUser.email);
+  }
 
   const validateMembers = useCallback(() => {
     const membersInput = $("#membersInput").val();
@@ -513,6 +517,8 @@ const MusicianProfile = (props) => {
         checkIfMusicianExistsInput: { musicians: formattedMembers },
       },
     });
+
+    invalidUsers = [];
   }, [validateBandMembers]);
 
   const [createBand] = useMutation(CREATE_BAND, {
@@ -666,21 +672,21 @@ const MusicianProfile = (props) => {
                       </AccordionItemButton>
                     </AccordionItemHeading>
                     <AccordionItemPanel>
-                      <p>BAND NAME</p>
+                      <p>BAND NAME *</p>
                       <FormInput
                         placeholder="Band Name"
                         error={errors2.name}
                         register={register2("name")}
                         required={true}
                       />
-                      <p>QUICK OVERVIEW</p>
+                      <p>QUICK OVERVIEW *</p>
                       <FormInput
                         placeholder="Brief description"
                         error={errors2.description}
                         register={register2("description")}
                         required={true}
                       />
-                      <p>NUMBER OF MEMBERS</p>
+                      <p>NUMBER OF MEMBERS *</p>
                       <FormInput
                         placeholder="Members"
                         error={errors2.numberOfMembers}
@@ -707,6 +713,13 @@ const MusicianProfile = (props) => {
                           validateMembers(e);
                         }}
                       />
+                      {invalidUsers.length > 0 && (
+                        <p className="small-text regular-text p-yellow">
+                          {" "}
+                          We couldn't find Bandmatch profiles for the following
+                          users: {invalidUsers.join(", ")}.
+                        </p>
+                      )}
                     </AccordionItemPanel>
                   </AccordionItem>
                   <AccordionItem uuid="b">
@@ -724,7 +737,7 @@ const MusicianProfile = (props) => {
                         imageUrl={imageUrlBand}
                       />
 
-                      <p>LOCATION</p>
+                      <p>LOCATION *</p>
 
                       <section className="dropdown-div py-3">
                         <select
@@ -748,7 +761,7 @@ const MusicianProfile = (props) => {
                         </select>
                       </section>
 
-                      <p>MUSIC GENRE</p>
+                      <p>MUSIC GENRE *</p>
                       <MultiSelectDropDown
                         options={serverGenres}
                         placeholder="Select your genre(s)"
@@ -757,7 +770,7 @@ const MusicianProfile = (props) => {
                         control={control2}
                         required={true}
                       />
-                      <p>EXPERIENCE</p>
+                      <p>EXPERIENCE *</p>
                       <section className="dropdown-div py-3">
                         <select
                           className="select-dropdown"
@@ -793,7 +806,7 @@ const MusicianProfile = (props) => {
                         </select>
                       </section>
 
-                      <p>INSTRUMENTS</p>
+                      <p>INSTRUMENTS *</p>
                       <MultiSelectDropDown
                         options={serverInstruments}
                         placeholder="Band instruments"
@@ -953,7 +966,12 @@ const MusicianProfile = (props) => {
   if (musicianData) {
     const musician = musicianData.musicianUser;
 
-    const name = musician.firstName + " " + musician.lastName;
+    const name =
+      musician.firstName.charAt(0).toUpperCase() +
+      musician.firstName.slice(1) +
+      " " +
+      musician.lastName.charAt(0).toUpperCase() +
+      musician.lastName.slice(1);
     const openTo = () => {
       if (musician.openToCollaboration && musician.openToJoiningBand) {
         return "OPEN TO COLLABORATION | OPEN TO JOINING A BAND";
