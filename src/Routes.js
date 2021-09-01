@@ -18,6 +18,7 @@ import Venue from "./pages/Venue";
 import Requests from "./pages/Requests";
 import Bands from "./pages/Bands";
 import Musicians from "./pages/Musicians";
+import AboutUs from "./pages/AboutUs";
 
 const Routes = () => {
   const { state } = useUserContext();
@@ -101,6 +102,9 @@ const Routes = () => {
         ) : (
           <Redirect to="/login" />
         )}
+      </Route>
+      <Route exact path="/about-us">
+        <AboutUs />
       </Route>
       <Route exact path="/">
         <Home />

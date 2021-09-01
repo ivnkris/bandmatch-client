@@ -6,8 +6,11 @@ import { constructGigCards } from "../../utils/constructCards";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
+import { useUserContext } from "../../contexts/UserProvider";
 
 const Gig = (props) => {
+  const { state } = useUserContext();
+  const musicianId = state.user.id;
   const [hasMoreItems, setHasMoreItems] = useState(true);
 
   const { data, loading, error, fetchMore } = useQuery(GIGS, {
@@ -54,10 +57,11 @@ const Gig = (props) => {
     return (
       <div className="results-page-container">
         <Header className="pt-3" title="Unleash Your Music to the World" />
-        {/* <FilterStrip title="FIND YOUR GIG" /> */}
         <Title text="FIND YOUR GIG" type="section" />
         <div className="see-through-background-90 text-align-center">
-          <div className="cards-container">{constructGigCards(gigs)}</div>
+          <div className="cards-container">
+            {constructGigCards(gigs, null, musicianId)}
+          </div>
           {hasMoreItems && (
             <Button
               label="LOAD MORE"
