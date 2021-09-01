@@ -4,17 +4,24 @@ import { Modal } from "react-bootstrap";
 import { useModal } from "../../contexts/ModalProvider";
 import { GIG_PREVIEW } from "../../graphql/queries";
 import Button from "../Button";
-import { CREATE_GIG_REQUEST, DELETE_GIG } from "../../graphql/mutations";
+import {
+  CANCEL_GIG,
+  CREATE_GIG_REQUEST,
+  DELETE_GIG,
+} from "../../graphql/mutations";
 import { useUserContext } from "../../contexts/UserProvider";
 import Title from "../Title";
+import { useHistory } from "react-router-dom";
 
 const GigCard = (props) => {
   const { setModalState, modalState } = useModal();
   const { state } = useUserContext();
+  const history = useHistory();
   const postcode = props.postcode.replace(/[+]/g, " ");
   const date = moment(props.dateTime * 1)
     .local()
     .format("DD-MM-YYYY HH:mm");
+
   const [gigRequestQuery] = useMutation(CREATE_GIG_REQUEST, {
     onCompleted: (data) => {
       setModalState({
@@ -48,7 +55,7 @@ const GigCard = (props) => {
     });
   };
   const [deleteGigQuery] = useMutation(DELETE_GIG);
-  const sendDeleteRequest = async (event) => {
+  const sendDeleteRequest = async () => {
     await deleteGigQuery({
       variables: {
         deleteGigInput: {
@@ -56,6 +63,19 @@ const GigCard = (props) => {
         },
       },
     });
+  };
+
+  const [cancelGigPerformance] = useMutation(CANCEL_GIG);
+  const sendPerformanceCancellation = async () => {
+    await cancelGigPerformance({
+      variables: {
+        deleteGigRequestId: props.performersId,
+      },
+    });
+
+    setTimeout(() => {
+      history.go(0);
+    }, 800);
   };
 
   const [getGigInfo] = useLazyQuery(GIG_PREVIEW, {
@@ -101,7 +121,6 @@ const GigCard = (props) => {
                   <h5 className="title">{gig.title}</h5>
                   <p> {date} </p>
                   <p> @ {gig.venue.name} </p>
-                  {/* {change to city} */}
                   <div>{gig.venue.postcode}</div>
                   <p className="p-yellow pb-2 pb-10">PAY: £{gig.fee}</p>
                   <p className="regular-text">{gig.description}</p>
@@ -109,14 +128,40 @@ const GigCard = (props) => {
                     className="flex-apart profile-preview-icons-container"
                     user={gig.id}
                   >
-                    <Button
-                      label="REQUEST"
-                      onClick={sendGigRequest}
-                      size="small"
-                      mode="primary"
-                    />
+                    {state.user.name === props.venueName && (
+                      <Button
+                        label="DELETE"
+                        onClick={sendDeleteRequest}
+                        size="medium"
+                        mode="delete"
+                      />
+                    )}
+                    {props.version === "regular" && (
+                      <Button
+                        label="REQUEST"
+                        onClick={sendGigRequest}
+                        size="medium"
+                        mode="primary"
+                      />
+                    )}
+                    {props.version === "myRequestedGig" && (
+                      <Button
+                        label="APPLIED"
+                        size="medium"
+                        mode="applied"
+                        disabled={true}
+                      />
+                    )}
+                    {props.version === "myAcceptedGig" && (
+                      <Button
+                        label="CANCEL"
+                        onClick={sendPerformanceCancellation}
+                        size="medium"
+                        mode="primary"
+                      />
+                    )}
                     <a href={`venues/${gig.venue.id}`}>
-                      <Button label="VENUE" size="small" mode="secondary" />
+                      <Button label="VENUE" size="medium" mode="secondary" />
                     </a>
                   </div>
                 </Modal.Body>
@@ -158,24 +203,36 @@ const GigCard = (props) => {
         <h3 className="title text-limit-one-line"> {props.title} </h3>
         <p> {date} </p>
         <p className="text-limit-two-line">
-          {/* {change to city} */}@ {props.venueName} {postcode}
+          @ {props.venueName} {postcode}
         </p>
         <p className="p-yellow pb-2 pb-10">PAY: £{props.fee}</p>
       </div>
       <div id={props.gigId}>
-        {state.user.name === props.venueName ? (
+        {state.user.name === props.venueName && (
           <Button
             label="DELETE"
             onClick={sendDeleteRequest}
             size="small"
             mode="delete"
           />
-        ) : (
+        )}
+        {props.version === "regular" && (
           <Button
             label="REQUEST"
             onClick={sendGigRequest}
             size="small"
             mode="primary"
+          />
+        )}
+        {props.version === "myRequestedGig" && (
+          <Button label="APPLIED" size="small" mode="applied" disabled={true} />
+        )}
+        {props.version === "myAcceptedGig" && (
+          <Button
+            label="CANCEL"
+            onClick={sendPerformanceCancellation}
+            size="small"
+            mode="secondary"
           />
         )}
         <Button

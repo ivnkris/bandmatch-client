@@ -113,3 +113,9 @@ export const DELETE_GIG = gql`
     deleteGig(input: $deleteGigInput)
   }
 `;
+
+export const CANCEL_GIG = gql`
+  mutation Mutation($deleteGigRequestId: ID!) {
+    deleteGigRequest(id: $deleteGigRequestId)
+  }
+`;
