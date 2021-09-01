@@ -1062,7 +1062,9 @@ const MusicianProfile = (props) => {
 
           {gigsData && gigsData.gigs.length ? (
             <div className="cards-container">
-              {constructGigCards(gigsData.gigs)}
+              {myProfile
+                ? constructGigCards(gigsData.gigs, "myAcceptedGig", musicianId)
+                : constructGigCards(gigsData.gigs, null, state.user.id)}
             </div>
           ) : myProfile && !gigsError ? (
             <div className="no-gigs-bands-container">
