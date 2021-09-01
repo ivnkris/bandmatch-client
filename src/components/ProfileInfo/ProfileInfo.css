@@ -33,6 +33,10 @@
   justify-content: space-evenly;
 }
 
+.message-icon:hover {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 803px) {
   .musician-info-div {
     width: 85%;
