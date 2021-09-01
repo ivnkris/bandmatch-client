@@ -75,7 +75,7 @@ const GigCard = (props) => {
 
     setTimeout(() => {
       history.go(0);
-    }, 1000);
+    }, 800);
   };
 
   const [getGigInfo] = useLazyQuery(GIG_PREVIEW, {
@@ -132,7 +132,7 @@ const GigCard = (props) => {
                       <Button
                         label="DELETE"
                         onClick={sendDeleteRequest}
-                        size="small"
+                        size="medium"
                         mode="delete"
                       />
                     )}
@@ -140,23 +140,28 @@ const GigCard = (props) => {
                       <Button
                         label="REQUEST"
                         onClick={sendGigRequest}
-                        size="small"
+                        size="medium"
                         mode="primary"
                       />
                     )}
                     {props.version === "myRequestedGig" && (
-                      <Button label="REQUESTED" size="small" mode="secondary" />
+                      <Button
+                        label="APPLIED"
+                        size="medium"
+                        mode="applied"
+                        disabled={true}
+                      />
                     )}
                     {props.version === "myAcceptedGig" && (
                       <Button
                         label="CANCEL"
                         onClick={sendPerformanceCancellation}
-                        size="small"
+                        size="medium"
                         mode="primary"
                       />
                     )}
                     <a href={`venues/${gig.venue.id}`}>
-                      <Button label="VENUE" size="small" mode="secondary" />
+                      <Button label="VENUE" size="medium" mode="secondary" />
                     </a>
                   </div>
                 </Modal.Body>
