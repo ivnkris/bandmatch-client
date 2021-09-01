@@ -1,5 +1,3 @@
-import { useQuery } from "@apollo/client";
-import { valueToObjectRepresentation } from "@apollo/client/utilities";
 import AssembleCard from "../components/AssembleCard";
 import GigCard from "../components/GigCard";
 
@@ -45,6 +43,30 @@ export const constructPerformerCards = (cards, version = "extended") => {
         />
       );
     }
+  });
+
+  return cardsToRender;
+};
+
+export const constructBandMemberCards = (cards, version = "extended") => {
+  const cardsToRender = cards.map((card) => {
+    return (
+      <AssembleCard
+        key={`${version}-${card.id}`}
+        type={card.type}
+        name={card.name}
+        firstName={card.firstName}
+        lastName={card.lastName}
+        imageUrl={card.imageUrl}
+        instruments={card.instruments || []}
+        lookingFor={card.lookingFor || []}
+        genre={card.genre || []}
+        experienceLevel={card.experienceLevel}
+        version={version}
+        userId={card.id}
+        location={card.location}
+      />
+    );
   });
 
   return cardsToRender;

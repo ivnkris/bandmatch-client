@@ -9,7 +9,7 @@ import Title from "../../components/Title";
 import { BAND, GIGS } from "../../graphql/queries";
 import {
   constructGigCards,
-  constructPerformerCards,
+  constructBandMemberCards,
 } from "../../utils/constructCards";
 import "./BandProfile.css";
 import LoadingSpinner from "../../components/LoadingSpinner";
@@ -159,7 +159,7 @@ const BandProfile = (props) => {
           <div className="cards-container">
             {bandData && (
               <div className="cards-container">
-                {constructPerformerCards(band.musicians, "shortest")}
+                {constructBandMemberCards(band.musicians, "shortest")}
               </div>
             )}
           </div>

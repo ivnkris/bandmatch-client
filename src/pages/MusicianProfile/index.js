@@ -486,7 +486,7 @@ const MusicianProfile = (props) => {
           });
 
         if (validUsers) {
-          setValidBandMembers([...validBandMembers, ...validUsers]);
+          setValidBandMembers([state.user.id, ...validUsers]);
         }
       },
     }
@@ -679,13 +679,7 @@ const MusicianProfile = (props) => {
                         register={register2("name")}
                         required={true}
                       />
-                      <p>QUICK OVERVIEW *</p>
-                      <FormInput
-                        placeholder="Brief description"
-                        error={errors2.description}
-                        register={register2("description")}
-                        required={true}
-                      />
+
                       <p>NUMBER OF MEMBERS *</p>
                       <FormInput
                         placeholder="Members"
@@ -720,6 +714,14 @@ const MusicianProfile = (props) => {
                           users: {invalidUsers.join(", ")}.
                         </p>
                       )}
+
+                      <p>QUICK OVERVIEW *</p>
+                      <FormInput
+                        placeholder="Brief description"
+                        error={errors2.description}
+                        register={register2("description")}
+                        required={true}
+                      />
                     </AccordionItemPanel>
                   </AccordionItem>
                   <AccordionItem uuid="b">
