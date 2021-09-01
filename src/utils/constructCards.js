@@ -3,23 +3,46 @@ import GigCard from "../components/GigCard";
 
 export const constructPerformerCards = (cards, version = "extended") => {
   const cardsToRender = cards.map((card) => {
-    return (
-      <AssembleCard
-        key={`${version}-${card.id}`}
-        type={card.type}
-        name={card.name}
-        firstName={card.firstName}
-        lastName={card.lastName}
-        imageUrl={card.imageUrl}
-        instruments={card.instruments || []}
-        lookingFor={card.lookingFor || []}
-        genre={card.genre || []}
-        experienceLevel={card.experienceLevel}
-        version={version}
-        userId={card.id}
-        location={card.location}
-      />
-    );
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      if (user.id !== card.id) {
+        return (
+          <AssembleCard
+            key={`${version}-${card.id}`}
+            type={card.type}
+            name={card.name}
+            firstName={card.firstName}
+            lastName={card.lastName}
+            imageUrl={card.imageUrl}
+            instruments={card.instruments || []}
+            lookingFor={card.lookingFor || []}
+            genre={card.genre || []}
+            experienceLevel={card.experienceLevel}
+            version={version}
+            userId={card.id}
+            location={card.location}
+          />
+        );
+      }
+    } else {
+      return (
+        <AssembleCard
+          key={`${version}-${card.id}`}
+          type={card.type}
+          name={card.name}
+          firstName={card.firstName}
+          lastName={card.lastName}
+          imageUrl={card.imageUrl}
+          instruments={card.instruments || []}
+          lookingFor={card.lookingFor || []}
+          genre={card.genre || []}
+          experienceLevel={card.experienceLevel}
+          version={version}
+          userId={card.id}
+          location={card.location}
+        />
+      );
+    }
   });
 
   return cardsToRender;
