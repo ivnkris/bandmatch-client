@@ -254,6 +254,7 @@ export const GIGS = gql`
       }
       accepting
       performers {
+        _id
         musician
         band
         confirmed
