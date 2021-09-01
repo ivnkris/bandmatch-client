@@ -1,9 +1,19 @@
-.icons-container {
+.about-icons-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
-.card-width {
-  flex-basis: 40%;
+.about-card-image {
+  height: 250px;
+  min-width: 242px;
+  background-position: "center";
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  border-radius: 10px;
+}
+
+.about-card {
+  margin-top: 5%;
 }
