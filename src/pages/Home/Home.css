@@ -19,3 +19,9 @@
   display: flex;
   justify-content: center;
 }
+
+.info-div {
+  margin: auto;
+  width: 60%;
+  padding: 0 2rem;
+}
