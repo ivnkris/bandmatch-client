@@ -1,6 +1,8 @@
 import AboutUsCard from "../../components/AboutUsCard";
 
-import photo from "../../alexis-baydoun-bAHwQEJqAb8-unsplash.jpg";
+import "./AboutUs.css";
+
+import photo from "../../images/alexis-baydoun-bAHwQEJqAb8-unsplash.jpg";
 
 const AboutUs = () => {
   const ourInfo = [
@@ -46,7 +48,12 @@ const AboutUs = () => {
       />
     );
   });
-  return <div className="results-page-container">{cardsToRender}</div>;
+  return (
+    <div className="about-us-page-container">
+      <h1 className="about-title">Meet the Team</h1>
+      <div className="about-cards-container">{cardsToRender}</div>
+    </div>
+  );
 };
 
 export default AboutUs;

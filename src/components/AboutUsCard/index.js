@@ -28,7 +28,7 @@ const AboutUsCard = (props) => {
   };
 
   return (
-    <div className="card-container card-container-shortest mx-3">
+    <div className="card-container card-container-shortest mx-3 card-width">
       <div
         className="card-image"
         style={{
@@ -37,9 +37,10 @@ const AboutUsCard = (props) => {
         }}
       ></div>
       <div>
-        <h3 className="title text-limit-one-line"> {props.name} </h3>
+        <h3 className="title text-limit-one-line my-3"> {props.name} </h3>
+        <p className="text-limit-one-line my-3"> {props.description} </p>
       </div>
-      <div className="icons-container">
+      <div className="icons-container my-3">
         <a href={props.githubUrl} target="_blank" rel="noopener noreferrer">
           <AiFillGithub size={30} />
         </a>
