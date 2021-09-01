@@ -15,7 +15,7 @@ import Button from "../Button";
 const ProfileInfo = (props) => {
   const { state } = useUserContext();
 
-  const { setModalState, modalState } = useModal();
+  const { setModalState } = useModal();
 
   const { register, handleSubmit } = useForm();
 

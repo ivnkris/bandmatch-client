@@ -213,7 +213,6 @@ const MusicianProfile = (props) => {
           editProfileGenreInstrumentsData.instruments
         );
         const userLookingFor = generateDefaultValues(musician.lookingFor);
-        const newData = modalUpdateData;
         setModalState({
           open: true,
           content: (
