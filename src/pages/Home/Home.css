@@ -7,11 +7,15 @@
   position: relative;
 }
 
-.home-buttons-container {
+.how-it-works-container {
   width: 100%;
   position: absolute;
   bottom: 10%;
   background-color: transparent;
+  text-align: center;
+}
+
+.home-buttons-container {
   display: flex;
   justify-content: center;
 }
