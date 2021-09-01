@@ -44,6 +44,20 @@
   letter-spacing: 1.5px;
 }
 
+.button--applied {
+  background: linear-gradient(#424141, #202020);
+  color: #ffd324;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 2px 2px 3px #a5a4a4;
+  letter-spacing: 1.5px;
+}
+
+.button--applied:hover {
+  transform: none !important;
+}
+
 .button--delete {
   background-color: #ff2424;
   color: #ffffff;
