@@ -20,6 +20,7 @@ import Bands from "./pages/Bands";
 import Musicians from "./pages/Musicians";
 import AboutUs from "./pages/AboutUs";
 import Error404 from "./pages/Error404";
+import Error500 from "./pages/Error500";
 
 const Routes = () => {
   const { state } = useUserContext();
@@ -109,6 +110,9 @@ const Routes = () => {
       </Route>
       <Route exact path="/">
         <Home />
+      </Route>
+      <Route path="/error">
+        <Error500 />
       </Route>
       <Route path="*">
         <Error404 />

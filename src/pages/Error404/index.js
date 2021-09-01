@@ -1,7 +1,5 @@
 import Button from "../../components/Button";
 
-import "./Error404.css";
-
 const Error404 = () => {
   return (
     <div className="error-page-container">
