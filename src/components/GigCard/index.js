@@ -53,6 +53,10 @@ const GigCard = (props) => {
         },
       },
     });
+
+    setTimeout(() => {
+      history.go(0);
+    }, 800);
   };
   const [deleteGigQuery] = useMutation(DELETE_GIG);
   const sendDeleteRequest = async () => {
