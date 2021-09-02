@@ -5,8 +5,6 @@ import Assemble from "./pages/Assemble";
 import BandProfile from "./pages/BandProfile/index.js";
 import Collaborate from "./pages/Collaborate";
 import Gig from "./pages/Gig";
-import EditBand from "./pages/EditBand";
-import EditProfile from "./pages/EditProfile";
 import Home from "./pages/Home/index";
 import Inbox from "./pages/Inbox/index";
 import Login from "./pages/Login/index";
@@ -34,12 +32,6 @@ const Routes = () => {
       </Route>
       <Route exact path="/gig">
         {state.user ? <Gig /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/edit-band">
-        {state.user ? <EditBand /> : <Redirect to="/login" />}
-      </Route>
-      <Route exact path="/edit-profile">
-        {state.user ? <EditProfile /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/inbox">
         {state.user ? <Inbox /> : <Redirect to="/login" />}
