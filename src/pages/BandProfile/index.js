@@ -551,33 +551,6 @@ const BandProfile = (props) => {
       window.location.replace(`/${page}`);
     };
 
-    const redirectToHomepage = () => {
-      setModalState({
-        open: false,
-      });
-
-      history.push("/");
-    };
-
-    if (bandError) {
-      return (
-        <div className="profile-container">
-          <div className="see-through-background-90 error-container">
-            <p className="regular-text">
-              Sorry, we could not load any information at this time.
-            </p>
-            <p className="regular-text">Please try again later.</p>
-            <Button
-              label="RETURN HOME"
-              mode="primary"
-              size="medium"
-              onClick={redirectToHomepage}
-            />
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="profile-container">
         <div className="p-2"></div>
