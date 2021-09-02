@@ -82,7 +82,7 @@ const VenueSignupForm = () => {
       postcode: formData.postcode,
       name: formData.name,
       websiteUrl: formData.websiteUrl,
-      photoUrl: formData.photoUrl,
+      photoUrl: imageUrl,
       description: formData.description,
     };
 
