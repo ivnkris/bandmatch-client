@@ -27,14 +27,12 @@ const Routes = () => {
   return (
     <Switch>
       <Route exact path="/assemble">
-        <Assemble />
         {state.user ? <Assemble /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/collaborate">
         {state.user ? <Collaborate /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/gig">
-        <Gig />
         {state.user ? <Gig /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/edit-band">

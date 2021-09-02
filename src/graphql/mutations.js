@@ -119,3 +119,11 @@ export const CANCEL_GIG = gql`
     deleteGigRequest(id: $deleteGigRequestId)
   }
 `;
+
+export const UPDATE_BAND = gql`
+  mutation Mutation($updateBandInput: updateBandInput) {
+    updateBand(input: $updateBandInput) {
+      id
+    }
+  }
+`;
