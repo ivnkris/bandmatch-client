@@ -80,7 +80,6 @@ const BandProfile = (props) => {
   let myBandProfile = [];
 
   if (bandData) {
-    console.log(bandData);
     myBandProfile = bandData.band.musicians.filter((musician) => {
       return musician.id === state.user.id;
     });
@@ -104,8 +103,6 @@ const BandProfile = (props) => {
           .map((musician) => {
             return musician.id;
           });
-
-        console.log("valid users", validUsers);
 
         if (validUsers) {
           setValidBandMembers([...validUsers, state.user.id]);
@@ -188,10 +185,6 @@ const BandProfile = (props) => {
         formData.openToMembers = false;
       }
 
-      if (!formData.imageUrl) {
-        formData.imageUrl = bandData.band.imageUrl;
-      }
-
       formData.numberOfMembers = parseFloat(formData.numberOfMembers);
       formData.openToCollaboration = formData.openToCollaboration = "true"
         ? true
@@ -199,7 +192,7 @@ const BandProfile = (props) => {
 
       formData.musicians = validBandMembers;
 
-      console.log("form data", formData);
+      formData.imageUrl = imageUrlBand ? imageUrlBand : bandData.band.imageUrl;
 
       submitEditBandInfo({
         variables: {
@@ -210,7 +203,7 @@ const BandProfile = (props) => {
         },
       });
     },
-    [bandData, submitEditBandInfo, validBandMembers]
+    [bandData, submitEditBandInfo, validBandMembers, imageUrlBand]
   );
 
   const [getGenreInstruments, { data: genreInstrumentsData }] = useLazyQuery(
