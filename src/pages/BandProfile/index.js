@@ -514,8 +514,31 @@ const BandProfile = (props) => {
     return <div>Loading</div>;
   }
 
-  if (error) {
-    return <div>error</div>;
+  const redirectToHomepage = () => {
+    setModalState({
+      open: false,
+    });
+
+    history.push("/");
+  };
+
+  if (bandError) {
+    return (
+      <div className="profile-container">
+        <div className="see-through-background-90 error-container">
+          <p className="regular-text">
+            Sorry, we could not load information at this time.
+          </p>
+          <p className="regular-text">Please try again later.</p>
+          <Button
+            label="RETURN HOME"
+            mode="primary"
+            size="medium"
+            onClick={redirectToHomepage}
+          />
+        </div>
+      </div>
+    );
   }
 
   if (bandData) {
