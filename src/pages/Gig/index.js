@@ -59,9 +59,11 @@ const Gig = (props) => {
         <Header className="pt-3" title="Unleash Your Music to the World" />
         <Title text="FIND YOUR GIG" type="section" />
         <div className="see-through-background-90 text-align-center">
-          <div className="cards-container">
+          { state.user.type === "venue" ? <div className="cards-container">
+            {constructGigCards(gigs, "x", "venue")}
+          </div> : <div className="cards-container">
             {constructGigCards(gigs, null, musicianId)}
-          </div>
+          </div>}
           {hasMoreItems && (
             <Button
               label="LOAD MORE"

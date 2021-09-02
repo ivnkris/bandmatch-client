@@ -100,7 +100,6 @@ export const constructGigCards = (gigs, version, userId) => {
             performer.musician === userId && performer.confirmed === "true"
         );
 
-        console.log("pending", pendingGig);
         if (!version && pendingGig.length) {
           primaryButtonVersion = "myRequestedGig";
         }
@@ -115,7 +114,7 @@ export const constructGigCards = (gigs, version, userId) => {
       }
     }
 
-    if (!primaryButtonVersion) {
+    if (!primaryButtonVersion && userId !== "venue") {
       primaryButtonVersion = "regular";
     }
 

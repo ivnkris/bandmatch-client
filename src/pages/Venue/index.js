@@ -360,7 +360,13 @@ const Venue = () => {
           <p className="title mb-2 pt-2 fs-1">GIGS at {venue.name}</p>
         )}
 
-        {gigsData && (
+        {gigsData && myProfile && (
+          <div className="cards-container">
+            {constructGigCards(gigsData.gigs, "x", "venue")}
+          </div>
+        )}
+
+        {gigsData && !myProfile && (
           <div className="cards-container">
             {constructGigCards(gigsData.gigs)}
           </div>
