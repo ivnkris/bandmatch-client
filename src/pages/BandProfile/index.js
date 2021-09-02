@@ -269,14 +269,6 @@ const BandProfile = (props) => {
                         register={register("name")}
                         required={true}
                       />
-                      <p>QUICK OVERVIEW *</p>
-                      <FormInput
-                        value={band.description}
-                        placeholder="Brief description"
-                        error={errors.description}
-                        register={register("description")}
-                        required={true}
-                      />
                       <p>NUMBER OF MEMBERS *</p>
                       <FormInput
                         value={band.numberOfMembers}
@@ -313,6 +305,14 @@ const BandProfile = (props) => {
                           users: {invalidUsers.join(", ")}.
                         </p>
                       )}
+                      <p>QUICK OVERVIEW *</p>
+                      <FormInput
+                        value={band.description}
+                        placeholder="Brief description"
+                        error={errors.description}
+                        register={register("description")}
+                        required={true}
+                      />
                     </AccordionItemPanel>
                   </AccordionItem>
                   <AccordionItem uuid="b">
