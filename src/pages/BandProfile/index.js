@@ -44,8 +44,6 @@ import { UPDATE_BAND } from "../../graphql/mutations";
 import getMusicianIds from "../../utils/getMusicianIds";
 
 const BandProfile = (props) => {
-  // get user your logged in as from userContext
-  // check if user is member of band bandData.bands.musicians -> is an array loop through and check
   const { state } = useUserContext();
   const { id } = useParams();
   const [modalUpdateData, setModalUpdateData] = useState(null);
@@ -64,7 +62,7 @@ const BandProfile = (props) => {
   });
   let history = useHistory();
 
-  const { data: bandData, loading, error } = useQuery(BAND, {
+  const { data: bandData, loading, error: bandError } = useQuery(BAND, {
     variables: {
       bandId: id,
     },
@@ -76,6 +74,33 @@ const BandProfile = (props) => {
       console.log(error);
     },
   });
+
+  const redirectToHomepage = () => {
+    setModalState({
+      open: false,
+    });
+
+    history.push("/");
+  };
+
+  if (bandError) {
+    return (
+      <div className="profile-container">
+        <div className="see-through-background-90 error-container">
+          <p className="regular-text">
+            Sorry, we could not load any information at this time.
+          </p>
+          <p className="regular-text">Please try again later.</p>
+          <Button
+            label="RETURN HOME"
+            mode="primary"
+            size="medium"
+            onClick={redirectToHomepage}
+          />
+        </div>
+      </div>
+    );
+  }
 
   let myBandProfile = [];
 
