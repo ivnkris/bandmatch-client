@@ -92,9 +92,14 @@ const NavigationBar = (props) => {
             )}
 
             {!state.user && (
-              <a className="nav-link nav-bar-link" href="/login">
-                LOGIN
-              </a>
+              <>
+                <a className="nav-link nav-bar-link" href="/about-us">
+                  ABOUT US
+                </a>
+                <a className="nav-link nav-bar-link" href="/login">
+                  LOGIN
+                </a>
+              </>
             )}
 
             {state.user && isMobile && (

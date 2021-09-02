@@ -4,7 +4,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 3rem 6rem;
+  padding: 3rem 4rem;
   opacity: 100%;
   background-color: #131313e3;
   box-sizing: border-box;
@@ -16,7 +16,7 @@
   width: 25rem;
   height: 25rem;
   max-height: 20rem;
-  margin: 1rem;
+  margin: 1rem 2rem;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -24,7 +24,7 @@
 }
 
 .musician-info-div {
-  width: 40%;
+  width: 50%;
 }
 
 .profile-icon-container {
@@ -37,8 +37,20 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 803px) {
+@media screen and (max-width: 1055px) {
   .musician-info-div {
     width: 85%;
+  }
+  .profile-strip {
+    padding: 3rem 2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .musician-info-div {
+    width: 90%;
+  }
+  .profile-strip {
+    padding: 3rem 1rem;
   }
 }

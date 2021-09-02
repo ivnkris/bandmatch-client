@@ -18,6 +18,7 @@ import Venue from "./pages/Venue";
 import Requests from "./pages/Requests";
 import Bands from "./pages/Bands";
 import Musicians from "./pages/Musicians";
+import AboutUs from "./pages/AboutUs";
 
 const Routes = () => {
   const { state } = useUserContext();
@@ -25,15 +26,13 @@ const Routes = () => {
   return (
     <Switch>
       <Route exact path="/assemble">
-        <Assemble />
-        {/* {state.user ? <Assemble /> : <Redirect to="/login" />} */}
+        {state.user ? <Assemble /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/collaborate">
         {state.user ? <Collaborate /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/gig">
-        <Gig />
-        {/* {state.user ? <Gig /> : <Redirect to="/login" />} */}
+        {state.user ? <Gig /> : <Redirect to="/login" />}
       </Route>
       <Route exact path="/edit-band">
         {state.user ? <EditBand /> : <Redirect to="/login" />}
@@ -101,6 +100,9 @@ const Routes = () => {
         ) : (
           <Redirect to="/login" />
         )}
+      </Route>
+      <Route exact path="/about-us">
+        <AboutUs />
       </Route>
       <Route exact path="/">
         <Home />

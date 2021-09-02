@@ -1,0 +1,11 @@
+.text-printer {
+  font-size: 2.5rem;
+  font-weight: bolder;
+  color: white;
+}
+
+@media screen and (max-width: 480px) {
+  .text-printer {
+    font-size: 1.9rem;
+  }
+}

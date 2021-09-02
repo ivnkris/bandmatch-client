@@ -56,7 +56,7 @@ const Gig = (props) => {
     const gigs = data.gigs;
     return (
       <div className="results-page-container">
-        <Header className="pt-3" title="Unleash Your Music to the world" />
+        <Header className="pt-3" title="Unleash Your Music to the World" />
         <Title text="FIND YOUR GIG" type="section" />
         <div className="see-through-background-90 text-align-center">
           <div className="cards-container">

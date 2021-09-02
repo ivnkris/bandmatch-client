@@ -7,11 +7,35 @@
   position: relative;
 }
 
-.home-buttons-container {
+.how-it-works-container {
   width: 100%;
   position: absolute;
   bottom: 10%;
   background-color: transparent;
+  text-align: center;
+}
+
+.home-buttons-container {
   display: flex;
   justify-content: center;
+}
+
+.info-div {
+  margin: auto;
+  width: 60%;
+  padding: 0 2rem;
+}
+
+@media screen and (max-width: 991px) {
+  .info-div {
+    width: 80%;
+    padding: 0 1rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .info-div {
+    width: 90%;
+    padding: 0;
+  }
 }
