@@ -11,7 +11,7 @@ const Error500 = () => {
           </h1>
         </div>
         <p className="title regular-text mt-3">
-          We apologies and are fixing the problem,
+          We apologise and are fixing the problem,
         </p>
         <p className="title regular-text">please try again at a later stage.</p>
         <p className="title regular-text mt-5">Click below to go home.</p>
