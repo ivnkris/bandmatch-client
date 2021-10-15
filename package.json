@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "node --max_old_space_size=16384 node_modules/.bin/react-scripts start",
-    "build": "node --max_old_space_size=16384 node_modules/.bin/react-scripts build",
+    "build": "node --max_old_space_size=16384 node_modules/.bin/react-scripts build && echo '/* /index.html 200' | cat >build/_redirects ",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
