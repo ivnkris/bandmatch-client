@@ -1,5 +1,5 @@
 import { Modal } from "react-bootstrap";
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import {
   ApolloClient,
   ApolloProvider,
