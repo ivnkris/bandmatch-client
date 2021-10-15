@@ -4,12 +4,12 @@ import { constructPerformerCards } from "../../utils/constructCards";
 
 const responsive = {
   largeDesktop: {
-    breakpoint: { max: 3000, min: 1401 },
+    breakpoint: { max: 3000, min: 1501 },
     items: 6,
     slidesToSlide: 1,
   },
   desktop: {
-    breakpoint: { max: 1400, min: 1308 },
+    breakpoint: { max: 1500, min: 1308 },
     items: 5,
     slidesToSlide: 1,
   },
