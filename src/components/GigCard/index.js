@@ -182,7 +182,7 @@ const GigCard = (props) => {
           <Modal.Body className="solid-background">
             <p>
               Sorry, we couldn't load information about this gig at this time.
-              Please try again later.
+              Please try again later....
             </p>
           </Modal.Body>
         ),
