@@ -9,7 +9,6 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^5.0.2",
-    "chroma-js": "^2.1.2",
     "graphql": "^15.5.1",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
@@ -33,8 +32,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "node --max_old_space_size=16384 node_modules/.bin/react-scripts start",
-    "build": "node --max_old_space_size=16384 node_modules/.bin/react-scripts build && echo '/* /index.html 200' | cat >build/_redirects ",
+    "start": "react-scripts --max_old_space_size=8192 start",
+    "build": "react-scripts --max_old_space_size=8192 build",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
