@@ -32,7 +32,9 @@ Keep reading to find out more about our application.
 
 ## Project Link
 
+
 To view the project on Heroku [click here](https://bandmatch-app.herokuapp.com/).
+
 
 ## Getting Started
 
