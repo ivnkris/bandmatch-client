@@ -32,9 +32,7 @@ Keep reading to find out more about our application.
 
 ## Project Link
 
-
 To view the project on Heroku [click here](https://bandmatch-app.herokuapp.com/).
-
 
 ## Getting Started
 
@@ -52,7 +50,7 @@ npm i
 
 You will also need to add your .env following the variables in the .env.EXAMPLE file.
 
-to do add example .env file
+to do add example .env file.
 
 ### Launch the app
 
