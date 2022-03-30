@@ -652,7 +652,6 @@ const MusicianProfile = (props) => {
       serverLookingFor.unshift({ label: "Not looking atm", value: false });
 
       setBandUpdateData(null);
-      const x = bandUpdateData;
 
       setModalState({
         open: true,

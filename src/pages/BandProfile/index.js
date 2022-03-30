@@ -50,6 +50,8 @@ const BandProfile = (props) => {
   const [imageUrlBand, setImageUrlBand] = useState();
   const { setModalState } = useModal();
   const [validBandMembers, setValidBandMembers] = useState();
+  const [invalidUsers, setInvalidUsers] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -111,13 +113,14 @@ const BandProfile = (props) => {
     }
   );
 
-  let invalidUsers = [];
   if (userValidationData) {
     const filteredInvalidUsers = userValidationData.checkIfMusicianExists.filter(
       (musician) => !musician.exists
     );
 
-    invalidUsers = filteredInvalidUsers.map((invalidUser) => invalidUser.email);
+    setInvalidUsers(
+      filteredInvalidUsers.map((invalidUser) => invalidUser.email)
+    );
   }
 
   const validateMembers = useCallback(() => {
@@ -125,7 +128,7 @@ const BandProfile = (props) => {
 
     if (!membersInput) {
       setValidBandMembers([state.user.id]);
-      invalidUsers = [];
+      setInvalidUsers([]);
       return;
     }
 
@@ -139,8 +142,8 @@ const BandProfile = (props) => {
       },
     });
 
-    invalidUsers = [];
-  }, [validateBandMembers]);
+    setInvalidUsers([]);
+  }, [validateBandMembers, state.user.id]);
 
   const [submitEditBandInfo] = useMutation(UPDATE_BAND, {
     onCompleted: () => {
@@ -234,7 +237,6 @@ const BandProfile = (props) => {
       const lookingFor = generateRoleOptions(genreInstrumentsData.instruments);
       const bandLookingFor = generateDefaultValues(band.lookingFor);
 
-      const newData = modalUpdateData;
       setModalState({
         open: true,
         content: (
@@ -496,6 +498,7 @@ const BandProfile = (props) => {
     state.user.email,
     state.user.id,
     validateMembers,
+    invalidUsers,
   ]);
 
   const { data: gigsData, loading: gigsLoading } = useQuery(GIGS, {
