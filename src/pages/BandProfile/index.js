@@ -117,16 +117,18 @@ const BandProfile = (props) => {
     }
   );
 
-  if (userValidationData) {
-    const filteredInvalidUsers =
-      userValidationData.checkIfMusicianExists.filter(
-        (musician) => !musician.exists
-      );
+  useEffect(() => {
+    if (userValidationData) {
+      const filteredInvalidUsers =
+        userValidationData.checkIfMusicianExists.filter(
+          (musician) => !musician.exists
+        );
 
-    setInvalidUsers(
-      filteredInvalidUsers.map((invalidUser) => invalidUser.email)
-    );
-  }
+      setInvalidUsers(
+        filteredInvalidUsers.map((invalidUser) => invalidUser.email)
+      );
+    }
+  }, [userValidationData]);
 
   const validateMembers = useCallback(() => {
     const membersInput = $("#membersInput").val();

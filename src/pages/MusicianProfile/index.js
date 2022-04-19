@@ -76,6 +76,7 @@ const MusicianProfile = (props) => {
   const [bandUpdateData, setBandUpdateData] = useState(null);
 
   const [validBandMembers, setValidBandMembers] = useState([musicianId]);
+  const [invalidUsers, setInvalidUsers] = useState([]);
 
   const myProfile = musicianId === state.user.id;
 
@@ -496,15 +497,18 @@ const MusicianProfile = (props) => {
     }
   );
 
-  let invalidUsers = [];
-  if (userValidationData) {
-    const filteredInvalidUsers =
-      userValidationData.checkIfMusicianExists.filter(
-        (musician) => !musician.exists
-      );
+  useEffect(() => {
+    if (userValidationData) {
+      const filteredInvalidUsers =
+        userValidationData.checkIfMusicianExists.filter(
+          (musician) => !musician.exists
+        );
 
-    invalidUsers = filteredInvalidUsers.map((invalidUser) => invalidUser.email);
-  }
+      setInvalidUsers(
+        filteredInvalidUsers.map((invalidUser) => invalidUser.email)
+      );
+    }
+  }, [userValidationData]);
 
   const validateMembers = useCallback(() => {
     const membersInput = $("#membersInput").val();
@@ -523,7 +527,7 @@ const MusicianProfile = (props) => {
       },
     });
 
-    invalidUsers = [];
+    setInvalidUsers([]);
   }, [validateBandMembers]);
 
   const [createBand] = useMutation(CREATE_BAND, {
