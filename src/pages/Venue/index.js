@@ -250,6 +250,9 @@ const Venue = () => {
         ),
       });
     }
+    return () => {
+      setModalState({ open: false, content: null });
+    };
   }, [
     errors.description,
     errors.fee,
@@ -274,16 +277,17 @@ const Venue = () => {
     },
   });
 
-  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
-    GIGS,
-    {
-      variables: {
-        gigsFilters: {
-          venue: venueId,
-        },
+  const {
+    data: gigsData,
+    loading: gigsLoading,
+    error: gigsError,
+  } = useQuery(GIGS, {
+    variables: {
+      gigsFilters: {
+        venue: venueId,
       },
-    }
-  );
+    },
+  });
 
   const redirectToHomepage = () => {
     setModalState({

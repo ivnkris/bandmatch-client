@@ -103,7 +103,11 @@ const MusicianProfile = (props) => {
     history.push("/");
   };
 
-  const { data: musicianData, loading, error } = useQuery(MUSICIAN_USER, {
+  const {
+    data: musicianData,
+    loading,
+    error,
+  } = useQuery(MUSICIAN_USER, {
     variables: {
       musicianUserId: musicianId,
     },
@@ -167,15 +171,13 @@ const MusicianProfile = (props) => {
     [musicianId, submitEditProfileInfo, imageUrl]
   );
 
-  const [
-    editProfileModal,
-    { data: editProfileGenreInstrumentsData },
-  ] = useLazyQuery(GENRESINSTRUMENTS, {
-    fetchPolicy: "network-only",
-    onCompleted: (data) => {
-      setModalUpdateData(data);
-    },
-  });
+  const [editProfileModal, { data: editProfileGenreInstrumentsData }] =
+    useLazyQuery(GENRESINSTRUMENTS, {
+      fetchPolicy: "network-only",
+      onCompleted: (data) => {
+        setModalUpdateData(data);
+      },
+    });
 
   const renderEditProfileModal = () => {
     editProfileModal({
@@ -434,6 +436,9 @@ const MusicianProfile = (props) => {
         });
       }
     }
+    return () => {
+      setModalState({ open: false, content: null });
+    };
   }, [
     control,
     editProfileGenreInstrumentsData,
@@ -493,9 +498,10 @@ const MusicianProfile = (props) => {
 
   let invalidUsers = [];
   if (userValidationData) {
-    const filteredInvalidUsers = userValidationData.checkIfMusicianExists.filter(
-      (musician) => !musician.exists
-    );
+    const filteredInvalidUsers =
+      userValidationData.checkIfMusicianExists.filter(
+        (musician) => !musician.exists
+      );
 
     invalidUsers = filteredInvalidUsers.map((invalidUser) => invalidUser.email);
   }
@@ -596,16 +602,17 @@ const MusicianProfile = (props) => {
     [createBand, validBandMembers, imageUrlBand]
   );
 
-  const { data: gigsData, loading: gigsLoading, error: gigsError } = useQuery(
-    GIGS,
-    {
-      variables: {
-        gigsFilters: {
-          musician: musicianId,
-        },
+  const {
+    data: gigsData,
+    loading: gigsLoading,
+    error: gigsError,
+  } = useQuery(GIGS, {
+    variables: {
+      gigsFilters: {
+        musician: musicianId,
       },
-    }
-  );
+    },
+  });
 
   const {
     data: bandsData,
@@ -889,6 +896,10 @@ const MusicianProfile = (props) => {
         ),
       });
     }
+
+    return () => {
+      setModalState({ open: false, content: null });
+    };
   }, [
     control,
     errors.soundCloudUrl,

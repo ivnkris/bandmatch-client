@@ -64,7 +64,11 @@ const BandProfile = (props) => {
   });
   let history = useHistory();
 
-  const { data: bandData, loading, error: bandError } = useQuery(BAND, {
+  const {
+    data: bandData,
+    loading,
+    error: bandError,
+  } = useQuery(BAND, {
     variables: {
       bandId: id,
     },
@@ -114,9 +118,10 @@ const BandProfile = (props) => {
   );
 
   if (userValidationData) {
-    const filteredInvalidUsers = userValidationData.checkIfMusicianExists.filter(
-      (musician) => !musician.exists
-    );
+    const filteredInvalidUsers =
+      userValidationData.checkIfMusicianExists.filter(
+        (musician) => !musician.exists
+      );
 
     setInvalidUsers(
       filteredInvalidUsers.map((invalidUser) => invalidUser.email)
@@ -480,6 +485,10 @@ const BandProfile = (props) => {
         ),
       });
     }
+
+    return () => {
+      setModalState({ open: false, content: null });
+    };
   }, [
     bandData,
     control,
